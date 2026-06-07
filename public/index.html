@@ -2323,7 +2323,7 @@ async function init(){
     if(dkRes?.ok){ const d=await dkRes.json(); if(d&&Array.isArray(d.decks)) DECKS_DATA=d; }
 
     const [cr,sr,gr,ur]=await Promise.all([
-      fetch('/cards-clean.json'),
+      fetch('/cards.json'),
       fetch('/sets-data.json').catch(()=>({ok:false})),
       fetch('/gallery-images.json').catch(()=>({ok:false})),
       fetch('/image-urls.json').catch(()=>({ok:false})),

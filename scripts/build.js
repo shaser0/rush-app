@@ -4,10 +4,10 @@ const fs = require('fs');
 const path = require('path');
 
 // Files in data/ that must NOT ship in a release: user state, runtime logs,
-// and the bulky raw cards.json (the binary only serves cards-clean.json).
+// and the bulky raw-cards.json (the binary only serves the cleaned cards.json).
 function includeInRelease(src) {
   const base = path.basename(src);
-  if (['collections.json', 'decks.json', 'cards.json', 'sync-state.json'].includes(base)) return false;
+  if (['collections.json', 'decks.json', 'raw-cards.json', 'sync-state.json'].includes(base)) return false;
   if (/^sync-progress.*\.json$/.test(base)) return false;
   if (base.endsWith('.log')) return false;
   return true;

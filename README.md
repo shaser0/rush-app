@@ -23,7 +23,7 @@ rush-app/
   rush-app-macos      ← macOS
   rush-app-linux      ← Linux
   data/
-    cards-clean.json
+    cards.json
     sets-data.json
     gallery-images.json
     image-urls.json
@@ -101,7 +101,7 @@ Your collections and decks are saved automatically. As long as you keep the `dat
 
 ## Updating card data
 
-Card, set, and gallery data are synced from [Yugipedia](https://yugipedia.com). From source you can run the sync scripts in `scripts/` (they respect Yugipedia's rate limits). The `is_legend`, `card_type`, and `property` fields are populated during the card sync; `scripts/tag-legends.js` can backfill them for an existing `data/cards.json`.
+Card, set, and gallery data are synced from [Yugipedia](https://yugipedia.com). From source you can run the sync scripts in `scripts/` (they respect Yugipedia's rate limits). The `is_legend`, `card_type`, and `property` fields are populated during the card sync; `scripts/tag-legends.js` can backfill them for an existing `data/raw-cards.json`. (The card sync writes the raw `data/raw-cards.json`, then `clean-cards.js` produces the `data/cards.json` the app serves.)
 
 ---
 
@@ -111,7 +111,7 @@ Card, set, and gallery data are synced from [Yugipedia](https://yugipedia.com). 
 Check `data/rush-app.log` for error details.
 
 ### The page shows no cards
-Make sure the `data/` folder is in the same directory as the executable and that `cards-clean.json` is present inside it.
+Make sure the `data/` folder is in the same directory as the executable and that `cards.json` is present inside it.
 
 ### Port 3000 is already in use (Windows)
 ```

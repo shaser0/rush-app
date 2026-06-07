@@ -6,7 +6,7 @@ const { execSync } = require('child_process');
 
 // ── Config ───────────────────────────────────────────────────────────────────
 
-const CARDS_FILE    = require('path').join(__dirname, '../data/cards.json');
+const CARDS_FILE    = require('path').join(__dirname, '../data/raw-cards.json');
 const STATE_FILE    = require('path').join(__dirname, '../data/sync-state.json');
 const PROGRESS_FILE = require('path').join(__dirname, '../data/sync-progress.json');
 const RATE_MS       = 1100;
@@ -365,7 +365,7 @@ async function main() {
   if (errors)    console.log(`  ! Erreurs     : ${errors}`);
 
   // ── 7. Cleaning pipeline ───────────────────────────────────────────────────
-  console.log('\nNettoyage → cards-clean.json...');
+  console.log('\nNettoyage → cards.json...');
   execSync('node "' + require('path').join(__dirname, 'clean-cards.js') + '"', { stdio: 'inherit' });
   console.log('Terminé.');
 }

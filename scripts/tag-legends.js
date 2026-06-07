@@ -1,17 +1,17 @@
 'use strict';
 
-// One-time backfill: enrich every card in cards.json from its Yugipedia page —
+// One-time backfill: enrich every card in raw-cards.json from its Yugipedia page —
 //   • is_legend : "Legend Card" marker in the `misc` field
 //   • card_type : Spell / Trap (monsters use the existing `types` field)
 //   • property  : Normal / Continuous / Field / ... for Spells & Traps
-// then regenerate cards-clean.json. Future `sync-cards.js` runs keep it current.
+// then regenerate cards.json (cleaned). Future `sync-cards.js` runs keep it current.
 
 const https        = require('https');
 const fs           = require('fs');
 const path         = require('path');
 const { execSync } = require('child_process');
 
-const CARDS_FILE = path.join(__dirname, '../data/cards.json');
+const CARDS_FILE = path.join(__dirname, '../data/raw-cards.json');
 const RATE_MS    = 1100;
 const BATCH_SIZE = 50;
 
@@ -65,7 +65,7 @@ async function fetchAllTitles() {
 }
 
 async function main() {
-  if (!fs.existsSync(CARDS_FILE)) { console.error('cards.json not found — run sync-cards.js first.'); process.exit(1); }
+  if (!fs.existsSync(CARDS_FILE)) { console.error('raw-cards.json not found — run sync-cards.js first.'); process.exit(1); }
   const cards   = JSON.parse(fs.readFileSync(CARDS_FILE, 'utf8'));
   const byTitle = new Map(cards.map((c, i) => [c.title, i]));
 
@@ -108,9 +108,9 @@ async function main() {
   }
 
   fs.writeFileSync(CARDS_FILE, JSON.stringify(cards, null, 2), 'utf8');
-  console.log(`\nEnriched ${tagged} cards (${legends} legends) → cards.json`);
+  console.log(`\nEnriched ${tagged} cards (${legends} legends) → raw-cards.json`);
 
-  console.log('Cleaning → cards-clean.json...');
+  console.log('Cleaning → cards.json...');
   execSync('node "' + path.join(__dirname, 'clean-cards.js') + '"', { stdio: 'inherit' });
 
   // Quick report of the legend cards found

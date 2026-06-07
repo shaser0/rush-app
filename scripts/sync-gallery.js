@@ -4,7 +4,7 @@ const https = require('https');
 const fs    = require('fs');
 const path  = require('path');
 
-const CARDS_FILE  = path.join(__dirname, '../data/cards-clean.json');
+const CARDS_FILE  = path.join(__dirname, '../data/cards.json');
 const OUT_FILE    = path.join(__dirname, '../data/gallery-images.json');
 const URLS_FILE   = path.join(__dirname, '../data/image-urls.json');
 const API         = 'https://yugipedia.com/api.php';
@@ -90,11 +90,11 @@ function titleToSlug(title){
 async function syncGallery(){
   let cards;
   try { cards = JSON.parse(fs.readFileSync(CARDS_FILE, 'utf8')); }
-  catch(e){ console.error('[sync-gallery] Cannot read cards-clean.json:', e.message); process.exit(1); }
+  catch(e){ console.error('[sync-gallery] Cannot read cards.json:', e.message); process.exit(1); }
 
   // slug → card map for matching gallery filenames to cards
   const slugMap = new Map();
-  // title → [filename] map of images already in cards-clean.json (the baseline)
+  // title → [filename] map of images already in cards.json (the baseline)
   const cardBaseImages = new Map();
   for(const card of cards){
     const baseFiles = card.images
@@ -175,7 +175,7 @@ async function syncGallery(){
     await resolveImageUrls(unresolved, urlCache);
   }
 
-  // Also resolve base card images from cards-clean.json that aren't in cache
+  // Also resolve base card images from cards.json that aren't in cache
   const allBaseFiles = [...new Set([...cardBaseImages.values()].flat())];
   const unresolvedBase = allBaseFiles.filter(f => !urlCache[f]);
   if(unresolvedBase.length){

@@ -36,7 +36,7 @@ const STALE_MS = {
 
 // Which file to check for staleness per sync
 const STALE_FILE = {
-  cards:   'data/cards-clean.json',
+  cards:   'data/cards.json',
   sets:    'data/sets-data.json',
   gallery: 'data/gallery-images.json',
 };
@@ -117,7 +117,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // ── Static + data endpoints ────────────────────────────────────────────────
 
-app.get('/cards-clean.json',   (req, res) => res.sendFile(path.join(APP_DIR, 'data', 'cards-clean.json')));
+app.get('/cards.json',         (req, res) => res.sendFile(path.join(APP_DIR, 'data', 'cards.json')));
 app.get('/sets-data.json',     (req, res) => res.sendFile(path.join(APP_DIR, 'data', 'sets-data.json'),      err => { if (err) res.json({}); }));
 app.get('/gallery-images.json',(req, res) => res.sendFile(path.join(APP_DIR, 'data', 'gallery-images.json'), err => { if (err) res.json({}); }));
 app.get('/image-urls.json',    (req, res) => res.sendFile(path.join(APP_DIR, 'data', 'image-urls.json'),     err => { if (err) res.json({}); }));
@@ -155,7 +155,7 @@ app.get('/api/sync-status', (req, res) => {
   } catch { /* file may not exist yet */ }
 
   res.json({
-    cards:   { running: SYNCS.cards.running,   staleAfterMs: STALE_MS.cards,   lastSync: cardsLastSync,                        lastModified: fileMtime('cards-clean.json')    },
+    cards:   { running: SYNCS.cards.running,   staleAfterMs: STALE_MS.cards,   lastSync: cardsLastSync,                        lastModified: fileMtime('cards.json')           },
     sets:    { running: SYNCS.sets.running,    staleAfterMs: STALE_MS.sets,    lastSync: fileMtime('sets-data.json'),           lastModified: fileMtime('sets-data.json')      },
     gallery: { running: SYNCS.gallery.running, staleAfterMs: STALE_MS.gallery, lastSync: fileMtime('gallery-images.json'),      lastModified: fileMtime('gallery-images.json') },
   });

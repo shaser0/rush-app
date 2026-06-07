@@ -84,7 +84,7 @@ function parseSets(raw) {
 
 // ── Main ─────────────────────────────────────────────────────────────────────
 
-const raw = JSON.parse(fs.readFileSync(require('path').join(__dirname, '../data/cards.json'), 'utf8'));
+const raw = JSON.parse(fs.readFileSync(require('path').join(__dirname, '../data/raw-cards.json'), 'utf8'));
 
 const cleaned = raw.map(card => ({
   ...card,
@@ -103,5 +103,5 @@ const cleaned = raw.map(card => ({
   is_legend:    !!card.is_legend,
 }));
 
-fs.writeFileSync(require('path').join(__dirname, '../data/cards-clean.json'), JSON.stringify(cleaned, null, 2), 'utf8');
-console.log(`${cleaned.length} cartes traitées → cards-clean.json`);
+fs.writeFileSync(require('path').join(__dirname, '../data/cards.json'), JSON.stringify(cleaned, null, 2), 'utf8');
+console.log(`${cleaned.length} cartes traitées → cards.json`);

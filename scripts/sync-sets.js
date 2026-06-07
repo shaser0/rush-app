@@ -180,10 +180,10 @@ async function syncSets() {
     }
   }
 
-  // Supplement with deck set names directly from cards-clean.json.
+  // Supplement with deck set names directly from cards.json.
   // Category expansion alone often misses deeply-nested or event deck pages.
   try {
-    const cardsData = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/cards-clean.json'), 'utf8'));
+    const cardsData = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/cards.json'), 'utf8'));
     let added = 0;
     for (const card of cardsData) {
       for (const s of (card.sets_jp || [])) {
@@ -193,7 +193,7 @@ async function syncSets() {
         }
       }
     }
-    if (added) console.log(`[sync-sets] Added ${added} deck set(s) from cards-clean.json`);
+    if (added) console.log(`[sync-sets] Added ${added} deck set(s) from cards.json`);
 
     // Also supplement with promo set names so we can fetch their release dates
     let addedPromo = 0;
@@ -205,9 +205,9 @@ async function syncSets() {
         }
       }
     }
-    if (addedPromo) console.log(`[sync-sets] Added ${addedPromo} promo set(s) from cards-clean.json`);
+    if (addedPromo) console.log(`[sync-sets] Added ${addedPromo} promo set(s) from cards.json`);
   } catch (e) {
-    console.error('[sync-sets] Could not supplement from cards-clean.json:', e.message);
+    console.error('[sync-sets] Could not supplement from cards.json:', e.message);
   }
 
   console.log(`[sync-sets] Found ${setTitles.size} set pages`);
