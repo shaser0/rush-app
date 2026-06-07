@@ -58,6 +58,8 @@ button,input,select{font-family:inherit}
 
 /* ── Set Grid ──────────────────────────────────────────────────────────── */
 .set-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-bottom:4px}
+.sets-search{display:block;width:100%;max-width:360px;padding:8px 12px;margin-bottom:14px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:13px;box-sizing:border-box}
+.sets-search:focus{outline:none;border-color:var(--accent)}
 
 /* ── Set Tile ──────────────────────────────────────────────────────────── */
 .set-tile{background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;transition:border-color .18s,transform .15s;display:flex;flex-direction:column}
@@ -267,6 +269,7 @@ button,input,select{font-family:inherit}
 #cp-name{font-size:18px;font-weight:700;color:var(--gold)}
 #cp-type{font-size:13px;color:var(--muted)}
 #cp-stats{font-size:13px;display:flex;gap:8px;flex-wrap:wrap;color:var(--text)}
+#cp-maxatk{font-size:15px;font-weight:700;color:#ff9800;letter-spacing:.5px;padding:2px 0}
 #cp-materials{font-size:13px;color:#c8e6c9;font-style:italic;line-height:1.4}
 #cp-condition{font-size:13px;color:var(--muted)}
 #cp-req,#cp-eff{font-size:13px;line-height:1.5}
@@ -347,7 +350,13 @@ button,input,select{font-family:inherit}
 .db-legend{position:absolute;top:3px;right:3px;background:rgba(10,5,0,.85);border:1px solid var(--gold);color:var(--gold);font-size:8px;font-weight:800;letter-spacing:.3px;border-radius:4px;padding:1px 4px;z-index:3;line-height:1.3;white-space:nowrap;box-shadow:0 0 6px rgba(255,215,0,.5)}
 .db-dcard .db-legend{top:2px;right:2px;font-size:7px;padding:0 3px}
 .db-indeck{position:absolute;bottom:3px;right:3px;background:rgba(0,0,0,.85);border:1px solid var(--gold);color:var(--gold);font-size:10px;font-weight:700;border-radius:4px;padding:1px 5px;z-index:2}
-#db-deck{width:340px;flex-shrink:0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:10px;position:sticky;top:58px;max-height:calc(100vh - 70px);overflow-y:auto}
+.badge-max{position:absolute;bottom:3px;left:3px;background:rgba(255,100,0,.9);border:1px solid #ff6600;color:#fff;font-size:8px;font-weight:800;border-radius:3px;padding:1px 3px;z-index:3;line-height:1.3;letter-spacing:.3px}
+.badge-lr{position:absolute;bottom:3px;left:3px;background:rgba(0,80,200,.9);border:1px solid #2196f3;color:#fff;font-size:8px;font-weight:800;border-radius:3px;padding:1px 3px;z-index:3;line-height:1.3}
+.db-dcard .badge-max,.db-dcard .badge-lr{font-size:7px;padding:0 2px}
+.badge-forbidden{position:absolute;top:3px;right:3px;background:rgba(180,0,0,.9);border:1px solid #f44;color:#fff;font-size:7px;font-weight:800;border-radius:3px;padding:1px 3px;z-index:4;line-height:1.3;letter-spacing:.3px}
+.badge-limited{position:absolute;top:3px;right:3px;background:rgba(180,80,0,.9);border:1px solid #ff6600;color:#fff;font-size:7px;font-weight:800;border-radius:3px;padding:1px 3px;z-index:4;line-height:1.3;letter-spacing:.3px}
+.badge-semilimited{position:absolute;top:3px;right:3px;background:rgba(120,100,0,.9);border:1px solid #ccaa00;color:#fff;font-size:7px;font-weight:800;border-radius:3px;padding:1px 3px;z-index:4;line-height:1.3;letter-spacing:.3px}
+#db-deck{flex:0 0 calc(33.333% - 7px);min-width:260px;max-width:420px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:10px;position:sticky;top:58px;max-height:calc(100vh - 70px);overflow-y:auto}
 #db-deck-bar{display:flex;gap:6px}
 #db-deck-sel{flex:1;padding:6px 8px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:12px}
 #db-deck-new,#db-deck-del{padding:6px 11px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text);cursor:pointer;font-size:13px;line-height:1}
@@ -422,12 +431,23 @@ button,input,select{font-family:inherit}
         <span class="mt-name">Deck Builder</span>
         <span class="mt-desc">Build, import &amp; export Rush Duel decks</span>
       </button>
+      <button class="menu-tile" data-go="screen-allsets">
+        <span class="mt-icon">📋</span>
+        <span class="mt-name">All Sets</span>
+        <span class="mt-desc">Browse every set, deck &amp; promo in one place</span>
+      </button>
+      <button class="menu-tile" data-go="screen-database">
+        <span class="mt-icon">🔍</span>
+        <span class="mt-name">Card Database</span>
+        <span class="mt-desc">Search &amp; inspect all cards in the game</span>
+      </button>
     </div>
   </div>
 </section>
 
 <!-- Sets -->
 <section class="screen" id="screen-sets">
+  <input class="sets-search" id="sets-search" type="text" placeholder="Search sets…" autocomplete="off">
   <div id="sets-regular"></div>
   <h2 class="sh" id="h-custom">Custom Packs</h2>
   <div id="sets-custom" class="set-grid"></div>
@@ -435,17 +455,48 @@ button,input,select{font-family:inherit}
 
 <!-- Promos -->
 <section class="screen" id="screen-promos">
+  <input class="sets-search" id="promos-search" type="text" placeholder="Search promos…" autocomplete="off">
   <div id="promos-list"></div>
 </section>
 
 <!-- Decks -->
 <section class="screen" id="screen-decks">
+  <input class="sets-search" id="decks-search" type="text" placeholder="Search decks…" autocomplete="off">
   <div id="decks-grid" class="set-grid"></div>
 </section>
 
 <!-- Other Sets -->
 <section class="screen" id="screen-other">
+  <input class="sets-search" id="other-search" type="text" placeholder="Search other sets…" autocomplete="off">
   <div id="other-grid" class="set-grid"></div>
+</section>
+
+<!-- All Sets -->
+<section class="screen" id="screen-allsets">
+  <input class="sets-search" id="allsets-search" type="text" placeholder="Search all sets…" autocomplete="off">
+  <div id="allsets-grid" class="set-grid"></div>
+</section>
+
+<!-- Database -->
+<section class="screen" id="screen-database">
+  <div id="db-page-layout" style="display:flex;gap:14px;align-items:flex-start">
+    <div id="db-page-filters" style="width:220px;flex-shrink:0">
+      <input id="dbp-search" type="text" placeholder="Search cards…" autocomplete="off" style="width:100%;box-sizing:border-box;padding:7px 9px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px;margin-bottom:8px">
+      <select id="dbp-type" style="width:100%;box-sizing:border-box;padding:7px 9px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px;margin-bottom:6px">
+        <option value="">All types</option>
+        <option value="Monster">Monster</option>
+        <option value="Spell">Spell</option>
+        <option value="Trap">Trap</option>
+      </select>
+      <select id="dbp-attr" style="width:100%;box-sizing:border-box;padding:7px 9px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px;margin-bottom:6px"><option value="">All attributes</option></select>
+      <select id="dbp-rarity" style="width:100%;box-sizing:border-box;padding:7px 9px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px;margin-bottom:6px"><option value="">All rarities</option></select>
+      <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);margin-bottom:6px"><input type="checkbox" id="dbp-legend"> Legend only</label>
+      <div id="dbp-list" style="margin-top:8px;max-height:calc(100vh - 240px);overflow-y:auto;display:flex;flex-direction:column;gap:4px"></div>
+    </div>
+    <div id="db-page-detail" style="flex:1;min-width:0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px">
+      <p style="color:var(--muted);font-size:13px">Select a card to view its details.</p>
+    </div>
+  </div>
 </section>
 
 <!-- Pack Opening -->
@@ -493,6 +544,9 @@ button,input,select{font-family:inherit}
           </select>
           <select id="f-race"><option value="">All races</option></select>
           <select id="f-subtype"><option value="">All subtypes</option></select>
+        </div>
+        <div class="filter-row">
+          <label style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);cursor:pointer"><input type="checkbox" id="f-legend"> Legend only</label>
         </div>
         <div class="filter-row">
           <div class="fng">
@@ -569,7 +623,25 @@ button,input,select{font-family:inherit}
           <option value="Trap">Trap</option>
         </select>
         <select id="db-attr"><option value="">All attributes</option></select>
+        <select id="db-rarity"><option value="">All rarities</option></select>
+        <select id="db-race"><option value="">All races</option></select>
+        <input id="db-series" type="text" placeholder="Series…" autocomplete="off" style="min-width:90px">
+        <span style="display:flex;align-items:center;gap:3px">
+          <select id="db-lvl-op" style="min-width:42px"><option value="">LV</option><option>=</option><option>≥</option><option>></option><option>≤</option><option><</option></select>
+          <input id="db-lvl-val" type="number" min="0" max="12" placeholder="–" style="width:46px">
+        </span>
+        <span style="display:flex;align-items:center;gap:3px">
+          <select id="db-atk-op" style="min-width:48px"><option value="">ATK</option><option>=</option><option>≥</option><option>></option><option>≤</option><option><</option></select>
+          <input id="db-atk-val" type="number" min="0" placeholder="–" style="width:58px">
+        </span>
+        <span style="display:flex;align-items:center;gap:3px">
+          <select id="db-def-op" style="min-width:46px"><option value="">DEF</option><option>=</option><option>≥</option><option>></option><option>≤</option><option><</option></select>
+          <input id="db-def-val" type="number" min="0" placeholder="–" style="width:58px">
+        </span>
         <label id="db-owned-lbl"><input type="checkbox" id="db-owned"> Owned only</label>
+        <select id="db-collection-sel"><option value="">All collections</option></select>
+        <label><input type="checkbox" id="db-legend"> Legend only</label>
+        <label><input type="checkbox" id="db-banlist"> Enforce banlist</label>
       </div>
       <div id="db-pool-grid"></div>
     </div>
@@ -610,6 +682,11 @@ button,input,select{font-family:inherit}
       <button class="qty-btn" data-qty="10">10</button>
       <button class="qty-btn" data-qty="box" id="qty-box">Box</button>
     </div>
+    <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)">
+      <label for="qty-custom">Custom:</label>
+      <input id="qty-custom" type="number" min="1" max="99" placeholder="–"
+        style="width:64px;padding:6px 8px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px">
+    </div>
     <button class="modal-ok" id="modal-ok">Open Packs</button>
     <button class="modal-cancel" id="modal-cancel">Cancel</button>
   </div>
@@ -625,6 +702,7 @@ button,input,select{font-family:inherit}
       <div id="cp-type"></div>
       <div id="cp-materials"></div>
       <div id="cp-stats"></div>
+      <div id="cp-maxatk" style="display:none"></div>
       <div id="cp-condition"></div>
       <div id="cp-req"><b class="tt-lbl">【Requirement】</b><span id="cp-req-body"></span></div>
       <div id="cp-eff"><b id="cp-eff-lbl" class="tt-lbl"></b><span id="cp-eff-body"></span></div>
@@ -708,6 +786,7 @@ const DECK_RE  = /(Strongest Battle|Structure|Starter|Half|Go Rush)\s+Deck/i;
 // Sets forced into the "Other Sets" bucket regardless of card count
 const FORCE_OTHER = new Set([
   'Attraction Pack',
+  'Battle Bonus Pack 2026 Vol.1',
 ]);
 // Korean/non-JP sets that should not appear as openable packs at all
 const EXCLUDE_SETS = new Set([
@@ -762,6 +841,7 @@ function cardSubtypes(card){
    3. IMAGE UTILS
 ═══════════════════════════════════════════════════════ */
 let IMG_URLS={};  // filename → direct CDN URL, populated from image-urls.json
+let BANLIST={};   // card name → "Forbidden" | "Limited" | "Semi-Limited"
 function cleanFile(f){ return (f||'').replace(/^\d+\.\d+;\s*/,'').trim(); }
 function imgUrl(f){ if(!f) return null; const c=cleanFile(f); return IMG_URLS[c]||`https://yugipedia.com/wiki/Special:FilePath/${encodeURIComponent(c)}`; }
 
@@ -790,6 +870,22 @@ function mkPh(){
 ═══════════════════════════════════════════════════════ */
 function cname(card){ return card.name_en||card.title||''; }
 function rbHtml(r){ return `<span class="rb ${RBC[r]||''}">${r||''}</span>`; }
+function maxBadgeHtml(card){
+  const n=card.name_en||'';
+  if(card.maximum_atk!=null){
+    if(n.endsWith('(L)')) return '<span class="badge-lr">L</span>';
+    if(n.endsWith('(R)')) return '<span class="badge-lr">R</span>';
+    return '<span class="badge-max">MAX</span>';
+  }
+  return '';
+}
+function banBadgeHtml(card){
+  const status=BANLIST[card.raw_name_en||cname(card)];
+  if(status==='Forbidden')    return '<span class="badge-forbidden">F</span>';
+  if(status==='Limited')      return '<span class="badge-limited">L1</span>';
+  if(status==='Semi-Limited') return '<span class="badge-semilimited">L2</span>';
+  return '';
+}
 
 /* ═══════════════════════════════════════════════════════
    5. COLLECTIONS (server-backed, saved to data/collections.json)
@@ -802,6 +898,32 @@ function saveColls(d){
 }
 function getCPs(){ try{return JSON.parse(localStorage.getItem('ygo-custom-packs')||'[]');}catch{return[];} }
 function saveCPs(p){ localStorage.setItem('ygo-custom-packs',JSON.stringify(p)); }
+
+function getFullDeck(set){
+  const data=getColls();
+  const cols=data.collections;
+  if(!cols.length){toast('No collection available');return;}
+  // Pick the active collection (or first if no active)
+  const target=cols.find(c=>c.id===data.activeId)||cols[0];
+  // Count exact quantities per card title in this deck
+  const qty=new Map();
+  for(const {card,rarity} of set.ents){
+    const t=card.title;
+    qty.set(t,(qty.get(t)||0)+1);
+  }
+  // Add each card once per quantity
+  let added=0;
+  for(const [title,count] of qty){
+    const card=MAP.get(title); if(!card) continue;
+    const rarity=(set.ents.find(e=>e.card.title===title)||{}).rarity||'Common';
+    for(let i=0;i<count;i++){
+      target.cards.push({cardTitle:title,rarity,collectedAt:new Date().toISOString()});
+      added++;
+    }
+  }
+  saveColls(data);
+  toast(`Added ${added} cards to "${target.name}"!`);
+}
 
 /* ═══════════════════════════════════════════════════════
    6. DATA + SET BUILDING
@@ -924,6 +1046,8 @@ function buildDB(){
       const ps=[...pg.ents].sort((a,b)=>rarityRank(b.rarity)-rarityRank(a.rarity));
       if(ps[0]) pg.hiRar=ps[0].rarity;
       if(!pg.cvImg){ const pc=ps.find(e=>e.imgFile); if(pc) pg.cvImg=pc.imgFile; }
+      // Track individual promo packs with ≥ 6 unique cards for per-year display
+      if(cCount>=6){ if(!pg.packs) pg.packs=[]; pg.packs.push(rec); }
     } else if(FORCE_OTHER.has(name)){ OTHER.push(rec);
     } else if(cat==='deck'){ DECKS.push(rec);
     } else if(cCount<6){
@@ -1160,8 +1284,10 @@ const SCREEN_SECTION={
   'screen-promos':'packs','screen-builder':'packs','screen-pack':'packs',
   'screen-collection':'collection',
   'screen-deckbuilder':'deckbuilder',
+  'screen-allsets':'allsets',
+  'screen-database':'database',
 };
-const SECTION_TITLE={home:'',packs:'Open Packs',collection:'My Collection',deckbuilder:'Deck Builder'};
+const SECTION_TITLE={home:'',packs:'Open Packs',collection:'My Collection',deckbuilder:'Deck Builder',allsets:'All Sets',database:'Card Database'};
 
 function goTo(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
@@ -1177,6 +1303,8 @@ function goTo(id){
   if(id==='screen-collection') renderColScreen();
   if(id==='screen-builder') initBuilder();
   if(id==='screen-deckbuilder') initDeckBuilder();
+  if(id==='screen-allsets') renderAllSets();
+  if(id==='screen-database') initDatabasePage();
 }
 
 function toast(msg){
@@ -1192,16 +1320,21 @@ function toast(msg){
 function mkTile(set){
   const d=document.createElement('div');
   d.className='set-tile';
+  d.dataset.setName=set.name;
   // Build ordered candidate list: coverImage first, then unique card images
   const candidates=[...new Set(
     [set.cvImg,...set.ents.map(e=>e.imgFile)].filter(Boolean)
   )];
+  const isDeck=set.cat==='deck';
   d.innerHTML=`
     <div class="tile-cover"></div>
     <div class="tile-info">
       <div class="tile-name">${set.name}</div>
       <div class="tile-meta">${set.cCount} cards &nbsp;${rbHtml(set.hiRar)}</div>
-      <button class="tile-open">Open</button>
+      <div style="display:flex;gap:5px">
+        <button class="tile-open" style="flex:1">Open</button>
+        ${isDeck?`<button class="tile-getdeck" title="Add all cards to collection" style="padding:6px 8px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text);cursor:pointer;font-size:11px;white-space:nowrap">🃏 Get</button>`:''}
+      </div>
     </div>`;
   const cover=d.querySelector('.tile-cover');
   if(candidates.length){
@@ -1221,8 +1354,23 @@ function mkTile(set){
     const ph=mkPh(); ph.style.cssText='aspect-ratio:59/86;width:100%'; cover.appendChild(ph);
   }
   d.querySelector('.tile-open').addEventListener('click',e=>{e.stopPropagation();showModal(set);});
+  if(isDeck){
+    const gb=d.querySelector('.tile-getdeck');
+    if(gb) gb.addEventListener('click',e=>{e.stopPropagation();getFullDeck(set);});
+  }
   d.addEventListener('click',()=>showModal(set));
   return d;
+}
+
+function applySetSearch(searchId,gridIds){
+  const q=(document.getElementById(searchId)?.value||'').trim().toLowerCase();
+  for(const gid of gridIds){
+    const g=document.getElementById(gid); if(!g) continue;
+    g.querySelectorAll('.set-tile').forEach(tile=>{
+      const name=(tile.dataset.setName||tile.querySelector('.tile-name')?.textContent||'').toLowerCase();
+      tile.style.display=(!q||name.includes(q))?'':'none';
+    });
+  }
 }
 
 function renderSets(){
@@ -1231,6 +1379,9 @@ function renderSets(){
   const g=document.createElement('div');g.className='set-grid';cont.appendChild(g);
   for(const s of SETS){ if(s.complete) g.appendChild(mkTile(s)); }
   renderCustomTiles();
+  const si=document.getElementById('sets-search');
+  if(si){si.oninput=()=>applySetSearch('sets-search',['sets-regular','sets-custom']);}
+  applySetSearch('sets-search',['sets-regular','sets-custom']);
 }
 
 function renderPromos(){
@@ -1251,19 +1402,44 @@ function renderPromos(){
     cont.appendChild(h);
     const g=document.createElement('div');g.className='set-grid';cont.appendChild(g);
     g.appendChild(mkTile(PROMOS[y]));
+    // Individual promo packs for this year (if any tracked separately)
+    const indiv=PROMOS[y].packs||[];
+    if(indiv.length){
+      const ig=document.createElement('div');ig.className='set-grid';ig.style.marginTop='6px';cont.appendChild(ig);
+      for(const p of indiv) ig.appendChild(mkTile(p));
+    }
   }
+  const si=document.getElementById('promos-search');
+  if(si){si.oninput=()=>{
+    const q=(si.value||'').trim().toLowerCase();
+    cont.querySelectorAll('.set-tile').forEach(tile=>{
+      const name=(tile.dataset.setName||tile.querySelector('.tile-name')?.textContent||'').toLowerCase();
+      tile.style.display=(!q||name.includes(q))?'':'none';
+    });
+    cont.querySelectorAll('.sh').forEach(h=>{
+      const next=h.nextElementSibling;
+      const vis=next&&[...next.querySelectorAll('.set-tile')].some(t=>t.style.display!=='none');
+      h.style.display=vis?'':'none';
+    });
+  };}
 }
 
 function renderDecks(){
   const g=document.getElementById('decks-grid');g.innerHTML='';
   if(!DECKS.length){const m=document.createElement('p');m.className='empty-msg';m.textContent='No decks found.';g.appendChild(m);return;}
   for(const s of DECKS) g.appendChild(mkTile(s));
+  const si=document.getElementById('decks-search');
+  if(si){si.oninput=()=>applySetSearch('decks-search',['decks-grid']);}
+  applySetSearch('decks-search',['decks-grid']);
 }
 
 function renderOther(){
   const g=document.getElementById('other-grid');g.innerHTML='';
   if(!OTHER.length){const m=document.createElement('p');m.className='empty-msg';m.textContent='No other sets found.';g.appendChild(m);return;}
   for(const s of OTHER) g.appendChild(mkTile(s));
+  const si=document.getElementById('other-search');
+  if(si){si.oninput=()=>applySetSearch('other-search',['other-grid']);}
+  applySetSearch('other-search',['other-grid']);
 }
 
 function renderCustomTiles(){
@@ -1271,6 +1447,100 @@ function renderCustomTiles(){
   const packs=getCPs();
   document.getElementById('h-custom').style.display=packs.length?'':'none';
   for(const p of packs) g.appendChild(mkTile(cpToSet(p)));
+}
+
+function renderAllSets(){
+  const g=document.getElementById('allsets-grid');g.innerHTML='';
+  const all=[
+    ...SETS,
+    ...DECKS,
+    ...OTHER,
+    ...Object.values(PROMOS),
+  ].sort((a,b)=>a.sk.localeCompare(b.sk));
+  for(const s of all) g.appendChild(mkTile(s));
+  const si=document.getElementById('allsets-search');
+  if(si){si.oninput=()=>applySetSearch('allsets-search',['allsets-grid']);}
+  applySetSearch('allsets-search',['allsets-grid']);
+}
+
+let dbpSelected=null;
+function initDatabasePage(){
+  const attrSel=document.getElementById('dbp-attr');
+  if(attrSel.options.length<=1){
+    const attrs=[...new Set(ALL.map(c=>c.attribute).filter(a=>MONSTER_ATTRS.has(a)))].sort();
+    attrSel.innerHTML='<option value="">All attributes</option>'+attrs.map(a=>`<option>${a}</option>`).join('');
+  }
+  const rarSel=document.getElementById('dbp-rarity');
+  if(rarSel.options.length<=1){
+    const rars=[...new Set(ALL.flatMap(c=>(c.sets_jp||[]).flatMap(s=>s.rarity?s.rarity.split(',').map(r=>r.trim()):[])))].sort();
+    rarSel.innerHTML='<option value="">All rarities</option>'+rars.map(r=>`<option>${r}</option>`).join('');
+  }
+  ['dbp-search'].forEach(id=>document.getElementById(id).oninput=renderDbpList);
+  ['dbp-type','dbp-attr','dbp-rarity'].forEach(id=>{const el=document.getElementById(id);if(el)el.onchange=renderDbpList;});
+  document.getElementById('dbp-legend').onchange=renderDbpList;
+  renderDbpList();
+}
+
+function renderDbpList(){
+  const q=(document.getElementById('dbp-search')?.value||'').trim().toLowerCase();
+  const tf=document.getElementById('dbp-type')?.value||'';
+  const af=document.getElementById('dbp-attr')?.value||'';
+  const rf=document.getElementById('dbp-rarity')?.value||'';
+  const legendOnly=document.getElementById('dbp-legend')?.checked||false;
+  let pool=ALL.filter(c=>c.title&&isPlayable(c));
+  if(q)       pool=pool.filter(c=>cname(c).toLowerCase().includes(q));
+  if(tf)      pool=pool.filter(c=>cardMainType(c)===tf);
+  if(af)      pool=pool.filter(c=>c.attribute===af);
+  if(rf)      pool=pool.filter(c=>(c.sets_jp||[]).some(s=>s.rarity&&s.rarity.split(',').map(r=>r.trim()).includes(rf)));
+  if(legendOnly) pool=pool.filter(c=>isLegendCard(c));
+  pool.sort((a,b)=>cname(a).localeCompare(cname(b)));
+  pool=pool.slice(0,500);
+  const list=document.getElementById('dbp-list');
+  list.innerHTML='';
+  for(const card of pool){
+    const btn=document.createElement('button');
+    btn.textContent=cname(card);
+    btn.style.cssText='text-align:left;padding:5px 8px;background:var(--bg3);border:1px solid var(--border);border-radius:5px;color:var(--text);font-size:12px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis';
+    btn.addEventListener('click',()=>showDbpDetail(card));
+    if(dbpSelected?.title===card.title) btn.style.borderColor='var(--accent)';
+    list.appendChild(btn);
+  }
+}
+
+function showDbpDetail(card){
+  dbpSelected=card;
+  const detail=document.getElementById('db-page-detail');
+  const isMon=MONSTER_ATTRS.has(card.attribute);
+  const img=card.images&&card.images[0]?imgUrl(cleanFile(card.images[0].file)):null;
+  // Build rarity options for this card
+  const rarities=[...new Set((card.sets_jp||[]).flatMap(s=>s.rarity?s.rarity.split(',').map(r=>r.trim()):[]))];
+  // Build set list
+  const setRows=(card.sets_jp||[]).map(s=>`<tr><td style="padding:2px 8px 2px 0;font-size:12px">${s.code}</td><td style="padding:2px 8px 2px 0;font-size:12px">${s.name}</td><td>${rbHtml(s.rarity)}</td></tr>`).join('');
+  const stats=[];
+  if(card.attribute) stats.push(card.attribute);
+  if(isMon&&card.level!=null) stats.push('LV '+card.level);
+  if(isMon&&card.atk!=null) stats.push('ATK '+card.atk);
+  if(isMon&&card.def!=null) stats.push('DEF '+card.def);
+  const maxAtkHtml=isMon&&card.maximum_atk!=null?`<div style="font-size:14px;font-weight:700;color:#ff9800;margin:4px 0">⚡ MAX ATK  ${card.maximum_atk}</div>`:'';
+  detail.innerHTML=`
+    <div style="display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap">
+      ${img?`<img src="${img}" style="height:180px;border-radius:6px;object-fit:contain;flex-shrink:0" onerror="this.remove()">`:''}
+      <div style="flex:1;min-width:0">
+        <div style="font-size:17px;font-weight:700;color:var(--gold)">${cname(card)}${legendBadge(card)}</div>
+        <div style="font-size:12px;color:var(--muted)">${card.types||card.card_type||''}</div>
+        <div style="font-size:12px;margin-top:4px">${stats.join(' · ')}</div>
+        ${maxAtkHtml}
+        ${card.requirement?`<div style="font-size:12px;margin-top:6px"><b style="color:var(--gold)">【Requirement】</b> ${card.requirement}</div>`:''}
+        ${card.effect?`<div style="font-size:12px;margin-top:6px;line-height:1.5">${card.effect}</div>`:''}
+        ${card.flavor_text?`<div style="font-size:12px;margin-top:6px;font-style:italic;color:var(--muted)">${card.flavor_text}</div>`:''}
+      </div>
+    </div>
+    ${setRows?`<div style="margin-top:14px"><b style="font-size:12px;color:var(--gold)">Sets</b><table style="margin-top:6px;width:100%">${setRows}</table></div>`:''}
+    <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap">${rarities.map(r=>rbHtml(r)).join('')}</div>`;
+  // Highlight selected in list
+  document.getElementById('dbp-list').querySelectorAll('button').forEach(b=>{
+    b.style.borderColor=b.textContent===cname(card)?'var(--accent)':'var(--border)';
+  });
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -1284,6 +1554,7 @@ function showModal(set){
   const mi=document.getElementById('modal-img');
   if(set.cvImg){mi.src=imgUrl(set.cvImg);mi.style.display='';}else{mi.style.display='none';}
   document.querySelectorAll('.qty-btn').forEach(b=>b.classList.toggle('sel',b.dataset.qty==='1'));
+  document.getElementById('qty-custom').value='';
   const boxBtn=document.getElementById('qty-box');
   if(set.ppb){
     boxBtn.style.display='';
@@ -1301,11 +1572,21 @@ function initModal(){
       document.querySelectorAll('.qty-btn').forEach(b=>b.classList.remove('sel'));
       btn.classList.add('sel');
       mQty=btn.dataset.qty==='box'?(mSet?.ppb||15):parseInt(btn.dataset.qty);
+      document.getElementById('qty-custom').value='';
     });
+  });
+  document.getElementById('qty-custom').addEventListener('input',e=>{
+    const v=parseInt(e.target.value);
+    if(!isNaN(v)&&v>0){
+      document.querySelectorAll('.qty-btn').forEach(b=>b.classList.remove('sel'));
+      mQty=v;
+    }
   });
   document.getElementById('modal-ok').addEventListener('click',()=>{
     if(!mSet) return;
-    const s=mSet,q=mQty;
+    const customV=parseInt(document.getElementById('qty-custom').value);
+    const q=(!isNaN(customV)&&customV>0)?customV:mQty;
+    const s=mSet;
     closeModal();
     startSession(s,q);
   });
@@ -1401,9 +1682,11 @@ function showCardPopup(card, rarity, imgFile){
   if(card.attribute) stats.push(card.attribute);
   if(isMon&&card.level!=null) stats.push('LV '+card.level);
   if(isMon&&card.atk!=null) stats.push('ATK '+card.atk);
-  if(isMon&&card.maximum_atk!=null) stats.push('MAX '+card.maximum_atk);
   if(isMon&&card.def!=null) stats.push('DEF '+card.def);
   document.getElementById('cp-stats').textContent=stats.join(' · ');
+  const maxEl=document.getElementById('cp-maxatk');
+  if(isMon&&card.maximum_atk!=null){maxEl.textContent='⚡ MAX ATK  '+card.maximum_atk;maxEl.style.display='';}
+  else{maxEl.style.display='none';}
   const condEl=document.getElementById('cp-condition');
   condEl.textContent=card.condition||''; condEl.style.display=card.condition?'':'none';
   const reqEl=document.getElementById('cp-req');
@@ -1460,14 +1743,15 @@ function initTooltip(){
     const to=e.relatedTarget;
     if(!to||!card.contains(to)) hideTooltip();
   });
-  cg.addEventListener('click',e=>{
+  cg.addEventListener('contextmenu',e=>{
     const card=e.target.closest('.col-card');
     if(!card||!card._cardData) return;
+    e.preventDefault();
     const {card:c,rarity}=card._cardData;
     const f=card._cardData.imgFile||null;
     showCardPopup(c,rarity,f);
   });
-  // Deck builder grids (pool + main + extra)
+  // Deck builder grids (pool + main + extra): hover tooltip + right-click popup
   [['db-pool-grid','.db-pcard'],['db-main','.db-dcard'],['db-extra','.db-dcard']].forEach(([gid,sel])=>{
     const g=document.getElementById(gid);
     if(!g) return;
@@ -1481,6 +1765,13 @@ function initTooltip(){
       if(!el) return;
       const to=e.relatedTarget;
       if(!to||!el.contains(to)) hideTooltip();
+    });
+    g.addEventListener('contextmenu',e=>{
+      const el=e.target.closest(sel);
+      if(!el||!el._card) return;
+      e.preventDefault();
+      const f=el._card.images&&el._card.images[0]?cleanFile(el._card.images[0].file):null;
+      showCardPopup(el._card,'',f);
     });
   });
 }
@@ -1533,14 +1824,16 @@ function mkFlip(ent){
     </div>`;
 
   w.addEventListener('click',()=>{
-    if(w.classList.contains('flipped')){
-      if(ent) showCardPopup(ent.card,ent.rarity,ent.imgFile);
-      return;
-    }
+    if(w.classList.contains('flipped')) return;
     w.classList.add('flipped');
     slot.classList.add('revealed');
     if(ent) snd(SOUND_TIER(ent.rarity));
     checkDone();
+  });
+  w.addEventListener('contextmenu',e=>{
+    if(!w.classList.contains('flipped')) return;
+    e.preventDefault();
+    if(ent) showCardPopup(ent.card,ent.rarity,ent.imgFile);
   });
 
   const cap=document.createElement('div');
@@ -1783,7 +2076,8 @@ function buildFilters(){
 
   [sr,sa,sc,srr,sst,
    document.getElementById('f-search'),
-   document.getElementById('f-type')
+   document.getElementById('f-type'),
+   document.getElementById('f-legend')
   ].forEach(el=>{ if(el){el.onchange=renderColCards;el.oninput=renderColCards;} });
 }
 
@@ -1800,6 +2094,7 @@ function renderColCards(){
   const tf=document.getElementById('f-type')?.value||'';
   const rrf=document.getElementById('f-race')?.value||'';
   const stf=document.getElementById('f-subtype')?.value||'';
+  const legendOnly=document.getElementById('f-legend')?.checked||false;
 
   let ents=[...col.cards].reverse()
     .map(e=>({...e,card:MAP.get(e.cardTitle)}))
@@ -1811,6 +2106,7 @@ function renderColCards(){
   if(tf) ents=ents.filter(e=>cardMainType(e.card)===tf);
   if(rrf) ents=ents.filter(e=>cardRace(e.card)===rrf);
   if(stf) ents=ents.filter(e=>cardSubtypes(e.card).includes(stf));
+  if(legendOnly) ents=ents.filter(e=>isLegendCard(e.card));
   if(q) ents=ents.filter(e=>cname(e.card).toLowerCase().includes(q));
   ents=ents.filter(e=>matchNum(e.card.level,'f-lv-op','f-lv-v1','f-lv-v2'));
   ents=ents.filter(e=>matchNum(e.card.atk,  'f-atk-op','f-atk-v1','f-atk-v2'));
@@ -1840,6 +2136,7 @@ function renderColCards(){
               onload="this.previousElementSibling.style.display='none'"
               onerror="this.remove()">`:'' }
         ${count>1?`<div class="stack-badge">×${count}</div>`:''}
+        ${maxBadgeHtml(e.card)}
       </div>
       <div class="col-ci">
         <div class="col-cn">${cname(e.card)}</div>
@@ -1937,12 +2234,18 @@ function saveDecksData(d){
 // Rush Duel: Fusion AND Ritual monsters live in the Extra Deck
 function isExtraCard(card){ return MONSTER_ATTRS.has(card.attribute)&&!!card.types&&/\b(Fusion|Ritual)\b/i.test(card.types); }
 
-// Map every owned card title → how many copies across all collections
-function ownedCounts(){
+// Map every owned card title → how many copies (optionally filtered to one collection)
+function ownedCounts(collId){
   const m=new Map();
-  for(const col of getColls().collections)
+  const cols=collId
+    ? getColls().collections.filter(c=>c.id===collId)
+    : getColls().collections;
+  for(const col of cols)
     for(const e of col.cards) m.set(e.cardTitle,(m.get(e.cardTitle)||0)+1);
   return m;
+}
+function getOwnedCount(title,collId){
+  return ownedCounts(collId).get(title)||0;
 }
 
 function nameIndex(){
@@ -1965,6 +2268,14 @@ function dbActiveDeck(){
 function deckCountOf(title){ return dbDeck?((dbDeck.main[title]||0)+(dbDeck.extra[title]||0)):0; }
 function sumCounts(b){ return Object.values(b).reduce((a,n)=>a+n,0); }
 
+function refreshDbCollectionSel(){
+  const sel=document.getElementById('db-collection-sel');
+  const cur=sel.value;
+  sel.innerHTML='<option value="">All collections</option>'+
+    getColls().collections.map(c=>`<option value="${c.id}">${c.name.replace(/</g,'&lt;')}</option>`).join('');
+  if(cur) sel.value=cur;
+}
+
 function initDeckBuilder(){
   // Attribute filter (populate once)
   const attrSel=document.getElementById('db-attr');
@@ -1972,6 +2283,20 @@ function initDeckBuilder(){
     const attrs=[...new Set(ALL.map(c=>c.attribute).filter(a=>MONSTER_ATTRS.has(a)))].sort();
     attrSel.innerHTML='<option value="">All attributes</option>'+attrs.map(a=>`<option>${a}</option>`).join('');
   }
+  // Rarity filter (populate once)
+  const rarSel=document.getElementById('db-rarity');
+  if(rarSel.options.length<=1){
+    const rars=[...new Set(ALL.flatMap(c=>(c.sets_jp||[]).flatMap(s=>s.rarity?s.rarity.split(',').map(r=>r.trim()):[])))].sort();
+    rarSel.innerHTML='<option value="">All rarities</option>'+rars.map(r=>`<option>${r}</option>`).join('');
+  }
+  // Race filter (populate once)
+  const raceSel=document.getElementById('db-race');
+  if(raceSel.options.length<=1){
+    const races=[...new Set(ALL.map(c=>cardRace(c)).filter(Boolean))].sort();
+    raceSel.innerHTML='<option value="">All races</option>'+races.map(r=>`<option>${r}</option>`).join('');
+  }
+  // Collection selector (refresh each time we enter deck builder)
+  refreshDbCollectionSel();
   // Ensure at least one deck exists
   const d=getDecks();
   if(!d.decks.length){
@@ -1980,10 +2305,14 @@ function initDeckBuilder(){
   }
   dbDeck=dbActiveDeck();
 
-  document.getElementById('db-search').oninput=renderDbPool;
-  document.getElementById('db-type').onchange=renderDbPool;
-  document.getElementById('db-attr').onchange=renderDbPool;
+  ['db-search','db-series'].forEach(id=>document.getElementById(id).oninput=renderDbPool);
+  ['db-type','db-attr','db-rarity','db-race','db-collection-sel',
+   'db-lvl-op','db-lvl-val','db-atk-op','db-atk-val','db-def-op','db-def-val'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.onchange=renderDbPool;
+  });
   document.getElementById('db-owned').onchange=renderDbPool;
+  document.getElementById('db-legend').onchange=renderDbPool;
+  document.getElementById('db-banlist').onchange=renderDbPool;
   document.getElementById('db-deck-sel').onchange=e=>{
     const dd=getDecks(); dd.activeId=e.target.value; saveDecksData(dd);
     dbDeck=dbActiveDeck(); document.getElementById('db-deck-name').value=dbDeck.name;
@@ -2055,6 +2384,18 @@ function dbAdd(title){
     if((bucket[title]||0)>=1){ toast('Only 1 copy of a Legend card'); return; }
   }
   if((bucket[title]||0)>=3){ toast('Max 3 copies of a card'); return; }
+  if(document.getElementById('db-owned').checked){
+    const collId=document.getElementById('db-collection-sel').value||'';
+    const own=getOwnedCount(title,collId);
+    if((bucket[title]||0)>=own){ toast(own?`Only ${own} copy owned`:'Card not owned'); return; }
+  }
+  if(document.getElementById('db-banlist').checked){
+    const card2=MAP.get(title);
+    const status=card2?BANLIST[card2.raw_name_en||cname(card2)]:undefined;
+    if(status==='Forbidden'){ toast('Forbidden card'); return; }
+    if(status==='Limited'&&(bucket[title]||0)>=1){ toast('Limited: max 1 copy'); return; }
+    if(status==='Semi-Limited'&&(bucket[title]||0)>=2){ toast('Semi-Limited: max 2 copies'); return; }
+  }
   if(sec==='extra'&&sumCounts(dbDeck.extra)>=15){ toast('Extra Deck is full (15)'); return; }
   if(sec==='main'&&sumCounts(dbDeck.main)>=60){ toast('Main Deck is full (60)'); return; }
   bucket[title]=(bucket[title]||0)+1;
@@ -2081,16 +2422,40 @@ function dbSortTitles(titles){
   });
 }
 
+function dbNumCmp(val,opId,valId){
+  const op=document.getElementById(opId)?.value;
+  if(!op) return true;
+  const vs=document.getElementById(valId)?.value??'';
+  if(vs==='') return true;
+  const v=parseFloat(vs);
+  if(isNaN(v)) return true;
+  if(val==null) return false;
+  switch(op){case '=':return val===v;case '≥':return val>=v;case '>':return val>v;case '≤':return val<=v;case '<':return val<v;}
+  return true;
+}
+
 function renderDbPool(){
   const q=(document.getElementById('db-search').value||'').trim().toLowerCase();
   const tf=document.getElementById('db-type').value;
   const af=document.getElementById('db-attr').value;
+  const rf=document.getElementById('db-rarity').value;
+  const racef=document.getElementById('db-race').value;
+  const seriesf=(document.getElementById('db-series').value||'').trim().toLowerCase();
+  const legendOnly=document.getElementById('db-legend').checked;
   const ownedOnly=document.getElementById('db-owned').checked;
-  const owned=ownedCounts();
+  const collId=document.getElementById('db-collection-sel').value||'';
+  const owned=ownedCounts(collId||undefined);
   let pool=ALL.filter(c=>c.title&&isComplete(c)&&isPlayable(c));
-  if(q)  pool=pool.filter(c=>cname(c).toLowerCase().includes(q));
-  if(tf) pool=pool.filter(c=>cardMainType(c)===tf);
-  if(af) pool=pool.filter(c=>c.attribute===af);
+  if(q)        pool=pool.filter(c=>cname(c).toLowerCase().includes(q));
+  if(tf)       pool=pool.filter(c=>cardMainType(c)===tf);
+  if(af)       pool=pool.filter(c=>c.attribute===af);
+  if(rf)       pool=pool.filter(c=>(c.sets_jp||[]).some(s=>s.rarity&&s.rarity.split(',').map(r=>r.trim()).includes(rf)));
+  if(racef)    pool=pool.filter(c=>cardRace(c)===racef);
+  if(seriesf)  pool=pool.filter(c=>(c.archseries||[]).some(a=>a.toLowerCase().includes(seriesf)));
+  if(legendOnly) pool=pool.filter(c=>isLegendCard(c));
+  pool=pool.filter(c=>dbNumCmp(c.level,'db-lvl-op','db-lvl-val'));
+  pool=pool.filter(c=>dbNumCmp(c.atk,  'db-atk-op','db-atk-val'));
+  pool=pool.filter(c=>dbNumCmp(c.def,  'db-def-op','db-def-val'));
   if(ownedOnly) pool=pool.filter(c=>owned.has(c.title));
   pool.sort((a,b)=>{
     const ta=DB_TYPE_ORDER[cardMainType(a)]??3, tb=DB_TYPE_ORDER[cardMainType(b)]??3;
@@ -2114,6 +2479,8 @@ function renderDbPool(){
       ${f?`<img src="${imgUrl(f)}" alt="${cname(card)}" loading="lazy" onload="this.previousElementSibling.style.display='none'" onerror="this.remove()">`:''}
       ${have?`<span class="db-have">×${have}</span>`:''}
       ${isLegendCard(card)?`<span class="db-legend" title="Legend Card">★</span>`:''}
+      ${maxBadgeHtml(card)}
+      ${banBadgeHtml(card)}
       <span class="db-indeck"${inDeck?'':' style="display:none"'}>${inDeck}</span>`;
     el.addEventListener('click',()=>dbAdd(card.title));
     grid.appendChild(el);
@@ -2168,6 +2535,7 @@ function renderDeckGrid(id,bucket,sec){
     el.innerHTML=`<div class="cph">？</div>
       ${f?`<img src="${imgUrl(f)}" alt="${card?cname(card):t}" loading="lazy" onload="this.previousElementSibling.style.display='none'" onerror="this.remove()">`:''}
       ${isLegendCard(card)?`<span class="db-legend" title="Legend Card">★</span>`:''}
+      ${card?maxBadgeHtml(card):''}
       <span class="db-qty">${n}</span>`;
     el.addEventListener('click',()=>dbRemove(t,sec));
     grid.appendChild(el);
@@ -2175,13 +2543,14 @@ function renderDeckGrid(id,bucket,sec){
 }
 
 /* ── Clipboard import / export ─────────────────────────────────────────────── */
+function rawCname(c){ return c.raw_name_en||cname(c); }
 function deckToText(deck){
   const sec={Monster:[],Spell:[],Trap:[]};
   for(const t of dbSortTitles(Object.keys(deck.main))){
     const c=MAP.get(t), mt=c?cardMainType(c):'Monster';
-    (sec[mt]||sec.Monster).push(`${deck.main[t]} ${c?cname(c):t}`);
+    (sec[mt]||sec.Monster).push(`${deck.main[t]} ${c?rawCname(c):t}`);
   }
-  const extra=dbSortTitles(Object.keys(deck.extra)).map(t=>{const c=MAP.get(t);return `${deck.extra[t]} ${c?cname(c):t}`;});
+  const extra=dbSortTitles(Object.keys(deck.extra)).map(t=>{const c=MAP.get(t);return `${deck.extra[t]} ${c?rawCname(c):t}`;});
   const out=['Monster',...sec.Monster,'Spell',...sec.Spell,'Trap',...sec.Trap,'Extra',...extra];
   return out.join('\n');
 }
@@ -2322,16 +2691,18 @@ async function init(){
     const dkRes=await fetch('/api/decks').catch(()=>null);
     if(dkRes?.ok){ const d=await dkRes.json(); if(d&&Array.isArray(d.decks)) DECKS_DATA=d; }
 
-    const [cr,sr,gr,ur]=await Promise.all([
+    const [cr,sr,gr,ur,br]=await Promise.all([
       fetch('/cards.json'),
       fetch('/sets-data.json').catch(()=>({ok:false})),
       fetch('/gallery-images.json').catch(()=>({ok:false})),
       fetch('/image-urls.json').catch(()=>({ok:false})),
+      fetch('/banlist.json').catch(()=>({ok:false})),
     ]);
     ALL=await cr.json();
     SDATA=sr.ok?await sr.json().catch(()=>({})):{};
     const galleryImgs=gr.ok?await gr.json().catch(()=>({})):{};
     IMG_URLS=ur.ok?await ur.json().catch(()=>({})): {};
+    BANLIST=br.ok?await br.json().catch(()=>({})):{};
     const titleIdx=new Map(ALL.map(c=>[c.title,c]));
     for(const [title,files] of Object.entries(galleryImgs)){
       const card=titleIdx.get(title);

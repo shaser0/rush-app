@@ -12,16 +12,17 @@ const PORT = process.env.PORT || 3000;
 // When running as a pkg .exe, resolve data files from the real exe directory
 const APP_DIR = process.pkg ? path.dirname(process.execPath) : __dirname;
 
-// Redirect all console output to a log file when running as packaged exe
-if (process.pkg) {
+// Always write logs to data/rush-app.log; in pkg mode suppress console output.
+{
   const logPath = path.join(APP_DIR, 'data', 'rush-app.log');
   try { fs.mkdirSync(path.join(APP_DIR, 'data'), { recursive: true }); } catch {}
   const logStream = fs.createWriteStream(logPath, { flags: 'a' });
   const ts = () => new Date().toISOString().replace('T',' ').slice(0,19);
   const fmt = a => a.map(x => typeof x === 'object' ? JSON.stringify(x) : String(x)).join(' ');
-  console.log   = (...a) => logStream.write(`[${ts()}] ${fmt(a)}\n`);
-  console.error = (...a) => logStream.write(`[${ts()}] [ERR] ${fmt(a)}\n`);
-  console.warn  = (...a) => logStream.write(`[${ts()}] [WARN] ${fmt(a)}\n`);
+  const orig = { log: console.log.bind(console), error: console.error.bind(console), warn: console.warn.bind(console) };
+  console.log   = (...a) => { logStream.write(`[${ts()}] ${fmt(a)}\n`);        if (!process.pkg) orig.log(...a);   };
+  console.error = (...a) => { logStream.write(`[${ts()}] [ERR] ${fmt(a)}\n`);  if (!process.pkg) orig.error(...a); };
+  console.warn  = (...a) => { logStream.write(`[${ts()}] [WARN] ${fmt(a)}\n`); if (!process.pkg) orig.warn(...a);  };
 }
 
 // ── Sync process registry ──────────────────────────────────────────────────
@@ -121,6 +122,7 @@ app.get('/cards.json',         (req, res) => res.sendFile(path.join(APP_DIR, 'da
 app.get('/sets-data.json',     (req, res) => res.sendFile(path.join(APP_DIR, 'data', 'sets-data.json'),      err => { if (err) res.json({}); }));
 app.get('/gallery-images.json',(req, res) => res.sendFile(path.join(APP_DIR, 'data', 'gallery-images.json'), err => { if (err) res.json({}); }));
 app.get('/image-urls.json',    (req, res) => res.sendFile(path.join(APP_DIR, 'data', 'image-urls.json'),     err => { if (err) res.json({}); }));
+app.get('/banlist.json',       (req, res) => res.sendFile(path.join(APP_DIR, 'data', 'banlist.json'),        err => { if (err) res.json({}); }));
 
 // ── Collections API ────────────────────────────────────────────────────────
 

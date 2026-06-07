@@ -15,12 +15,12 @@ function stripWikiMarkup(text) {
 }
 
 // ── Strip parenthetical content ──────────────────────────────────────────────
-// No Rush Duel card names or archetypes contain meaningful parentheses —
-// all are Yugipedia disambiguation suffixes like (card), (Rush Duel), etc.
+// Most parenthetical suffixes are Yugipedia disambiguation (card), (Rush Duel).
+// Exception: (L) and (R) are part of the card name for Maximum monster variants.
 
 function stripParens(text) {
   if (!text) return text;
-  return text.replace(/\s*\([^)]*\)\s*/g, ' ').trim();
+  return text.replace(/\s*\((?!(?:L|R)\))[^)]*\)\s*/g, ' ').trim();
 }
 
 // ── Archseries ───────────────────────────────────────────────────────────────
@@ -93,6 +93,7 @@ const raw = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/raw-cards.j
 
 const cleaned = raw.map(card => ({
   ...card,
+  raw_name_en:  card.name_en || card.title,
   title:        stripParens(card.title),
   name_en:      stripParens(card.name_en || card.title),
   name_ja:      stripRuby(card.name_ja),
