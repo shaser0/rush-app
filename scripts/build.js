@@ -13,9 +13,10 @@ function includeInRelease(src) {
   return true;
 }
 
-execSync('pkg . --targets node20-win-x64   --output dist/rush-app-win.exe', { stdio: 'inherit' });
-execSync('pkg . --targets node20-linux-x64 --output dist/rush-app-linux',   { stdio: 'inherit' });
-execSync('pkg . --targets node20-macos-x64 --output dist/rush-app-macos',   { stdio: 'inherit' });
+const PKG = path.join(__dirname, '../node_modules/.bin/pkg');
+execSync(`"${PKG}" . --targets node20-win-x64   --output dist/rush-app-win.exe`, { stdio: 'inherit' });
+execSync(`"${PKG}" . --targets node20-linux-x64 --output dist/rush-app-linux`,   { stdio: 'inherit' });
+execSync(`"${PKG}" . --targets node20-macos-x64 --output dist/rush-app-macos`,   { stdio: 'inherit' });
 
 // Patch the Windows exe PE header: change subsystem from console (3) to GUI (2).
 // This tells Windows not to create a terminal window when the exe is launched,
