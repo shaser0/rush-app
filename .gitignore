@@ -1,0 +1,16 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+*.zip
+
+# User data (created at runtime by the server)
+data/collections.json
+data/decks.json
+
+# Logs & sync state
+*.log
+data/*.log
+data/sync-progress*.json
+data/sync-state.json

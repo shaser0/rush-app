@@ -1,0 +1,2368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rush Duel Simulator</title>
+<style>
+/* ── Reset + Variables ─────────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{height:100%}
+body{min-height:100%;background:#0b0b16;color:#e8e0f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px}
+button,input,select{font-family:inherit}
+:root{
+  --bg:#0b0b16;--bg2:#13132a;--bg3:#1a1a35;--border:#2e2e5a;
+  --accent:#7c4dff;--gold:#ffd700;--text:#e8e0f0;--muted:#8888aa;
+  --card-w:180px;--card-h:262px;
+}
+
+/* ── Loading ───────────────────────────────────────────────────────────── */
+#loading{position:fixed;inset:0;background:rgba(8,8,20,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;gap:18px}
+#loading.hidden{display:none}
+.spinner{width:48px;height:48px;border:4px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+#loading-msg{color:var(--muted);font-size:15px}
+
+/* ── Navigation ────────────────────────────────────────────────────────── */
+#nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;gap:4px;padding:8px 16px;background:#08080f;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.nav-btn{padding:6px 14px;background:transparent;border:1px solid var(--border);border-radius:6px;color:var(--muted);cursor:pointer;font-size:13px;transition:all .18s}
+.nav-btn:hover,.nav-btn.active{border-color:var(--accent);color:var(--text);background:rgba(124,77,255,.15)}
+
+/* ── Sync panel ── */
+#sync-btn{margin-left:auto;padding:6px 10px;background:none;border:1px solid var(--border);border-radius:6px;color:var(--muted);cursor:pointer;font-size:14px;line-height:1;transition:all .18s}
+#sync-btn:hover{border-color:var(--accent);color:var(--text)}
+#sync-btn.running{color:#4fc3f7;border-color:#4fc3f7;animation:sync-spin 1.2s linear infinite}
+@keyframes sync-spin{to{transform:rotate(360deg)}}
+#sync-panel{position:fixed;top:46px;right:12px;z-index:150;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;min-width:280px;display:none;flex-direction:column;gap:10px;box-shadow:0 4px 24px rgba(0,0,0,.5)}
+#sync-panel.open{display:flex}
+.sync-row{display:flex;align-items:center;gap:8px}
+.sync-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;background:var(--muted)}
+.sync-dot.ok{background:#4caf50}.sync-dot.stale{background:#ff9800}
+.sync-dot.running{background:#4fc3f7;animation:pulse .8s ease-in-out infinite alternate}
+.sync-dot.error{background:#f44336}
+@keyframes pulse{from{opacity:.4}to{opacity:1}}
+.sync-label{flex:1;font-size:13px;font-weight:600}
+.sync-time{font-size:11px;color:var(--muted)}
+#sync-all-btn{padding:8px;background:var(--accent);border:none;border-radius:7px;color:#fff;font-weight:700;font-size:13px;cursor:pointer;margin-top:2px}
+#sync-all-btn:hover{opacity:.9}
+#sync-all-btn:disabled{opacity:.45;cursor:default}
+
+/* ── Screens ───────────────────────────────────────────────────────────── */
+.screen{display:none;padding:16px}
+.screen.active{display:block}
+#screen-pack{display:none;flex-direction:column;align-items:center;padding:16px;gap:16px;min-height:calc(100vh - 50px)}
+#screen-pack.active{display:flex}
+
+/* ── Section headings ──────────────────────────────────────────────────── */
+.sh{font-size:17px;font-weight:700;color:var(--gold);margin:22px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.sh:first-child{margin-top:0}
+
+/* ── Set Grid ──────────────────────────────────────────────────────────── */
+.set-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-bottom:4px}
+
+/* ── Set Tile ──────────────────────────────────────────────────────────── */
+.set-tile{background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;transition:border-color .18s,transform .15s;display:flex;flex-direction:column}
+.set-tile:hover{border-color:var(--accent);transform:translateY(-2px)}
+.tile-cover{width:100%;aspect-ratio:59/86;background:var(--bg3);overflow:hidden;display:flex;align-items:center;justify-content:center}
+.tile-cover img{width:100%;height:100%;object-fit:contain;display:block}
+.tile-info{padding:8px;display:flex;flex-direction:column;gap:4px;flex:1}
+.tile-name{font-size:11px;font-weight:600;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.tile-meta{font-size:10px;color:var(--muted)}
+.tile-open{margin-top:auto;padding:5px 8px;background:var(--accent);border:none;border-radius:5px;color:#fff;font-size:12px;font-weight:600;cursor:pointer;width:100%;transition:opacity .18s}
+.tile-open:hover{opacity:.85}
+
+/* ── Rarity badges ─────────────────────────────────────────────────────── */
+.rb{display:inline-block;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;background:var(--bg3);border:1px solid var(--border);color:var(--muted)}
+.rb-rare{color:#4fc3f7;border-color:#4fc3f7}
+.rb-npr{color:#90caf9;border-color:#90caf9}
+.rb-super{color:#c0c0c0;border-color:#c0c0c0}
+.rb-spr{color:#c0c0c0;border-color:#4fc3f7;background:linear-gradient(90deg,rgba(192,192,192,.1),rgba(79,195,247,.1))}
+.rb-ultra{color:var(--gold);border-color:var(--gold)}
+.rb-upr{color:var(--gold);border-color:var(--accent)}
+.rb-secret{color:#e040fb;border-color:#e040fb}
+.rb-rush{color:#ff6d00;border-color:#ff6d00}
+.rb-grush{color:var(--gold);border-color:#ff8f00;background:rgba(255,215,0,.08)}
+.rb-rrush{color:#f44336;border-color:#f44336}
+.rb-over{color:var(--gold);border-color:#ff6d00;background:linear-gradient(90deg,rgba(255,215,0,.1),rgba(255,109,0,.1))}
+.rb-overblk{color:#fff;border-color:#444;background:#1c1c1c}
+.rb-full{color:#fff;border-color:var(--gold);background:linear-gradient(90deg,rgba(255,215,0,.15),rgba(255,109,0,.15));animation:rb-glow .8s ease-in-out infinite alternate}
+
+/* ── Modal ─────────────────────────────────────────────────────────────── */
+.modal-back{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:200;display:flex;align-items:center;justify-content:center}
+.modal-back.hidden{display:none}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:24px;max-width:380px;width:90%;display:flex;flex-direction:column;gap:14px}
+.modal h2{font-size:15px;color:var(--gold)}
+.modal-cover{display:flex;justify-content:center}
+.modal-cover img{height:130px;border-radius:6px;object-fit:contain}
+.qty-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.qty-btn{padding:10px 0;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:13px;font-weight:600;cursor:pointer;transition:all .18s;text-align:center}
+.qty-btn:hover,.qty-btn.sel{border-color:var(--accent);background:rgba(124,77,255,.22);color:#fff}
+.modal-ok{padding:11px;background:var(--accent);border:none;border-radius:8px;color:#fff;font-size:15px;font-weight:700;cursor:pointer}
+.modal-ok:hover{opacity:.9}
+.modal-cancel{background:none;border:none;color:var(--muted);cursor:pointer;font-size:13px;align-self:center}
+
+/* ── Pack opening ──────────────────────────────────────────────────────── */
+#pack-header{width:100%;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+#pack-header h2{flex:1;font-size:15px}
+#pack-progress{color:var(--muted);font-size:13px}
+.btn-back{padding:6px 12px;background:none;border:1px solid var(--border);border-radius:6px;color:var(--muted);cursor:pointer;transition:border-color .18s,color .18s}
+.btn-back:hover{border-color:var(--accent);color:var(--text)}
+#pack-cards{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+
+/* ── Card slot (flip + caption) ────────────────────────────────────────── */
+.card-slot{display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0}
+.card-caption{display:none;text-align:center;width:var(--card-w)}
+.card-caption .cap-name{font-size:11px;font-weight:600;color:var(--text);line-height:1.3;margin-bottom:3px}
+.card-slot.revealed .card-caption{display:block}
+
+/* ── Card flip ─────────────────────────────────────────────────────────── */
+.flip-wrap{perspective:1000px;width:var(--card-w);height:var(--card-h);cursor:pointer;user-select:none}
+.flip{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.4,0,.2,1)}
+.flip-wrap.flipped .flip{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;border-radius:10px;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden;border:2px solid var(--border)}
+.cback{background:radial-gradient(ellipse at 50% 35%,#1e0e58 0%,#090420 100%);border-color:#4a28a8;display:flex;align-items:center;justify-content:center}
+.cback::before{content:'';position:absolute;inset:10px;border:1px solid rgba(140,90,255,.28);border-radius:6px;background:repeating-conic-gradient(rgba(100,60,200,.1) 0deg 45deg,transparent 45deg 90deg) 0 0/22px 22px}
+.cback::after{content:'★';font-size:50px;color:rgba(180,130,255,.22);position:relative;z-index:1}
+.cfront{transform:rotateY(180deg);background:#12121f}
+/* Image inside cfront: placeholder behind, img on top */
+.cfront .cph{position:absolute;inset:0;z-index:0;width:auto;height:auto;font-size:36px}
+.cfront img.cimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:1}
+.cph{width:100%;height:100%;background:repeating-linear-gradient(45deg,#151528 0 10px,#111124 10px 20px);display:flex;align-items:center;justify-content:center;color:var(--muted)}
+
+/* ── Rarity effects ────────────────────────────────────────────────────── */
+.cfront.rarity-normal-parallel::before,.cfront.rarity-super-parallel::before,.cfront.rarity-ultra-parallel::before{
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:3;border-radius:8px;
+  background:linear-gradient(135deg,rgba(255,0,128,.16) 0%,rgba(255,165,0,.16) 14%,rgba(255,255,0,.16) 29%,rgba(0,255,100,.16) 43%,rgba(0,200,255,.16) 57%,rgba(120,0,255,.16) 72%,rgba(255,0,200,.16) 86%,rgba(255,0,128,.16) 100%);
+  background-size:400% 400%;animation:holo 3s linear infinite;mix-blend-mode:overlay
+}
+.cfront.rarity-super::after,.cfront.rarity-super-parallel::after{
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:2;border-radius:8px;
+  background:linear-gradient(118deg,transparent 20%,rgba(210,210,255,.55) 50%,transparent 80%);
+  background-size:200% 100%;animation:shimmer 2.6s linear infinite;mix-blend-mode:screen
+}
+.cfront.rarity-ultra::after,.cfront.rarity-ultra-red::after,.cfront.rarity-ultra-parallel::after{
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:2;border-radius:8px;
+  background:linear-gradient(118deg,transparent 20%,rgba(255,215,0,.6) 50%,transparent 80%);
+  background-size:200% 100%;animation:shimmer 2s linear infinite;mix-blend-mode:overlay
+}
+.cfront.rarity-ultra-red::after{background:linear-gradient(118deg,transparent 20%,rgba(255,80,80,.6) 50%,transparent 80%);background-size:200% 100%}
+.cfront.rarity-secret{animation:rainbow 3s linear infinite}
+.cfront.rarity-secret-blue{animation:rainbow-blue 3s linear infinite}
+.cfront.rarity-secret-red{animation:rainbow-red 3s linear infinite}
+.cfront.rarity-rush::before,.cfront.rarity-gold-rush::before,.cfront.rarity-rush-red::before{
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:3;border-radius:8px;
+  background:linear-gradient(135deg,#ff006640,#ff730040,#ffe60040,#00ff8840,#00b4ff40,#7b00ff40,#ff006640);
+  background-size:400% 400%;animation:rush-prism 1.8s linear infinite;mix-blend-mode:screen
+}
+.cfront.rarity-gold-rush::before{background:linear-gradient(135deg,#ffd70060,#ff8c0060,#ffe60060,#ffd70060,#ff8c0060,#ffe60060);background-size:400% 400%}
+.cfront.rarity-rush-red::before{background:linear-gradient(135deg,#ff000060,#ff4d0060,#ff990060,#ff000060,#ff4d0060,#ff990060);background-size:400% 400%}
+.cfront.rarity-rush,.cfront.rarity-gold-rush,.cfront.rarity-rush-red{border-color:rgba(255,120,0,.7);animation:rush-glow 1s ease-in-out infinite alternate}
+.cfront.rarity-gold-rush{border-color:rgba(255,215,0,.7);animation:gold-glow 1s ease-in-out infinite alternate}
+.cfront.rarity-rush-red{border-color:rgba(255,0,0,.7);animation:red-glow 1s ease-in-out infinite alternate}
+.cfront.rarity-over,.cfront.rarity-full-over{overflow:visible;z-index:5}
+.cfront.rarity-over-black{overflow:visible;z-index:5}
+.cfront.rarity-over img.cimg{transform:scale(1.08) translateY(-3%);filter:drop-shadow(0 0 10px rgba(255,215,0,.75))}
+.cfront.rarity-over{border-color:rgba(255,215,0,.7);animation:over-glow 1.2s ease-in-out infinite alternate}
+.cfront.rarity-over-black img.cimg{transform:scale(1.08) translateY(-3%);filter:drop-shadow(0 0 12px rgba(0,0,0,.95)) contrast(1.15)}
+.cfront.rarity-over-black{border-color:#333;animation:over-black 1.2s ease-in-out infinite alternate}
+.cfront.rarity-full-over img.cimg{transform:scale(1.2) translateY(-4%);filter:drop-shadow(0 0 16px rgba(255,215,0,1)) drop-shadow(0 0 32px rgba(255,100,0,.6))}
+.cfront.rarity-full-over{border-color:rgba(255,215,0,.8);animation:full-glow 1s ease-in-out infinite alternate}
+
+/* ── Animations ────────────────────────────────────────────────────────── */
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes holo{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+@keyframes rainbow{0%{filter:hue-rotate(0deg) brightness(1.08)}100%{filter:hue-rotate(360deg) brightness(1.08)}}
+@keyframes rainbow-blue{0%{filter:hue-rotate(180deg) brightness(1.08)}100%{filter:hue-rotate(540deg) brightness(1.08)}}
+@keyframes rainbow-red{0%{filter:hue-rotate(-40deg) brightness(1.08)}100%{filter:hue-rotate(320deg) brightness(1.08)}}
+@keyframes rush-prism{0%{background-position:0% 50%}100%{background-position:400% 50%}}
+@keyframes rush-glow{from{box-shadow:0 0 8px 2px rgba(255,100,0,.4),0 0 16px 4px rgba(255,100,0,.2)}to{box-shadow:0 0 20px 5px rgba(255,150,0,.7),0 0 40px 10px rgba(255,150,0,.35)}}
+@keyframes gold-glow{from{box-shadow:0 0 8px 2px rgba(255,215,0,.5),0 0 16px 4px rgba(255,215,0,.25)}to{box-shadow:0 0 22px 6px rgba(255,215,0,.9),0 0 44px 12px rgba(255,165,0,.5)}}
+@keyframes red-glow{from{box-shadow:0 0 8px 2px rgba(255,0,0,.5),0 0 16px 4px rgba(255,0,0,.25)}to{box-shadow:0 0 22px 6px rgba(255,0,0,.9),0 0 44px 12px rgba(200,0,0,.5)}}
+@keyframes over-glow{from{box-shadow:0 0 12px 3px rgba(255,215,0,.55),0 0 24px 6px rgba(255,215,0,.28)}to{box-shadow:0 0 28px 7px rgba(255,215,0,.95),0 0 56px 14px rgba(255,165,0,.5)}}
+@keyframes over-black{from{box-shadow:0 0 12px 3px rgba(0,0,0,.8),0 0 24px 6px rgba(50,0,100,.4)}to{box-shadow:0 0 28px 8px rgba(0,0,0,1),0 0 56px 16px rgba(80,0,180,.5)}}
+@keyframes full-glow{from{box-shadow:0 0 18px 5px rgba(255,215,0,.7),0 0 36px 10px rgba(255,100,0,.4),0 0 72px 20px rgba(255,215,0,.2)}to{box-shadow:0 0 36px 10px rgba(255,215,0,1),0 0 72px 20px rgba(255,165,0,.7),0 0 120px 40px rgba(255,215,0,.35)}}
+@keyframes rb-glow{from{box-shadow:0 0 4px rgba(255,215,0,.5)}to{box-shadow:0 0 9px rgba(255,215,0,.95)}}
+@keyframes toast-in{from{opacity:0;transform:translateX(-50%) translateY(10px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+@keyframes toast-out{to{opacity:0}}
+
+/* ── Pack controls ─────────────────────────────────────────────────────── */
+#pack-ctrl{display:flex;gap:10px;align-items:center}
+.btn-p{padding:10px 24px;background:var(--accent);border:none;border-radius:8px;color:#fff;font-size:15px;font-weight:700;cursor:pointer}
+.btn-p:hover{opacity:.9}
+.btn-p:disabled{opacity:.4;cursor:default}
+
+/* ── Final summary ─────────────────────────────────────────────────────── */
+#summary{width:100%;max-width:600px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+#summary.hidden{display:none}
+.sum-hdr{padding:11px 16px;background:var(--bg3);border-bottom:1px solid var(--border);font-weight:700;font-size:14px}
+.sum-row{display:flex;align-items:center;gap:10px;padding:5px 16px;border-bottom:1px solid rgba(255,255,255,.04)}
+.sum-row:last-child{border-bottom:none}
+.sum-img{width:30px;height:44px;object-fit:cover;border-radius:3px;border:1px solid var(--border);flex-shrink:0}
+.sum-name{flex:1;font-size:12px}
+
+/* ── Collection assign ─────────────────────────────────────────────────── */
+#assign-ui{width:100%;max-width:380px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px}
+#assign-ui.hidden{display:none}
+#assign-ui h3{font-size:13px;color:var(--gold)}
+#col-sel{padding:8px 10px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px;width:100%}
+#col-newname{padding:8px 10px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px;width:100%;display:none}
+#assign-ui .new-label{font-size:11px;color:var(--muted);display:none}
+#col-ok{padding:9px;background:var(--accent);border:none;border-radius:7px;color:#fff;font-weight:700;cursor:pointer;font-size:13px}
+
+/* ── Collection screen ─────────────────────────────────────────────────── */
+#col-layout{display:flex;gap:14px;align-items:flex-start}
+#col-sidebar{width:200px;flex-shrink:0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.col-item{padding:10px 12px;padding-left:9px;cursor:pointer;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:5px;transition:background .15s;border-left:3px solid transparent}
+.col-item:last-child{border-bottom:none}
+.col-item:hover,.col-item.active{background:rgba(124,77,255,.15)}
+.col-iname{font-size:12px;font-weight:600;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.col-icnt{font-size:10px;color:var(--muted);flex-shrink:0}
+.col-gear{background:none;border:none;color:var(--muted);cursor:pointer;font-size:12px;line-height:1;padding:0 2px;flex-shrink:0}
+.col-gear:hover{color:var(--accent)}
+.col-idel{background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;line-height:1;padding:0 2px;flex-shrink:0}
+.col-idel:hover{color:#f44336}
+#col-newbtn{padding:10px 12px;background:none;border:none;border-top:1px solid var(--border);color:var(--accent);cursor:pointer;font-size:12px;width:100%;text-align:left}
+/* Collection settings panel */
+.col-settings{padding:10px 12px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:8px}
+.col-rename-inp{padding:6px 8px;background:var(--bg2);border:1px solid var(--border);border-radius:5px;color:var(--text);font-size:12px;width:100%}
+.col-rename-inp:focus{outline:none;border-color:var(--accent)}
+.col-swatches{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+.col-swatch{width:18px;height:18px;border-radius:50%;border:2px solid transparent;cursor:pointer;padding:0;transition:transform .12s}
+.col-swatch:hover{transform:scale(1.25)}
+.col-swatch.sel{border-color:var(--text)!important}
+
+/* ── Collection main ───────────────────────────────────────────────────── */
+#col-main{flex:1;min-width:0}
+#col-filters{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.filter-row{display:flex;gap:8px;flex-wrap:wrap}
+.filter-row select,.filter-row input[type=text],.filter-row input[type=search]{padding:6px 8px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:12px;flex:1;min-width:90px}
+.filter-row select:focus,.filter-row input:focus{outline:none;border-color:var(--accent)}
+.fng{display:flex;align-items:center;gap:4px;flex-shrink:0}
+.fng-label{font-size:11px;color:var(--muted);font-weight:600;white-space:nowrap}
+.fng select{padding:4px 6px;background:var(--bg2);border:1px solid var(--border);border-radius:5px;color:var(--text);font-size:11px}
+.fng input[type=number]{width:62px;padding:4px 6px;background:var(--bg2);border:1px solid var(--border);border-radius:5px;color:var(--text);font-size:11px}
+.fng input[type=number]:focus,.fng select:focus{outline:none;border-color:var(--accent)}
+.fng-sep{font-size:11px;color:var(--muted)}
+
+#col-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px}
+.col-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;overflow:hidden;cursor:default}
+.col-img-wrap{position:relative;width:100%;aspect-ratio:59/86;overflow:hidden;background:var(--bg3)}
+.col-img-wrap .cph{position:absolute;inset:0;font-size:20px;width:auto;height:auto}
+.col-img-wrap img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:1}
+.stack-badge{position:absolute;bottom:4px;right:4px;background:rgba(0,0,0,.85);border:1px solid var(--gold);border-radius:4px;font-size:9px;font-weight:700;padding:1px 5px;color:var(--gold);z-index:2}
+.col-ci{padding:4px 6px}
+.col-cn{font-size:10px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.col-cr{font-size:9px;color:var(--muted);margin-top:2px}
+
+/* ── Card detail popup ──────────────────────────────────────────────────── */
+#card-popup-back{position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.72);display:flex;align-items:center;justify-content:center}
+#card-popup-back.hidden{display:none}
+#card-popup{position:relative;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:20px;display:flex;gap:18px;max-width:820px;width:90vw;max-height:90vh;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,.8)}
+#card-popup-close{position:absolute;top:10px;right:12px;background:none;border:none;color:var(--muted);font-size:16px;cursor:pointer;padding:4px 8px;border-radius:4px}
+#card-popup-close:hover{color:var(--text)}
+#cp-img-wrap{flex-shrink:0;width:340px;aspect-ratio:59/86;border-radius:6px;overflow:hidden;background:var(--bg3);position:relative}
+#cp-img-wrap img{width:100%;height:100%;object-fit:cover;display:block}
+#cp-img-wrap .cph{font-size:28px}
+#cp-info{flex:1;display:flex;flex-direction:column;gap:8px;font-size:14px;min-width:0}
+#cp-name{font-size:18px;font-weight:700;color:var(--gold)}
+#cp-type{font-size:13px;color:var(--muted)}
+#cp-stats{font-size:13px;display:flex;gap:8px;flex-wrap:wrap;color:var(--text)}
+#cp-materials{font-size:13px;color:#c8e6c9;font-style:italic;line-height:1.4}
+#cp-condition{font-size:13px;color:var(--muted)}
+#cp-req,#cp-eff{font-size:13px;line-height:1.5}
+#cp-eff-body{white-space:pre-wrap}
+
+/* ── Tooltip ────────────────────────────────────────────────────────────── */
+#card-tooltip{position:fixed;z-index:500;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px 14px;max-width:300px;min-width:190px;display:none;flex-direction:column;gap:5px;font-size:12px;pointer-events:none;box-shadow:0 4px 24px rgba(0,0,0,.7)}
+#card-tooltip.show{display:flex}
+#tt-name{font-size:13px;font-weight:700;color:var(--gold)}
+#tt-type{font-size:11px;color:var(--muted)}
+#tt-stats{font-size:11px;display:flex;gap:8px;flex-wrap:wrap;color:var(--text)}
+#tt-materials{font-size:11px;color:#c8e6c9;font-style:italic;line-height:1.4}
+#tt-condition{font-size:11px;color:#ffcc80;font-style:italic;line-height:1.4}
+.tt-lbl{color:var(--gold);font-weight:700;display:block;margin-bottom:1px}
+#tt-req{font-size:11px;line-height:1.4}
+#tt-req-body{color:#90caf9}
+#tt-eff{font-size:11px;color:var(--text);line-height:1.5;border-top:1px solid var(--border);padding-top:5px;margin-top:2px}
+
+/* ── Builder ───────────────────────────────────────────────────────────── */
+#builder-layout{display:flex;gap:14px;align-items:flex-start}
+#bld-search-panel{flex:1;min-width:0}
+#bld-search{width:100%;padding:9px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:14px;margin-bottom:10px}
+#bld-search:focus{outline:none;border-color:var(--accent)}
+#bld-results{max-height:60vh;overflow-y:auto;background:var(--bg2);border:1px solid var(--border);border-radius:8px}
+.bld-item{display:flex;align-items:center;gap:10px;padding:7px 12px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s}
+.bld-item:hover{background:rgba(124,77,255,.1)}
+.bld-item:last-child{border-bottom:none}
+.bld-thumb{width:28px;height:41px;object-fit:cover;border-radius:3px;border:1px solid var(--border);flex-shrink:0}
+.bld-iname{font-size:12px;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#bld-sel-panel{width:270px;flex-shrink:0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:10px}
+#bld-sel-panel h3{font-size:13px;color:var(--gold)}
+#bld-sel-list{max-height:52vh;overflow-y:auto;display:flex;flex-direction:column;gap:5px}
+.bld-sel{display:flex;align-items:center;gap:6px;padding:4px 6px;background:var(--bg3);border-radius:6px}
+.bld-sname{flex:1;font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bld-srar{padding:2px 4px;background:none;border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:10px;max-width:110px}
+.bld-sdel{background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;line-height:1;padding:0 2px;flex-shrink:0}
+#bld-name-row{display:flex;gap:8px}
+#bld-name{flex:1;padding:7px 9px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px}
+#bld-save{padding:7px 14px;background:var(--accent);border:none;border-radius:6px;color:#fff;font-weight:700;cursor:pointer}
+.empty-msg{color:var(--muted);padding:32px;text-align:center}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1c1c3a;border:1px solid var(--accent);border-radius:8px;padding:10px 20px;font-size:13px;z-index:400;animation:toast-in .3s ease,toast-out .3s ease 2s forwards;white-space:nowrap}
+
+/* ── Contextual nav ────────────────────────────────────────────────────────── */
+#home-btn{padding:6px 14px;background:transparent;border:1px solid var(--border);border-radius:6px;color:var(--text);cursor:pointer;font-size:13px;transition:all .18s}
+#home-btn:hover{border-color:var(--accent);background:rgba(124,77,255,.15)}
+#section-title{font-size:14px;font-weight:700;color:var(--gold);margin-right:4px}
+#subnav-packs{display:flex;gap:4px;flex-wrap:wrap}
+
+/* ── Main menu ─────────────────────────────────────────────────────────────── */
+#screen-home{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100vh - 50px);padding:24px}
+#screen-home.active{display:flex}
+#menu-wrap{display:flex;flex-direction:column;align-items:center;gap:6px;max-width:780px;width:100%}
+#menu-title{font-size:42px;font-weight:800;color:var(--gold);letter-spacing:1px;text-align:center}
+#menu-sub{color:var(--muted);font-size:15px;margin-bottom:26px;text-align:center}
+#menu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;width:100%}
+@media(max-width:680px){#menu-grid{grid-template-columns:1fr}}
+.menu-tile{display:flex;flex-direction:column;align-items:center;gap:10px;padding:32px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:14px;color:var(--text);cursor:pointer;transition:border-color .18s,transform .15s,background .18s;text-align:center}
+.menu-tile:hover{border-color:var(--accent);transform:translateY(-3px);background:rgba(124,77,255,.12)}
+.mt-icon{font-size:40px;line-height:1}
+.mt-name{font-size:17px;font-weight:700;color:var(--gold)}
+.mt-desc{font-size:12px;color:var(--muted);line-height:1.35}
+
+/* ── Deck Builder ──────────────────────────────────────────────────────────── */
+#db-layout{display:flex;gap:14px;align-items:flex-start}
+#db-pool{flex:1;min-width:0}
+#db-pool-filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+#db-pool-filters input[type=text],#db-pool-filters select{padding:7px 9px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px}
+#db-search{flex:1;min-width:140px}
+#db-pool-filters select:focus,#db-pool-filters input:focus{outline:none;border-color:var(--accent)}
+#db-owned-lbl{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);cursor:pointer;white-space:nowrap}
+#db-pool-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px;max-height:calc(100vh - 150px);overflow-y:auto;padding-right:4px}
+.db-pcard{position:relative;cursor:pointer;border-radius:6px;overflow:hidden;border:1px solid var(--border);background:var(--bg3);aspect-ratio:59/86;transition:border-color .15s,transform .12s}
+.db-pcard:hover{border-color:var(--accent);transform:translateY(-2px)}
+.db-pcard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:1}
+.db-pcard .cph{position:absolute;inset:0;font-size:18px;width:auto;height:auto}
+.db-have{position:absolute;top:3px;left:3px;background:rgba(0,0,0,.8);border:1px solid var(--accent);color:#fff;font-size:9px;font-weight:700;border-radius:4px;padding:1px 4px;z-index:2}
+.legend-badge{display:inline-block;background:linear-gradient(90deg,rgba(255,215,0,.18),rgba(255,140,0,.18));border:1px solid var(--gold);color:var(--gold);font-size:10px;font-weight:800;letter-spacing:.5px;border-radius:4px;padding:1px 6px;vertical-align:middle;white-space:nowrap}
+.db-legend{position:absolute;top:3px;right:3px;background:rgba(10,5,0,.85);border:1px solid var(--gold);color:var(--gold);font-size:8px;font-weight:800;letter-spacing:.3px;border-radius:4px;padding:1px 4px;z-index:3;line-height:1.3;white-space:nowrap;box-shadow:0 0 6px rgba(255,215,0,.5)}
+.db-dcard .db-legend{top:2px;right:2px;font-size:7px;padding:0 3px}
+.db-indeck{position:absolute;bottom:3px;right:3px;background:rgba(0,0,0,.85);border:1px solid var(--gold);color:var(--gold);font-size:10px;font-weight:700;border-radius:4px;padding:1px 5px;z-index:2}
+#db-deck{width:340px;flex-shrink:0;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:10px;position:sticky;top:58px;max-height:calc(100vh - 70px);overflow-y:auto}
+#db-deck-bar{display:flex;gap:6px}
+#db-deck-sel{flex:1;padding:6px 8px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:12px}
+#db-deck-new,#db-deck-del{padding:6px 11px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text);cursor:pointer;font-size:13px;line-height:1}
+#db-deck-new:hover{border-color:var(--accent)}
+#db-deck-del:hover{border-color:#f44336;color:#f44336}
+#db-deck-name{padding:7px 9px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px}
+#db-deck-name:focus,#db-deck-sel:focus{outline:none;border-color:var(--accent)}
+#db-stats{display:flex;gap:6px;flex-wrap:wrap;font-size:11px}
+.db-stat{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:2px 7px;color:var(--muted)}
+.db-stat b{color:var(--text)}
+.db-section{display:flex;flex-direction:column;gap:5px}
+.db-sec-hdr{font-size:12px;font-weight:700;color:var(--gold);display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--border);padding-bottom:4px}
+.db-cnt{font-size:11px;color:var(--muted);font-weight:600}
+.db-cnt.bad{color:#f44336}.db-cnt.good{color:#4caf50}
+.db-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(56px,1fr));gap:5px;min-height:40px}
+.db-dcard{position:relative;cursor:pointer;border-radius:4px;overflow:hidden;border:1px solid var(--border);background:var(--bg3);aspect-ratio:59/86}
+.db-dcard:hover{border-color:#f44336}
+.db-dcard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:1}
+.db-dcard .cph{position:absolute;inset:0;font-size:13px;width:auto;height:auto}
+.db-qty{position:absolute;bottom:2px;right:2px;background:rgba(0,0,0,.85);border:1px solid var(--gold);color:var(--gold);font-size:9px;font-weight:700;border-radius:3px;padding:0 3px;z-index:2}
+.db-empty{grid-column:1/-1;color:var(--muted);font-size:11px;text-align:center;padding:14px}
+#db-save{padding:9px;background:var(--accent);border:none;border-radius:7px;color:#fff;font-weight:700;cursor:pointer;font-size:13px}
+#db-save:hover{opacity:.9}
+#db-io{display:flex;gap:6px}
+#db-io button{flex:1;padding:7px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text);cursor:pointer;font-size:12px;font-weight:600}
+#db-io button:hover{border-color:var(--accent)}
+@media(max-width:760px){#db-layout{flex-direction:column}#db-deck{width:100%;position:static;max-height:none}}
+</style>
+</head>
+<body>
+
+<div id="loading"><div class="spinner"></div><p id="loading-msg">Loading…</p></div>
+
+<nav id="nav">
+  <button id="home-btn" title="Main menu" style="display:none">☰ Menu</button>
+  <span id="section-title"></span>
+  <div id="subnav-packs" style="display:none">
+    <button class="nav-btn active" data-scr="screen-sets">Sets</button>
+    <button class="nav-btn" data-scr="screen-decks">Structure Decks</button>
+    <button class="nav-btn" data-scr="screen-other">Other Sets</button>
+    <button class="nav-btn" data-scr="screen-promos">Promos</button>
+    <button class="nav-btn" data-scr="screen-builder">Custom Packs</button>
+  </div>
+  <button id="sync-btn" title="Sync status">⟳</button>
+</nav>
+
+<div id="sync-panel">
+  <div class="sync-row"><span class="sync-dot" id="dot-cards"></span><span class="sync-label">Cards</span><span class="sync-time" id="time-cards">—</span></div>
+  <div class="sync-row"><span class="sync-dot" id="dot-sets"></span><span class="sync-label">Sets</span><span class="sync-time" id="time-sets">—</span></div>
+  <div class="sync-row"><span class="sync-dot" id="dot-gallery"></span><span class="sync-label">Gallery</span><span class="sync-time" id="time-gallery">—</span></div>
+  <button id="sync-all-btn">Sync All</button>
+</div>
+
+<!-- Main Menu -->
+<section class="screen active" id="screen-home">
+  <div id="menu-wrap">
+    <h1 id="menu-title">Rush Duel</h1>
+    <p id="menu-sub">Pack Opening Simulator &amp; Deck Builder</p>
+    <div id="menu-grid">
+      <button class="menu-tile" data-go="screen-sets">
+        <span class="mt-icon">📦</span>
+        <span class="mt-name">Open Packs</span>
+        <span class="mt-desc">Rip booster packs, structure decks &amp; promos</span>
+      </button>
+      <button class="menu-tile" data-go="screen-collection">
+        <span class="mt-icon">🗃️</span>
+        <span class="mt-name">My Collection</span>
+        <span class="mt-desc">Browse &amp; filter the cards you've pulled</span>
+      </button>
+      <button class="menu-tile" data-go="screen-deckbuilder">
+        <span class="mt-icon">🛠️</span>
+        <span class="mt-name">Deck Builder</span>
+        <span class="mt-desc">Build, import &amp; export Rush Duel decks</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Sets -->
+<section class="screen" id="screen-sets">
+  <div id="sets-regular"></div>
+  <h2 class="sh" id="h-custom">Custom Packs</h2>
+  <div id="sets-custom" class="set-grid"></div>
+</section>
+
+<!-- Promos -->
+<section class="screen" id="screen-promos">
+  <div id="promos-list"></div>
+</section>
+
+<!-- Decks -->
+<section class="screen" id="screen-decks">
+  <div id="decks-grid" class="set-grid"></div>
+</section>
+
+<!-- Other Sets -->
+<section class="screen" id="screen-other">
+  <div id="other-grid" class="set-grid"></div>
+</section>
+
+<!-- Pack Opening -->
+<section class="screen" id="screen-pack">
+  <div id="pack-header">
+    <button class="btn-back" id="pack-back">← Back</button>
+    <h2 id="pack-setname"></h2>
+    <span id="pack-progress"></span>
+  </div>
+  <div id="pack-cards"></div>
+  <div id="pack-ctrl">
+    <button class="btn-p" id="btn-next" style="display:none">Next Pack →</button>
+  </div>
+  <div id="summary" class="hidden"></div>
+  <div id="assign-ui" class="hidden">
+    <h3>Add to collection</h3>
+    <select id="col-sel"></select>
+    <span class="new-label" id="new-col-label">Name your new collection:</span>
+    <input id="col-newname" placeholder="Collection name…">
+    <button id="col-ok">Add to Collection</button>
+  </div>
+</section>
+
+<!-- Collection -->
+<section class="screen" id="screen-collection">
+  <div id="col-layout">
+    <div id="col-sidebar">
+      <div id="col-list"></div>
+      <button id="col-newbtn">+ New collection</button>
+    </div>
+    <div id="col-main">
+      <div id="col-filters">
+        <div class="filter-row">
+          <input id="f-search" type="text" placeholder="Search…" autocomplete="off">
+          <select id="f-rarity"><option value="">All rarities</option></select>
+          <select id="f-attr"><option value="">All attributes</option></select>
+          <select id="f-arch"><option value="">All series</option></select>
+        </div>
+        <div class="filter-row">
+          <select id="f-type">
+            <option value="">All types</option>
+            <option value="Monster">Monster</option>
+            <option value="Spell">Spell</option>
+            <option value="Trap">Trap</option>
+          </select>
+          <select id="f-race"><option value="">All races</option></select>
+          <select id="f-subtype"><option value="">All subtypes</option></select>
+        </div>
+        <div class="filter-row">
+          <div class="fng">
+            <span class="fng-label">LV</span>
+            <select id="f-lv-op">
+              <option value="any">Any</option><option value="=">=</option>
+              <option value=">=" selected>≥</option><option value=">">></option>
+              <option value="<=">≤</option><option value="<">&lt;</option>
+              <option value="between">↔</option>
+            </select>
+            <input type="number" id="f-lv-v1" min="0" max="13" placeholder="0" style="display:none">
+            <span class="fng-sep" id="f-lv-sep" style="display:none">–</span>
+            <input type="number" id="f-lv-v2" min="0" max="13" placeholder="13" style="display:none">
+          </div>
+          <div class="fng">
+            <span class="fng-label">ATK</span>
+            <select id="f-atk-op">
+              <option value="any">Any</option><option value="=">=</option>
+              <option value=">=" selected>≥</option><option value=">">></option>
+              <option value="<=">≤</option><option value="<">&lt;</option>
+              <option value="between">↔</option>
+            </select>
+            <input type="number" id="f-atk-v1" min="0" placeholder="0" style="display:none">
+            <span class="fng-sep" id="f-atk-sep" style="display:none">–</span>
+            <input type="number" id="f-atk-v2" min="0" placeholder="5000" style="display:none">
+          </div>
+          <div class="fng">
+            <span class="fng-label">DEF</span>
+            <select id="f-def-op">
+              <option value="any">Any</option><option value="=">=</option>
+              <option value=">=" selected>≥</option><option value=">">></option>
+              <option value="<=">≤</option><option value="<">&lt;</option>
+              <option value="between">↔</option>
+            </select>
+            <input type="number" id="f-def-v1" min="0" placeholder="0" style="display:none">
+            <span class="fng-sep" id="f-def-sep" style="display:none">–</span>
+            <input type="number" id="f-def-v2" min="0" placeholder="5000" style="display:none">
+          </div>
+        </div>
+      </div>
+      <div id="col-grid"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Builder -->
+<section class="screen" id="screen-builder">
+  <div id="builder-layout">
+    <div id="bld-search-panel">
+      <input id="bld-search" placeholder="Search cards…" autocomplete="off">
+      <div id="bld-results"></div>
+    </div>
+    <div id="bld-sel-panel">
+      <h3>Selected cards</h3>
+      <div id="bld-sel-list"></div>
+      <div id="bld-name-row">
+        <input id="bld-name" placeholder="Pack name…">
+        <button id="bld-save">Save</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Deck Builder -->
+<section class="screen" id="screen-deckbuilder">
+  <div id="db-layout">
+    <div id="db-pool">
+      <div id="db-pool-filters">
+        <input id="db-search" type="text" placeholder="Search cards…" autocomplete="off">
+        <select id="db-type">
+          <option value="">All types</option>
+          <option value="Monster">Monster</option>
+          <option value="Spell">Spell</option>
+          <option value="Trap">Trap</option>
+        </select>
+        <select id="db-attr"><option value="">All attributes</option></select>
+        <label id="db-owned-lbl"><input type="checkbox" id="db-owned"> Owned only</label>
+      </div>
+      <div id="db-pool-grid"></div>
+    </div>
+    <div id="db-deck">
+      <div id="db-deck-bar">
+        <select id="db-deck-sel"></select>
+        <button id="db-deck-new" title="New deck">+</button>
+        <button id="db-deck-del" title="Delete deck">🗑</button>
+      </div>
+      <input id="db-deck-name" type="text" placeholder="Deck name…">
+      <div id="db-io">
+        <button id="db-import" title="Import from clipboard">⬇ Import</button>
+        <button id="db-export" title="Copy to clipboard">⬆ Export</button>
+      </div>
+      <div id="db-stats"></div>
+      <div class="db-section">
+        <div class="db-sec-hdr">Main Deck <span id="db-main-count" class="db-cnt">0</span></div>
+        <div id="db-main" class="db-grid"></div>
+      </div>
+      <div class="db-section">
+        <div class="db-sec-hdr">Extra Deck <span id="db-extra-count" class="db-cnt">0</span></div>
+        <div id="db-extra" class="db-grid"></div>
+      </div>
+      <button id="db-save">Save Deck</button>
+    </div>
+  </div>
+</section>
+
+<!-- Quantity modal -->
+<div class="modal-back hidden" id="modal-back">
+  <div class="modal">
+    <h2 id="modal-title"></h2>
+    <div class="modal-cover"><img id="modal-img" src="" alt="" style="display:none"></div>
+    <div class="qty-grid">
+      <button class="qty-btn sel" data-qty="1">1</button>
+      <button class="qty-btn" data-qty="3">3</button>
+      <button class="qty-btn" data-qty="5">5</button>
+      <button class="qty-btn" data-qty="10">10</button>
+      <button class="qty-btn" data-qty="box" id="qty-box">Box</button>
+    </div>
+    <button class="modal-ok" id="modal-ok">Open Packs</button>
+    <button class="modal-cancel" id="modal-cancel">Cancel</button>
+  </div>
+</div>
+
+<!-- Card detail popup -->
+<div id="card-popup-back" class="hidden">
+  <div id="card-popup">
+    <button id="card-popup-close">✕</button>
+    <div id="cp-img-wrap"><div class="cph">？</div></div>
+    <div id="cp-info">
+      <div id="cp-name"></div>
+      <div id="cp-type"></div>
+      <div id="cp-materials"></div>
+      <div id="cp-stats"></div>
+      <div id="cp-condition"></div>
+      <div id="cp-req"><b class="tt-lbl">【Requirement】</b><span id="cp-req-body"></span></div>
+      <div id="cp-eff"><b id="cp-eff-lbl" class="tt-lbl"></b><span id="cp-eff-body"></span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Tooltip -->
+<div id="card-tooltip">
+  <div id="tt-name"></div>
+  <div id="tt-type"></div>
+  <div id="tt-materials"></div>
+  <div id="tt-stats"></div>
+  <div id="tt-condition"></div>
+  <div id="tt-req"><b class="tt-lbl">【Requirement】</b><span id="tt-req-body"></span></div>
+  <div id="tt-eff"><b id="tt-eff-lbl" class="tt-lbl"></b><span id="tt-eff-body"></span></div>
+</div>
+
+<script>
+'use strict';
+
+/* ═══════════════════════════════════════════════════════
+   1. CONSTANTS
+═══════════════════════════════════════════════════════ */
+const MONSTER_ATTRS = new Set(['DARK','LIGHT','EARTH','WIND','WATER','FIRE','DIVINE']);
+
+const RARITY_ORDER = [
+  'Common','Rare','Normal Parallel Rare','Super Rare','Super Parallel Rare',
+  'Ultra Rare','Ultra Rare (Special Red Version)','Ultra Parallel Rare',
+  'Secret Rare','Secret Rare (Special Blue Version)','Secret Rare (Special Red Version)',
+  'Rush Rare','Gold Rush Rare','Rush Rare (Special Red Version)',
+  'Over Rush Rare','Over Rush Rare (Premium Black Version)','Full Over Rush Rare',
+];
+const rarityRank = r => { const i=RARITY_ORDER.indexOf(r); return i<0?0:i; };
+
+const RC = {
+  'Common':'','Rare':'rarity-rare',
+  'Normal Parallel Rare':'rarity-normal-parallel',
+  'Super Rare':'rarity-super','Super Parallel Rare':'rarity-super-parallel',
+  'Ultra Rare':'rarity-ultra','Ultra Rare (Special Red Version)':'rarity-ultra-red',
+  'Ultra Parallel Rare':'rarity-ultra-parallel',
+  'Secret Rare':'rarity-secret','Secret Rare (Special Blue Version)':'rarity-secret-blue',
+  'Secret Rare (Special Red Version)':'rarity-secret-red',
+  'Rush Rare':'rarity-rush','Gold Rush Rare':'rarity-gold-rush',
+  'Rush Rare (Special Red Version)':'rarity-rush-red',
+  'Over Rush Rare':'rarity-over',
+  'Over Rush Rare (Premium Black Version)':'rarity-over-black',
+  'Full Over Rush Rare':'rarity-full-over',
+};
+
+const RBC = {
+  'Common':'','Rare':'rb-rare','Normal Parallel Rare':'rb-npr',
+  'Super Rare':'rb-super','Super Parallel Rare':'rb-spr',
+  'Ultra Rare':'rb-ultra','Ultra Rare (Special Red Version)':'rb-ultra',
+  'Ultra Parallel Rare':'rb-upr',
+  'Secret Rare':'rb-secret','Secret Rare (Special Blue Version)':'rb-secret',
+  'Secret Rare (Special Red Version)':'rb-secret',
+  'Rush Rare':'rb-rush','Gold Rush Rare':'rb-grush',
+  'Rush Rare (Special Red Version)':'rb-rrush',
+  'Over Rush Rare':'rb-over','Over Rush Rare (Premium Black Version)':'rb-overblk',
+  'Full Over Rush Rare':'rb-full',
+};
+
+const RA = {
+  'Common':'C','Rare':'R','Normal Parallel Rare':'NPR',
+  'Super Rare':'SR','Super Parallel Rare':'SPR',
+  'Ultra Rare':'UR','Ultra Rare (Special Red Version)':'URSRV',
+  'Ultra Parallel Rare':'UPR',
+  'Secret Rare':'ScR','Secret Rare (Special Blue Version)':'ScRBlue',
+  'Secret Rare (Special Red Version)':'ScRRed',
+  'Rush Rare':'RR','Gold Rush Rare':'GRR',
+  'Rush Rare (Special Red Version)':'RRSRV',
+  'Over Rush Rare':'ORR','Over Rush Rare (Premium Black Version)':'ORRBlack',
+  'Full Over Rush Rare':'FORR',
+};
+
+const PROMO_NAME_RE = /Campaign|Promotion|Collaboration|Promotional|prize\s*cards?|Bonus\s+(Cards?|Pack)|\+1\s+Bonus|Victory\s+Pack|Card\s+Game\s+Gum|Tournament\s+(prize|Part)|Jump\s+Victory\s+Carnival|Complete\s+Challenge|Galaxy\s+Cup|participation\s+cards?|Special\s+Pack|Challenge\s+Pack|Duel\s+Disk|Duel\s+Set|Saikyo|Saikyō|Limited\s+Pack/i;
+const PROMO_CODE_RE = /^RD\/(\d{2})[A-Z]/;
+const YEAR_RE = /\b(20\d{2})\b/;
+const DECK_RE  = /(Strongest Battle|Structure|Starter|Half|Go Rush)\s+Deck/i;
+// Sets forced into the "Other Sets" bucket regardless of card count
+const FORCE_OTHER = new Set([
+  'Attraction Pack',
+]);
+// Korean/non-JP sets that should not appear as openable packs at all
+const EXCLUDE_SETS = new Set([
+  'Strongest Battle Deck Promotion Pack',
+]);
+// Sets forced into PROMOS regardless of their name (e.g. single-card starter set promos)
+const FORCE_PROMO = new Set([
+  'Starter Deck Set - Yuga vs. Luke',
+  'Rush Duel Starter Deck Enhancement Pack',
+]);
+
+const SOUND_TIER = r => rarityRank(r)>=rarityRank('Rush Rare')?'explosion'
+  :rarityRank(r)>=rarityRank('Super Rare')?'sparkle':'whoosh';
+
+const COL_COLORS = ['','#7c4dff','#ffd700','#f44336','#4caf50','#2196f3','#00bcd4','#ff9800'];
+
+/* ═══════════════════════════════════════════════════════
+   2. CARD TYPE UTILS
+═══════════════════════════════════════════════════════ */
+function cardMainType(card){
+  if(MONSTER_ATTRS.has(card.attribute)) return 'Monster';
+  if(card.card_type){
+    const ct=card.card_type.toLowerCase();
+    if(ct.includes('spell')) return 'Spell';
+    if(ct.includes('trap'))  return 'Trap';
+  }
+  if(!card.types) return '';
+  const t=card.types.toLowerCase();
+  if(t.includes('spell')) return 'Spell';
+  if(t.includes('trap'))  return 'Trap';
+  return '';
+}
+function isLegendCard(card){ return !!(card&&card.is_legend); }
+// Skills and Duel Markers are not playable deck cards
+function isPlayable(card){
+  if(card.card_type==='Skill'||card.card_type==='Duel Marker') return false;
+  if(card.types&&/duel\s*marker/i.test(card.types)) return false;
+  return true;
+}
+function legendBadge(card){ return isLegendCard(card)?' <span class="legend-badge" title="Legend Card">★ LEGEND</span>':''; }
+function cardRace(card){
+  if(!MONSTER_ATTRS.has(card.attribute)||!card.types) return '';
+  return card.types.split('/')[0].trim();
+}
+function cardSubtypes(card){
+  if(!card.types) return [];
+  const parts=card.types.split('/').map(p=>p.trim());
+  return MONSTER_ATTRS.has(card.attribute)?parts.slice(1):parts;
+}
+
+/* ═══════════════════════════════════════════════════════
+   3. IMAGE UTILS
+═══════════════════════════════════════════════════════ */
+let IMG_URLS={};  // filename → direct CDN URL, populated from image-urls.json
+function cleanFile(f){ return (f||'').replace(/^\d+\.\d+;\s*/,'').trim(); }
+function imgUrl(f){ if(!f) return null; const c=cleanFile(f); return IMG_URLS[c]||`https://yugipedia.com/wiki/Special:FilePath/${encodeURIComponent(c)}`; }
+
+function bestImg(card,setPrefix,rarity){
+  if(!card.images||!card.images.length) return null;
+  const sc=setPrefix.replace('/','');
+  const imgs=card.images.map(i=>({...i,cf:cleanFile(i.file)}));
+  const bySet=imgs.filter(i=>i.cf.includes(sc));
+  if(bySet.length===1) return bySet[0].cf;
+  if(bySet.length>1){
+    const ab=RA[rarity];
+    if(ab){ const hit=bySet.find(i=>i.cf.includes('-'+ab)); if(hit) return hit.cf; }
+    return bySet[0].cf;
+  }
+  return imgs[0].cf;
+}
+
+function mkPh(){
+  const d=document.createElement('div');
+  d.className='cph';d.textContent='？';
+  return d;
+}
+
+/* ═══════════════════════════════════════════════════════
+   4. UI UTILS
+═══════════════════════════════════════════════════════ */
+function cname(card){ return card.name_en||card.title||''; }
+function rbHtml(r){ return `<span class="rb ${RBC[r]||''}">${r||''}</span>`; }
+
+/* ═══════════════════════════════════════════════════════
+   5. COLLECTIONS (server-backed, saved to data/collections.json)
+═══════════════════════════════════════════════════════ */
+let COLLS={activeId:'col_default',collections:[{id:'col_default',name:'My Collection',cards:[]}]};
+function getColls(){ return COLLS; }
+function saveColls(d){
+  COLLS=d;
+  fetch('/api/collections',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)}).catch(()=>{});
+}
+function getCPs(){ try{return JSON.parse(localStorage.getItem('ygo-custom-packs')||'[]');}catch{return[];} }
+function saveCPs(p){ localStorage.setItem('ygo-custom-packs',JSON.stringify(p)); }
+
+/* ═══════════════════════════════════════════════════════
+   6. DATA + SET BUILDING
+═══════════════════════════════════════════════════════ */
+let ALL=[],MAP=new Map(),SDATA={};
+let SETS=[],DECKS=[],OTHER=[],PROMOS={};
+
+function isComplete(c){
+  if(!c.title) return false;
+  if(MONSTER_ATTRS.has(c.attribute)){
+    if(c.level==null||c.atk==null) return false;
+    const isNormalRitual=c.types&&c.types.includes('Ritual')&&!c.types.includes('Effect');
+    if(!c.effect&&!c.flavor_text&&!isNormalRitual) return false;
+  } else {
+    if(!c.effect&&!c.flavor_text) return false;
+  }
+  return true;
+}
+
+function sortKey(name,meta){
+  if(meta&&meta.releaseDateJP){
+    const d=new Date(meta.releaseDateJP);
+    if(!isNaN(d.getTime())) return d.toISOString().slice(0,10)+'_'+name;
+  }
+  const ym=name.match(YEAR_RE);
+  return (ym?ym[1]:'9999')+'_'+name;
+}
+
+function mkEntries(card,pfx,rarity){
+  const sc=pfx.replace('/','');
+  const abbr=RA[rarity];
+  const cleanImgs=(card.images||[])
+    .map(i=>({aw:i.artwork,cf:cleanFile(i.file)}))
+    .filter(i=>i.cf&&!/-KRS?-/.test(i.cf));
+  const setImgs=cleanImgs.filter(i=>i.cf.includes(sc));
+  if(!setImgs.length) return [{card,rarity,imgFile:cleanImgs[0]?.cf||null}];
+  if(!abbr) return setImgs.map(i=>({card,rarity,imgFile:i.cf}));
+  const rarImgs=setImgs.filter(i=>i.cf.includes('-'+abbr));
+  if(!rarImgs.length) return [{card,rarity,imgFile:setImgs[0].cf}];
+  return rarImgs.map(i=>({card,rarity,imgFile:i.cf}));
+}
+
+function buildDB(){
+  // JPS-code cards from deck sets are selection promo packs bundled with the deck.
+  // Collect them separately by year; they'll be merged into PROMOS after the main loop.
+  const deckSelPromos=new Map(); // year → [{card,rarity,imgFile}]
+
+  const sm=new Map();
+  for(const card of ALL){
+    for(const s of card.sets_jp||[]){
+      const pfx=s.code.split('-')[0];
+      if(card.types && /duel\s*marker/i.test(card.types)) continue;
+      if(/-JPS\d/i.test(s.code) && DECK_RE.test(s.name)){
+        // Selection promo card bundled with a deck → goes to yearly promos
+        const deckMeta=SDATA[s.name]||null;
+        const year=deckMeta?.releaseDateJP?String(new Date(deckMeta.releaseDateJP).getFullYear()):'unknown';
+        if(!deckSelPromos.has(year)) deckSelPromos.set(year,[]);
+        for(const r of s.rarity.split(',').map(x=>x.trim()))
+          deckSelPromos.get(year).push(...mkEntries(card,pfx,r));
+        continue; // do not add to the deck's sm entry
+      }
+      // Key by set NAME, not code prefix, to prevent different sets sharing a prefix from merging
+      const key=s.name;
+      if(!sm.has(key)) sm.set(key,{pfx,name:s.name,ents:[]});
+      for(const r of s.rarity.split(',').map(x=>x.trim()))
+        sm.get(key).ents.push(...mkEntries(card,pfx,r));
+    }
+  }
+  SETS=[];DECKS=[];OTHER=[];PROMOS={};
+  for(const [,{pfx,name,ents}] of sm){
+    if(EXCLUDE_SETS.has(name)) continue;
+    const meta=SDATA[name]||null; // declared early so pYear calc can use it
+    // Skip sets with a future release date (not yet released)
+    if(meta?.releaseDateJP){const rd=new Date(meta.releaseDateJP);if(!isNaN(rd)&&rd>new Date())continue;}
+    const isPromo=PROMO_NAME_RE.test(name)||PROMO_CODE_RE.test(pfx)||FORCE_PROMO.has(name);
+    let pYear=null;
+    if(isPromo){
+      const fn=name.match(YEAR_RE),fc=pfx.match(PROMO_CODE_RE);
+      const metaYear=meta?.releaseDateJP?(meta.releaseDateJP.match(/\b(20\d{2})\b/)||[])[1]||null:null;
+      pYear=fn?fn[1]:fc?`20${fc[1]}`:metaYear||'unknown';
+    }
+    const byR={},rDist={};
+    for(const {card,rarity,imgFile} of ents){
+      if(!byR[rarity]) byR[rarity]=[];
+      byR[rarity].push({card,imgFile});
+      rDist[rarity]=(rDist[rarity]||0)+1;
+    }
+    const sorted=[...ents].sort((a,b)=>rarityRank(b.rarity)-rarityRank(a.rarity));
+    const cvEnt=sorted.find(e=>e.imgFile);
+    // Prefer box art from sets-data, fall back to highest-rarity card image
+    const cvImg=meta?.coverImage||cvEnt?.imgFile||null;
+    const hiRar=sorted[0]?.rarity||'Common';
+    const cCount=new Set(ents.map(e=>e.card.title)).size;
+    const complete=ents.every(e=>isComplete(e.card));
+    // ppb: null means "no box product" → hides the Box button in the modal
+    const ppb=isPromo?1:(meta?.packsPerBox??null);
+    const cpp=isPromo?2:(meta?.cardsPerPack??5);
+    const sk=sortKey(name,meta);
+    const cat=isPromo?'promo':DECK_RE.test(name)?'deck':'normal';
+    const declaredSize=cat==='deck'?(meta?.declaredSize??null):null;
+    const rec={pfx,name,isPromo,pYear,ents,byR,rDist,cvImg,hiRar,cCount,declaredSize,complete,sk,ppb,cpp,cat};
+    if(isPromo){
+      const k=pYear||'unknown';
+      if(!PROMOS[k]) PROMOS[k]={
+        pfx:`PROMO_${k}`,name:k==='unknown'?'Promos':`Promos ${k}`,
+        isPromo:true,pYear:k,ents:[],byR:{},rDist:{},
+        cvImg:null,hiRar:'Common',cCount:0,complete:true,
+        sk:k==='unknown'?'9999_promo':`${k}_promo`,ppb:1,cpp:2,cat:'promo'
+      };
+      const pg=PROMOS[k];
+      pg.ents.push(...ents);
+      for(const [r,es] of Object.entries(byR)){
+        if(!pg.byR[r]) pg.byR[r]=[];
+        pg.byR[r].push(...es);
+        pg.rDist[r]=(pg.rDist[r]||0)+(rDist[r]||0);
+      }
+      pg.cCount=new Set(pg.ents.map(e=>e.card.title)).size;
+      // Prefer sets-data coverImage over individual card images for the group tile
+      if(!pg.cvImg && meta?.coverImage) pg.cvImg=meta.coverImage;
+      const ps=[...pg.ents].sort((a,b)=>rarityRank(b.rarity)-rarityRank(a.rarity));
+      if(ps[0]) pg.hiRar=ps[0].rarity;
+      if(!pg.cvImg){ const pc=ps.find(e=>e.imgFile); if(pc) pg.cvImg=pc.imgFile; }
+    } else if(FORCE_OTHER.has(name)){ OTHER.push(rec);
+    } else if(cat==='deck'){ DECKS.push(rec);
+    } else if(cCount<6){
+      // Small sets (< 6 unique cards) fold into the promos yearly group
+      const metaYear=meta?.releaseDateJP?(meta.releaseDateJP.match(/\b(20\d{2})\b/)||[])[1]||null:null;
+      const fn=name.match(YEAR_RE);
+      const k=fn?fn[1]:metaYear||'unknown';
+      if(!PROMOS[k]) PROMOS[k]={
+        pfx:`PROMO_${k}`,name:k==='unknown'?'Promos':`Promos ${k}`,
+        isPromo:true,pYear:k,ents:[],byR:{},rDist:{},
+        cvImg:null,hiRar:'Common',cCount:0,complete:true,
+        sk:k==='unknown'?'9999_promo':`${k}_promo`,ppb:1,cpp:2,cat:'promo'
+      };
+      const pg=PROMOS[k];
+      pg.ents.push(...ents);
+      for(const [r,es] of Object.entries(byR)){
+        if(!pg.byR[r]) pg.byR[r]=[];
+        pg.byR[r].push(...es);
+        pg.rDist[r]=(pg.rDist[r]||0)+(rDist[r]||0);
+      }
+      pg.cCount=new Set(pg.ents.map(e=>e.card.title)).size;
+      if(!pg.cvImg&&meta?.coverImage) pg.cvImg=meta.coverImage;
+      const ps=[...pg.ents].sort((a,b)=>rarityRank(b.rarity)-rarityRank(a.rarity));
+      if(ps[0]) pg.hiRar=ps[0].rarity;
+      if(!pg.cvImg){const pc=ps.find(e=>e.imgFile);if(pc) pg.cvImg=pc.imgFile;}
+    } else if(cCount<20){ OTHER.push(rec);
+    } else { SETS.push(rec); }
+  }
+  // Merge deck selection promo (JPS) cards into yearly PROMOS groups
+  for(const [year,sEnts] of deckSelPromos){
+    if(!PROMOS[year]) PROMOS[year]={
+      pfx:`PROMO_${year}`,name:year==='unknown'?'Promos':`Promos ${year}`,
+      isPromo:true,pYear:year,ents:[],byR:{},rDist:{},
+      cvImg:null,hiRar:'Common',cCount:0,complete:true,
+      sk:year==='unknown'?'9999_promo':`${year}_promo`,ppb:1,cpp:2,cat:'promo'
+    };
+    const pg=PROMOS[year];
+    pg.ents.push(...sEnts);
+    for(const {card,rarity,imgFile} of sEnts){
+      if(!pg.byR[rarity]) pg.byR[rarity]=[];
+      pg.byR[rarity].push({card,imgFile});
+      pg.rDist[rarity]=(pg.rDist[rarity]||0)+1;
+    }
+    pg.cCount=new Set(pg.ents.map(e=>e.card.title)).size;
+    const ps=[...pg.ents].sort((a,b)=>rarityRank(b.rarity)-rarityRank(a.rarity));
+    if(ps[0]) pg.hiRar=ps[0].rarity;
+    if(!pg.cvImg){ const pc=ps.find(e=>e.imgFile); if(pc) pg.cvImg=pc.imgFile; }
+  }
+
+  const cmp=(a,b)=>a.sk.localeCompare(b.sk);
+  SETS.sort(cmp);DECKS.sort(cmp);OTHER.sort(cmp);
+}
+
+/* ═══════════════════════════════════════════════════════
+   7. PACK SIMULATION
+═══════════════════════════════════════════════════════ */
+function pick(pool){ return pool[Math.floor(Math.random()*pool.length)]; }
+function pickEntry(pool,rarity){ const e=pick(pool); return {card:e.card,rarity,imgFile:e.imgFile}; }
+
+function wPick(byR,rarities){
+  const avail=rarities.filter(r=>byR[r]?.length>0);
+  if(!avail.length) return null;
+  const tot=avail.reduce((s,r)=>s+byR[r].length,0);
+  let rnd=Math.random()*tot;
+  for(const r of avail){ rnd-=byR[r].length; if(rnd<=0) return pickEntry(byR[r],r); }
+  const l=avail[avail.length-1];
+  return pickEntry(byR[l],l);
+}
+
+function lowR(byR){ return RARITY_ORDER.find(r=>byR[r]?.length>0); }
+
+// Expected pulls per box per rarity tier (community data, Rush Duel deck mod packs).
+// Used to weight the foil slot by actual rarity, not card count.
+const FOIL_RATES={
+  'Normal Parallel Rare':4,
+  'Super Parallel Rare':2,'Super Rare':6.5,
+  'Ultra Parallel Rare':3,'Ultra Rare':3,'Ultra Rare (Special Red Version)':0.5,
+  'Secret Rare':2.5,'Secret Rare (Special Blue Version)':0.5,'Secret Rare (Special Red Version)':0.5,
+  'Rush Rare':2,'Gold Rush Rare':1.5,'Rush Rare (Special Red Version)':0.5,
+  'Over Rush Rare':1.5,
+  'Over Rush Rare (Premium Black Version)':0.5,
+  'Full Over Rush Rare':0.1, // ~1 per carton (Over Rush Pack 4); "極稀封入"
+};
+
+// Pick a rarity tier weighted by box rate, then a card uniformly within that tier.
+// `rates` lets a set override the global FOIL_RATES weights.
+function wPickByRate(byR,rarities,rates){
+  rates=rates||FOIL_RATES;
+  const avail=rarities.filter(r=>byR[r]?.length>0);
+  if(!avail.length) return null;
+  const tot=avail.reduce((s,r)=>s+(rates[r]||1),0);
+  let rnd=Math.random()*tot;
+  for(const r of avail){ rnd-=(rates[r]||1); if(rnd<=0) return pickEntry(byR[r],r); }
+  return pickEntry(byR[avail[avail.length-1]],avail[avail.length-1]);
+}
+
+// ── Pack structure profiles ───────────────────────────────────────────────
+// A pack resolves to a profile of slots that sum to cards/pack:
+//   baseCommons : guaranteed Common slots
+//   rareSlot    : one 80% Rare / 20% Common slot (Deck Mod Packs only)
+//   foilSlots   : array of independent probabilities that a slot is an SR+ foil
+//                 (else it falls back to Common)
+//   foilRates   : optional per-set override of the FOIL_RATES weights
+//
+// The default profile is derived from the set's own composition + cards/pack,
+// matching the Rush Duel product lines:
+//   • no Common               → premium all-foil (5th Anniversary, Cross Art)
+//   • ≤2 cards                → small / battle pack: every slot by box rate
+//   • 5-card with a Rare tier → Deck Mod Pack: (n-2) C + Rare/C + 45% foil
+//   • 4-card, Common, no Rare → Advance / Over Rush / Gold Rush: (n-1) C + 1 foil
+//   • 5-card, Common, no Rare → bundle: (n-1) C + 45% foil
+//
+// PACK_PROFILES overrides the default for sets with published box data.
+const PACK_PROFILES={
+  // Devil's Ceremony — real box (60 cards): ~45 C + ~15 foil (SR7 SPR2 UR3 ScR2 ORR1).
+  "Advance Pack: Devil's Ceremony":{
+    foilRates:{'Super Rare':7,'Super Parallel Rare':2,'Ultra Rare':3,'Secret Rare':2.5,'Over Rush Rare':1.5},
+  },
+  // High-Grade Collection — 24 packs/box, ≥1 SR+ per pack, ~28 foils/box (SR20 UR3.5 ScR3.5 ORR1.5).
+  'High-Grade Collection':{
+    baseCommons:2, rareSlot:false, foilSlots:[1,0.17],
+    foilRates:{'Super Rare':20,'Ultra Rare':3.5,'Secret Rare':3.5,'Over Rush Rare':1.5},
+  },
+  // Over Rush Pack 4 — 6-box data: 9 SR / 4 UR / 1 ScR / 1 ORR per box.
+  // Full Over Rush Rare is a separate ultra-rare frame (~1 per 6 boxes), folded
+  // into the foil split at a tiny weight as a close approximation.
+  'Over Rush Pack 4':{
+    foilRates:{'Super Rare':9,'Ultra Rare':4,'Secret Rare':1,'Over Rush Rare':1,'Full Over Rush Rare':0.17},
+  },
+};
+
+function packProfile(set){
+  const b=set.byR, n=set.cpp||5;
+  const hasC=b['Common']?.length>0, hasR=b['Rare']?.length>0;
+  const foilTiers=RARITY_ORDER.filter(r=>b[r]?.length&&r!=='Common'&&r!=='Rare');
+  const all=RARITY_ORDER.filter(r=>b[r]?.length>0);
+  let p;
+  if(!hasC)     p={kind:'allFoil', allSlots:n};
+  else if(n<=2) p={kind:'small',   allSlots:n};
+  else if(hasR) p={kind:'deckmod', baseCommons:n-2, rareSlot:true,  foilSlots:[0.45]};
+  else if(n>=4) p={kind:'advance', baseCommons:n-1, rareSlot:false, foilSlots:[1]};
+  else          p={kind:'bundle',  baseCommons:n-1, rareSlot:false, foilSlots:[0.45]};
+  if(PACK_PROFILES[set.name]) p=Object.assign(p,PACK_PROFILES[set.name]);
+  return Object.assign(p,{n,foilTiers,all});
+}
+
+function simPack(set){
+  const b=set.byR, p=packProfile(set);
+  if(!p.all.length) return [];
+  const rates=p.foilRates||FOIL_RATES;
+
+  // All-foil & small packs: every slot drawn from the pool by box rate.
+  if(p.kind==='allFoil') return Array.from({length:p.allSlots},()=>wPickByRate(b,p.foilTiers.length?p.foilTiers:p.all,rates)).filter(Boolean);
+  if(p.kind==='small')   return Array.from({length:p.allSlots},()=>wPickByRate(b,p.all,rates)).filter(Boolean);
+
+  const res=[];
+  for(let i=0;i<(p.baseCommons||0);i++) res.push(pickEntry(b['Common'],'Common'));
+  if(p.rareSlot) res.push(Math.random()<0.8?pickEntry(b['Rare'],'Rare'):pickEntry(b['Common'],'Common'));
+  for(const chance of (p.foilSlots||[])){
+    if(p.foilTiers.length&&Math.random()<chance) res.push(wPickByRate(b,p.foilTiers,rates)||pickEntry(b['Common'],'Common'));
+    else res.push(pickEntry(b['Common'],'Common'));
+  }
+  return res.filter(Boolean);
+}
+
+function simBox(set){
+  const n=set.ppb>0?set.ppb:15;
+  const packs=Array.from({length:n},()=>simPack(set));
+  const uRank=rarityRank('Ultra Rare');
+  const hasU=packs.flat().some(e=>e&&rarityRank(e.rarity)>=uRank);
+  if(!hasU){
+    const pool=RARITY_ORDER.filter(r=>rarityRank(r)>=uRank&&set.byR[r]?.length>0);
+    if(pool.length){
+      const last=packs[packs.length-1];
+      const got=wPick(set.byR,pool);
+      if(got&&last.length>0) last[last.length-1]=got;
+    }
+  }
+  return packs;
+}
+
+/* ═══════════════════════════════════════════════════════
+   8. AUDIO
+═══════════════════════════════════════════════════════ */
+let actx=null;
+const getActx=()=>actx||(actx=new(window.AudioContext||window.webkitAudioContext)());
+
+function playWhoosh(){
+  try{
+    const c=getActx(),o=c.createOscillator(),g=c.createGain();
+    o.type='sawtooth';
+    o.frequency.setValueAtTime(380,c.currentTime);
+    o.frequency.linearRampToValueAtTime(90,c.currentTime+.22);
+    g.gain.setValueAtTime(.28,c.currentTime);
+    g.gain.linearRampToValueAtTime(0,c.currentTime+.22);
+    o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+.23);
+  }catch{}
+}
+function playSparkle(){
+  try{
+    const c=getActx();
+    [800,1250,2100].forEach((f,i)=>{
+      const o=c.createOscillator(),g=c.createGain();
+      o.type='sine';o.frequency.value=f;
+      const t=c.currentTime+i*.06;
+      g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.18,t+.03);
+      g.gain.exponentialRampToValueAtTime(.001,t+.35);
+      o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+.36);
+    });
+  }catch{}
+}
+function playExplosion(){
+  try{
+    const c=getActx(),n=Math.floor(c.sampleRate*.35),buf=c.createBuffer(1,n,c.sampleRate);
+    const d=buf.getChannelData(0);for(let i=0;i<n;i++) d[i]=Math.random()*2-1;
+    const s=c.createBufferSource(),f=c.createBiquadFilter(),g=c.createGain();
+    s.buffer=buf;f.type='lowpass';f.frequency.value=900;
+    g.gain.setValueAtTime(.55,c.currentTime);
+    g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.35);
+    s.connect(f);f.connect(g);g.connect(c.destination);s.start();s.stop(c.currentTime+.36);
+  }catch{}
+}
+function snd(tier){ if(tier==='explosion') playExplosion(); else if(tier==='sparkle') playSparkle(); else playWhoosh(); }
+
+/* ═══════════════════════════════════════════════════════
+   9. NAVIGATION
+═══════════════════════════════════════════════════════ */
+let curScr='screen-home';
+
+// Which top-level menu section each screen belongs to
+const SCREEN_SECTION={
+  'screen-home':'home',
+  'screen-sets':'packs','screen-decks':'packs','screen-other':'packs',
+  'screen-promos':'packs','screen-builder':'packs','screen-pack':'packs',
+  'screen-collection':'collection',
+  'screen-deckbuilder':'deckbuilder',
+};
+const SECTION_TITLE={home:'',packs:'Open Packs',collection:'My Collection',deckbuilder:'Deck Builder'};
+
+function goTo(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const section=SCREEN_SECTION[id]||'home';
+  document.getElementById('home-btn').style.display=section==='home'?'none':'';
+  document.getElementById('section-title').textContent=SECTION_TITLE[section]||'';
+  const sn=document.getElementById('subnav-packs');
+  sn.style.display=(section==='packs'&&id!=='screen-pack')?'flex':'none';
+  document.querySelectorAll('#subnav-packs .nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.scr===id));
+  curScr=id;
+  window.scrollTo(0,0);
+  if(id==='screen-collection') renderColScreen();
+  if(id==='screen-builder') initBuilder();
+  if(id==='screen-deckbuilder') initDeckBuilder();
+}
+
+function toast(msg){
+  const el=document.createElement('div');
+  el.className='toast';el.textContent=msg;
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),2700);
+}
+
+/* ═══════════════════════════════════════════════════════
+   10. SET TILES
+═══════════════════════════════════════════════════════ */
+function mkTile(set){
+  const d=document.createElement('div');
+  d.className='set-tile';
+  // Build ordered candidate list: coverImage first, then unique card images
+  const candidates=[...new Set(
+    [set.cvImg,...set.ents.map(e=>e.imgFile)].filter(Boolean)
+  )];
+  d.innerHTML=`
+    <div class="tile-cover"></div>
+    <div class="tile-info">
+      <div class="tile-name">${set.name}</div>
+      <div class="tile-meta">${set.cCount} cards &nbsp;${rbHtml(set.hiRar)}</div>
+      <button class="tile-open">Open</button>
+    </div>`;
+  const cover=d.querySelector('.tile-cover');
+  if(candidates.length){
+    const img=document.createElement('img');
+    img.alt=''; img.loading='lazy';
+    let idx=0, retried=false;
+    img.onerror=function(){
+      // Retry the same URL once (handles transient Yugipedia hiccups) before moving on
+      if(!retried){ retried=true; const s=this.src; this.src=''; this.src=s; return; }
+      retried=false; idx++;
+      if(idx<candidates.length) this.src=imgUrl(candidates[idx]);
+      else this.replaceWith(mkPh());
+    };
+    img.src=imgUrl(candidates[0]);
+    cover.appendChild(img);
+  } else {
+    const ph=mkPh(); ph.style.cssText='aspect-ratio:59/86;width:100%'; cover.appendChild(ph);
+  }
+  d.querySelector('.tile-open').addEventListener('click',e=>{e.stopPropagation();showModal(set);});
+  d.addEventListener('click',()=>showModal(set));
+  return d;
+}
+
+function renderSets(){
+  const cont=document.getElementById('sets-regular');
+  cont.innerHTML='';
+  const g=document.createElement('div');g.className='set-grid';cont.appendChild(g);
+  for(const s of SETS){ if(s.complete) g.appendChild(mkTile(s)); }
+  renderCustomTiles();
+}
+
+function renderPromos(){
+  const cont=document.getElementById('promos-list');
+  cont.innerHTML='';
+  const yrs=Object.keys(PROMOS).sort((a,b)=>{
+    if(a==='unknown') return 1;
+    if(b==='unknown') return -1;
+    return a.localeCompare(b); // oldest first
+  });
+  if(!yrs.length){
+    const m=document.createElement('p');m.className='empty-msg';m.textContent='No promo packs found.';
+    cont.appendChild(m);return;
+  }
+  for(const y of yrs){
+    const h=document.createElement('h2');h.className='sh';
+    h.textContent=y==='unknown'?'Promos':PROMOS[y].name;
+    cont.appendChild(h);
+    const g=document.createElement('div');g.className='set-grid';cont.appendChild(g);
+    g.appendChild(mkTile(PROMOS[y]));
+  }
+}
+
+function renderDecks(){
+  const g=document.getElementById('decks-grid');g.innerHTML='';
+  if(!DECKS.length){const m=document.createElement('p');m.className='empty-msg';m.textContent='No decks found.';g.appendChild(m);return;}
+  for(const s of DECKS) g.appendChild(mkTile(s));
+}
+
+function renderOther(){
+  const g=document.getElementById('other-grid');g.innerHTML='';
+  if(!OTHER.length){const m=document.createElement('p');m.className='empty-msg';m.textContent='No other sets found.';g.appendChild(m);return;}
+  for(const s of OTHER) g.appendChild(mkTile(s));
+}
+
+function renderCustomTiles(){
+  const g=document.getElementById('sets-custom');g.innerHTML='';
+  const packs=getCPs();
+  document.getElementById('h-custom').style.display=packs.length?'':'none';
+  for(const p of packs) g.appendChild(mkTile(cpToSet(p)));
+}
+
+/* ═══════════════════════════════════════════════════════
+   11. MODAL
+═══════════════════════════════════════════════════════ */
+let mSet=null,mQty=1;
+
+function showModal(set){
+  mSet=set;mQty=1;
+  document.getElementById('modal-title').textContent=set.name;
+  const mi=document.getElementById('modal-img');
+  if(set.cvImg){mi.src=imgUrl(set.cvImg);mi.style.display='';}else{mi.style.display='none';}
+  document.querySelectorAll('.qty-btn').forEach(b=>b.classList.toggle('sel',b.dataset.qty==='1'));
+  const boxBtn=document.getElementById('qty-box');
+  if(set.ppb){
+    boxBtn.style.display='';
+    boxBtn.textContent=`Box (${set.ppb})`;
+  } else {
+    boxBtn.style.display='none';
+  }
+  document.getElementById('modal-back').classList.remove('hidden');
+}
+function closeModal(){ document.getElementById('modal-back').classList.add('hidden');mSet=null; }
+
+function initModal(){
+  document.querySelectorAll('.qty-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.qty-btn').forEach(b=>b.classList.remove('sel'));
+      btn.classList.add('sel');
+      mQty=btn.dataset.qty==='box'?(mSet?.ppb||15):parseInt(btn.dataset.qty);
+    });
+  });
+  document.getElementById('modal-ok').addEventListener('click',()=>{
+    if(!mSet) return;
+    const s=mSet,q=mQty;
+    closeModal();
+    startSession(s,q);
+  });
+  document.getElementById('modal-cancel').addEventListener('click',closeModal);
+  document.getElementById('modal-back').addEventListener('click',e=>{if(e.target.id==='modal-back')closeModal();});
+}
+
+/* ═══════════════════════════════════════════════════════
+   12. TOOLTIP
+═══════════════════════════════════════════════════════ */
+function posTooltip(x,y){
+  const el=document.getElementById('card-tooltip');
+  const tw=el.offsetWidth||280,th=el.offsetHeight||150;
+  const vw=window.innerWidth,vh=window.innerHeight;
+  let left=x+16,top=y-10;
+  if(left+tw>vw-8) left=x-tw-16;
+  if(left<8) left=8;
+  if(top+th>vh-8) top=vh-th-8;
+  if(top<8) top=8;
+  el.style.left=left+'px';
+  el.style.top=top+'px';
+}
+
+function showTooltip(card,rarity,x,y){
+  const el=document.getElementById('card-tooltip');
+  const isMon=MONSTER_ATTRS.has(card.attribute);
+  document.getElementById('tt-name').innerHTML=cname(card)+legendBadge(card);
+  const typeParts=[];
+  if(rarity) typeParts.push(rarity);
+  if(card.types) typeParts.push(card.types);
+  else if(card.card_type) typeParts.push([card.card_type,card.property].filter(Boolean).join(' / '));
+  document.getElementById('tt-type').textContent=typeParts.join(' · ');
+  const matEl=document.getElementById('tt-materials');
+  matEl.textContent=card.materials||'';
+  matEl.style.display=card.materials?'':'none';
+  const stats=[];
+  if(card.attribute) stats.push(card.attribute);
+  if(isMon&&card.level!=null) stats.push('LV '+card.level);
+  if(isMon&&card.atk!=null) stats.push('ATK '+card.atk);
+  if(isMon&&card.maximum_atk!=null) stats.push('MAX '+card.maximum_atk);
+  if(isMon&&card.def!=null) stats.push('DEF '+card.def);
+  document.getElementById('tt-stats').textContent=stats.join(' · ');
+  const condEl=document.getElementById('tt-condition');
+  condEl.textContent=card.condition||'';
+  condEl.style.display=card.condition?'':'none';
+  const req=card.requirement||'';
+  const reqEl=document.getElementById('tt-req');
+  reqEl.style.display=req?'':'none';
+  if(req) document.getElementById('tt-req-body').textContent=req;
+  const isFlavor=!card.effect&&!!card.flavor_text;
+  const eff=card.effect||card.flavor_text||'';
+  const effEl=document.getElementById('tt-eff');
+  effEl.style.display=eff?'':'none';
+  if(eff){
+    const lbl=document.getElementById('tt-eff-lbl');
+    lbl.textContent=isFlavor?'':(card.effect_types?'【'+card.effect_types+' Effect】':'【Effect】');
+    const body=document.getElementById('tt-eff-body');
+    body.textContent=eff.length>220?eff.slice(0,220)+'…':eff;
+    body.style.fontStyle=isFlavor?'italic':'';
+  }
+  el.classList.add('show');
+  posTooltip(x,y);
+}
+
+function hideTooltip(){ document.getElementById('card-tooltip').classList.remove('show'); }
+
+function showCardPopup(card, rarity, imgFile){
+  hideTooltip();
+  const isMon=MONSTER_ATTRS.has(card.attribute);
+  const back=document.getElementById('card-popup-back');
+
+  // Image
+  const wrap=document.getElementById('cp-img-wrap');
+  wrap.innerHTML='<div class="cph">？</div>';
+  const src=imgFile?imgUrl(imgFile):(card.images?.length?imgUrl(cleanFile(card.images[0].file)):null);
+  if(src){
+    const img=document.createElement('img');
+    img.alt='';
+    img.onload=()=>wrap.querySelector('.cph').style.display='none';
+    img.onerror=()=>img.remove();
+    img.src=src;
+    wrap.appendChild(img);
+  }
+
+  document.getElementById('cp-name').innerHTML=`${cname(card)}&nbsp;${rbHtml(rarity)}${legendBadge(card)}`;
+  const typeParts=[];
+  if(card.types) typeParts.push(card.types);
+  else if(card.card_type) typeParts.push([card.card_type,card.property].filter(Boolean).join(' / '));
+  document.getElementById('cp-type').textContent=typeParts.join(' · ');
+  const matEl=document.getElementById('cp-materials');
+  matEl.textContent=card.materials||''; matEl.style.display=card.materials?'':'none';
+  const stats=[];
+  if(card.attribute) stats.push(card.attribute);
+  if(isMon&&card.level!=null) stats.push('LV '+card.level);
+  if(isMon&&card.atk!=null) stats.push('ATK '+card.atk);
+  if(isMon&&card.maximum_atk!=null) stats.push('MAX '+card.maximum_atk);
+  if(isMon&&card.def!=null) stats.push('DEF '+card.def);
+  document.getElementById('cp-stats').textContent=stats.join(' · ');
+  const condEl=document.getElementById('cp-condition');
+  condEl.textContent=card.condition||''; condEl.style.display=card.condition?'':'none';
+  const reqEl=document.getElementById('cp-req');
+  reqEl.style.display=card.requirement?'':'none';
+  if(card.requirement) document.getElementById('cp-req-body').textContent=card.requirement;
+  const isFlavor=!card.effect&&!!card.flavor_text;
+  const eff=card.effect||card.flavor_text||'';
+  const effEl=document.getElementById('cp-eff');
+  effEl.style.display=eff?'':'none';
+  if(eff){
+    document.getElementById('cp-eff-lbl').textContent=isFlavor?'':(card.effect_types?'【'+card.effect_types+' Effect】':'【Effect】');
+    const body=document.getElementById('cp-eff-body');
+    body.textContent=eff;
+    body.style.fontStyle=isFlavor?'italic':'';
+  }
+
+  back.classList.remove('hidden');
+}
+
+function initCardPopup(){
+  const back=document.getElementById('card-popup-back');
+  document.getElementById('card-popup-close').addEventListener('click',()=>back.classList.add('hidden'));
+  back.addEventListener('click',e=>{ if(e.target===back) back.classList.add('hidden'); });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape') back.classList.add('hidden'); });
+}
+
+function initTooltip(){
+  document.addEventListener('mousemove',e=>{
+    if(document.getElementById('card-tooltip').classList.contains('show')) posTooltip(e.clientX,e.clientY);
+  });
+  // Pack cards
+  const pc=document.getElementById('pack-cards');
+  pc.addEventListener('mouseover',e=>{
+    const slot=e.target.closest('.card-slot.revealed');
+    if(!slot||!slot._ent) return;
+    showTooltip(slot._ent.card,slot._ent.rarity,e.clientX,e.clientY);
+  });
+  pc.addEventListener('mouseout',e=>{
+    const slot=e.target.closest('.card-slot');
+    if(!slot) return;
+    const to=e.relatedTarget;
+    if(!to||!slot.contains(to)) hideTooltip();
+  });
+  // Collection grid
+  const cg=document.getElementById('col-grid');
+  cg.addEventListener('mouseover',e=>{
+    const card=e.target.closest('.col-card');
+    if(!card||!card._cardData) return;
+    showTooltip(card._cardData.card,card._cardData.rarity,e.clientX,e.clientY);
+  });
+  cg.addEventListener('mouseout',e=>{
+    const card=e.target.closest('.col-card');
+    if(!card) return;
+    const to=e.relatedTarget;
+    if(!to||!card.contains(to)) hideTooltip();
+  });
+  cg.addEventListener('click',e=>{
+    const card=e.target.closest('.col-card');
+    if(!card||!card._cardData) return;
+    const {card:c,rarity}=card._cardData;
+    const f=card._cardData.imgFile||null;
+    showCardPopup(c,rarity,f);
+  });
+  // Deck builder grids (pool + main + extra)
+  [['db-pool-grid','.db-pcard'],['db-main','.db-dcard'],['db-extra','.db-dcard']].forEach(([gid,sel])=>{
+    const g=document.getElementById(gid);
+    if(!g) return;
+    g.addEventListener('mouseover',e=>{
+      const el=e.target.closest(sel);
+      if(!el||!el._card) return;
+      showTooltip(el._card,'',e.clientX,e.clientY);
+    });
+    g.addEventListener('mouseout',e=>{
+      const el=e.target.closest(sel);
+      if(!el) return;
+      const to=e.relatedTarget;
+      if(!to||!el.contains(to)) hideTooltip();
+    });
+  });
+}
+
+/* ═══════════════════════════════════════════════════════
+   13. PACK OPENING
+═══════════════════════════════════════════════════════ */
+let sess=null;
+
+function startSession(set,qty){
+  const isBox=(qty===(set.ppb||15));
+  const packs=isBox?simBox(set):Array.from({length:qty},()=>simPack(set));
+  sess={set,packs,cur:0,pulled:[]};
+  goTo('screen-pack');
+  document.getElementById('pack-setname').textContent=set.name;
+  document.getElementById('summary').classList.add('hidden');
+  document.getElementById('assign-ui').classList.add('hidden');
+  document.getElementById('btn-next').style.display='none';
+  showPack();
+}
+
+function showPack(){
+  const {packs,cur}=sess;
+  document.getElementById('pack-progress').textContent=`Pack ${cur+1} / ${packs.length}`;
+  const cont=document.getElementById('pack-cards');cont.innerHTML='';
+  packs[cur].forEach(ent=>cont.appendChild(mkFlip(ent)));
+  document.getElementById('btn-next').style.display='none';
+}
+
+function mkFlip(ent){
+  const slot=document.createElement('div');
+  slot.className='card-slot';
+  slot._ent=ent;
+
+  const w=document.createElement('div');
+  w.className='flip-wrap';
+
+  const f=ent?.imgFile?imgUrl(ent.imgFile):null;
+  const rc=ent?(RC[ent.rarity]||''):'';
+
+  w.innerHTML=`
+    <div class="flip">
+      <div class="face cback"></div>
+      <div class="face cfront ${rc}">
+        <div class="cph">？</div>
+        ${f?`<img class="cimg" src="${f}" alt=""
+              onload="this.previousElementSibling.style.display='none'"
+              onerror="this.remove()">`:''}
+      </div>
+    </div>`;
+
+  w.addEventListener('click',()=>{
+    if(w.classList.contains('flipped')){
+      if(ent) showCardPopup(ent.card,ent.rarity,ent.imgFile);
+      return;
+    }
+    w.classList.add('flipped');
+    slot.classList.add('revealed');
+    if(ent) snd(SOUND_TIER(ent.rarity));
+    checkDone();
+  });
+
+  const cap=document.createElement('div');
+  cap.className='card-caption';
+  if(ent){
+    cap.innerHTML=`<div class="cap-name">${cname(ent.card)}</div><div>${rbHtml(ent.rarity)}</div>`;
+  }
+
+  slot.appendChild(w);
+  slot.appendChild(cap);
+  return slot;
+}
+
+function checkDone(){
+  const ws=document.querySelectorAll('.flip-wrap');
+  if(![...ws].every(w=>w.classList.contains('flipped'))) return;
+  sess.pulled.push(...sess.packs[sess.cur]);
+  const btn=document.getElementById('btn-next');
+  if(sess.cur<sess.packs.length-1){
+    btn.textContent='Next Pack →';btn.style.display='';
+    btn.onclick=()=>{ sess.cur++;btn.style.display='none'; showPack(); };
+  } else {
+    showSummary();
+  }
+}
+
+function showSummary(){
+  const pulled=sess.pulled.filter(Boolean);
+  const sum=document.getElementById('summary');
+  sum.classList.remove('hidden');
+  const byR={};
+  for(const e of pulled){if(!byR[e.rarity])byR[e.rarity]=[];byR[e.rarity].push(e);}
+  const rs=[...new Set(pulled.map(e=>e.rarity))].sort((a,b)=>rarityRank(b)-rarityRank(a));
+  let html=`<div class="sum-hdr">All cards pulled! (${pulled.length})</div>`;
+  for(const r of rs) for(const e of byR[r]){
+    const f=e.imgFile||null;
+    html+=`<div class="sum-row">
+      ${f?`<img class="sum-img" src="${imgUrl(f)}" alt="">`:'<div style="width:30px;height:44px;background:var(--bg3);border-radius:3px;flex-shrink:0"></div>'}
+      <span class="sum-name">${cname(e.card)}</span>
+      ${rbHtml(e.rarity)}
+    </div>`;
+  }
+  sum.innerHTML=html;
+  showAssign();
+}
+
+function showAssign(){
+  const ui=document.getElementById('assign-ui');ui.classList.remove('hidden');
+  const data=getColls();
+  const sel=document.getElementById('col-sel');
+  const ni=document.getElementById('col-newname');
+  const lbl=document.getElementById('new-col-label');
+  const okBtn=document.getElementById('col-ok');
+
+  sel.innerHTML=data.collections.map(c=>`<option value="${c.id}"${c.id===data.activeId?' selected':''}>${c.name}</option>`).join('')
+    +`<option value="__new__">+ New collection…</option>`;
+
+  const toggleNew=()=>{
+    const isNew=sel.value==='__new__';
+    ni.style.display=isNew?'':'none';
+    lbl.style.display=isNew?'':'none';
+    okBtn.textContent=isNew?'Create & Add':'Add to Collection';
+    if(isNew){ ni.value=''; setTimeout(()=>ni.focus(),0); }
+  };
+  sel.onchange=toggleNew;
+  toggleNew();
+
+  okBtn.onclick=()=>{
+    const d=getColls();
+    let id=sel.value;
+    if(id==='__new__'){
+      const nm=ni.value.trim()||'New Collection';
+      id=`col_${Date.now()}`;
+      d.collections.push({id,name:nm,cards:[]});
+    }
+    d.activeId=id;
+    const col=d.collections.find(c=>c.id===id);
+    if(col){
+      for(const e of sess.pulled.filter(Boolean)){
+        col.cards.push({cardTitle:e.card.title,rarity:e.rarity,setPrefix:sess.set.pfx,setName:sess.set.name,imgFile:e.imgFile||null,pulledAt:Date.now()});
+      }
+    }
+    saveColls(d);
+    ui.classList.add('hidden');
+    toast('Cards added!');
+  };
+}
+
+/* ═══════════════════════════════════════════════════════
+   14. NUMERIC FILTERS
+═══════════════════════════════════════════════════════ */
+function setupNumFilter(opId,v1Id,v2Id,sepId){
+  const op=document.getElementById(opId);
+  const v1=document.getElementById(v1Id);
+  const v2=document.getElementById(v2Id);
+  const sep=document.getElementById(sepId);
+  const upd=()=>{
+    const isBtw=op.value==='between';
+    const isAny=op.value==='any';
+    v1.style.display=isAny?'none':'';
+    v2.style.display=isBtw?'':'none';
+    if(sep) sep.style.display=isBtw?'':'none';
+    renderColCards();
+  };
+  op.addEventListener('change',upd);
+  v1.addEventListener('input',renderColCards);
+  v2.addEventListener('input',renderColCards);
+  upd();
+}
+
+function matchNum(val,opId,v1Id,v2Id){
+  const op=document.getElementById(opId)?.value;
+  if(!op||op==='any') return true;
+  const v1s=document.getElementById(v1Id)?.value??'';
+  if(v1s==='') return true;
+  const v1=parseFloat(v1s);
+  if(isNaN(v1)) return true;
+  if(val==null) return false;
+  switch(op){
+    case '=':  return val===v1;
+    case '>=': return val>=v1;
+    case '>':  return val>v1;
+    case '<=': return val<=v1;
+    case '<':  return val<v1;
+    case 'between':{
+      const v2s=document.getElementById(v2Id)?.value??'';
+      if(v2s==='') return val>=v1;
+      const v2=parseFloat(v2s);
+      return isNaN(v2)?val>=v1:val>=v1&&val<=v2;
+    }
+  }
+  return true;
+}
+
+/* ═══════════════════════════════════════════════════════
+   15. COLLECTION SCREEN
+═══════════════════════════════════════════════════════ */
+let selCol=null;
+let openSettingsId=null;
+
+function renderColScreen(){
+  const data=getColls();
+  if(!selCol||!data.collections.find(c=>c.id===selCol)) selCol=data.activeId;
+
+  const list=document.getElementById('col-list');
+  list.innerHTML='';
+
+  for(const col of data.collections){
+    const it=document.createElement('div');
+    it.className='col-item'+(col.id===selCol?' active':'');
+    it.style.borderLeftColor=col.color||'transparent';
+    it.innerHTML=`
+      <span class="col-iname">${col.name}</span>
+      <span class="col-icnt">${col.cards.length}</span>
+      <button class="col-gear" title="Settings">⚙</button>
+      <button class="col-idel" title="Delete">×</button>`;
+
+    it.querySelector('.col-iname').addEventListener('click',()=>{selCol=col.id;renderColScreen();});
+    it.querySelector('.col-icnt').addEventListener('click',()=>{selCol=col.id;renderColScreen();});
+    it.querySelector('.col-gear').addEventListener('click',e=>{
+      e.stopPropagation();
+      openSettingsId=openSettingsId===col.id?null:col.id;
+      renderColScreen();
+    });
+    it.querySelector('.col-idel').addEventListener('click',e=>{
+      e.stopPropagation();
+      if(!confirm(`Delete "${col.name}"?`)) return;
+      const d2=getColls();
+      d2.collections=d2.collections.filter(c=>c.id!==col.id);
+      if(d2.activeId===col.id) d2.activeId=d2.collections[0]?.id||null;
+      if(selCol===col.id) selCol=d2.collections[0]?.id||null;
+      if(openSettingsId===col.id) openSettingsId=null;
+      saveColls(d2);renderColScreen();
+    });
+    list.appendChild(it);
+
+    // Settings panel
+    if(openSettingsId===col.id){
+      const sp=document.createElement('div');
+      sp.className='col-settings';
+      sp.innerHTML=`
+        <input class="col-rename-inp" value="${col.name.replace(/"/g,'&quot;')}" placeholder="Collection name">
+        <div class="col-swatches">
+          ${COL_COLORS.map(c=>`<button class="col-swatch${(col.color||'')===c?' sel':''}"
+            data-c="${c}"
+            style="${c?'background:'+c:'background:var(--bg3);border:1.5px dashed var(--muted)'}"></button>`).join('')}
+        </div>`;
+
+      const inp=sp.querySelector('.col-rename-inp');
+      inp.addEventListener('keydown',e=>{ if(e.key==='Enter') inp.blur(); });
+      inp.addEventListener('blur',()=>{
+        const nm=inp.value.trim();
+        if(!nm||nm===col.name) return;
+        const d=getColls();
+        const c2=d.collections.find(c=>c.id===col.id);
+        if(c2){ c2.name=nm; saveColls(d); renderColScreen(); }
+      });
+      sp.querySelectorAll('.col-swatch').forEach(btn=>{
+        btn.addEventListener('click',()=>{
+          const d=getColls();
+          const c2=d.collections.find(c=>c.id===col.id);
+          if(c2){ c2.color=btn.dataset.c; saveColls(d); renderColScreen(); }
+        });
+      });
+      list.appendChild(sp);
+    }
+  }
+
+  document.getElementById('col-newbtn').onclick=()=>{
+    const nm=prompt('New collection name:');if(!nm) return;
+    const d=getColls();
+    d.collections.push({id:`col_${Date.now()}`,name:nm.trim(),cards:[]});
+    saveColls(d);renderColScreen();
+  };
+
+  buildFilters();
+  renderColCards();
+}
+
+function buildFilters(){
+  const data=getColls();
+  const col=data.collections.find(c=>c.id===selCol);if(!col) return;
+  const cs=col.cards.map(e=>MAP.get(e.cardTitle)).filter(Boolean);
+  const rars=[...new Set(col.cards.map(e=>e.rarity))].sort((a,b)=>rarityRank(b)-rarityRank(a));
+  const attrs=[...new Set(cs.map(c=>c.attribute).filter(Boolean))].sort();
+  const archs=[...new Set(cs.flatMap(c=>c.archseries||[]))].sort();
+  const races=[...new Set(cs.map(cardRace).filter(Boolean))].sort();
+  const subtypes=[...new Set(cs.flatMap(cardSubtypes).filter(Boolean))].sort();
+
+  const sr=document.getElementById('f-rarity'),curR=sr.value;
+  sr.innerHTML=`<option value="">All rarities</option>`+rars.map(r=>`<option value="${r}"${r===curR?' selected':''}>${r}</option>`).join('');
+  const sa=document.getElementById('f-attr'),curA=sa.value;
+  sa.innerHTML=`<option value="">All attributes</option>`+attrs.map(a=>`<option value="${a}"${a===curA?' selected':''}>${a}</option>`).join('');
+  const sc=document.getElementById('f-arch'),curC=sc.value;
+  sc.innerHTML=`<option value="">All series</option>`+archs.map(a=>`<option value="${a}"${a===curC?' selected':''}>${a}</option>`).join('');
+  const srr=document.getElementById('f-race'),curRr=srr.value;
+  srr.innerHTML=`<option value="">All races</option>`+races.map(r=>`<option value="${r}"${r===curRr?' selected':''}>${r}</option>`).join('');
+  const sst=document.getElementById('f-subtype'),curSt=sst.value;
+  sst.innerHTML=`<option value="">All subtypes</option>`+subtypes.map(s=>`<option value="${s}"${s===curSt?' selected':''}>${s}</option>`).join('');
+
+  [sr,sa,sc,srr,sst,
+   document.getElementById('f-search'),
+   document.getElementById('f-type')
+  ].forEach(el=>{ if(el){el.onchange=renderColCards;el.oninput=renderColCards;} });
+}
+
+function renderColCards(){
+  const data=getColls();
+  const col=data.collections.find(c=>c.id===selCol);
+  const grid=document.getElementById('col-grid');
+  if(!col){grid.innerHTML=`<p class="empty-msg">No cards.</p>`;return;}
+
+  const q=(document.getElementById('f-search')?.value||'').toLowerCase();
+  const rf=document.getElementById('f-rarity')?.value||'';
+  const af=document.getElementById('f-attr')?.value||'';
+  const cf=document.getElementById('f-arch')?.value||'';
+  const tf=document.getElementById('f-type')?.value||'';
+  const rrf=document.getElementById('f-race')?.value||'';
+  const stf=document.getElementById('f-subtype')?.value||'';
+
+  let ents=[...col.cards].reverse()
+    .map(e=>({...e,card:MAP.get(e.cardTitle)}))
+    .filter(e=>e.card);
+
+  if(rf) ents=ents.filter(e=>e.rarity===rf);
+  if(af) ents=ents.filter(e=>e.card.attribute===af);
+  if(cf) ents=ents.filter(e=>(e.card.archseries||[]).includes(cf));
+  if(tf) ents=ents.filter(e=>cardMainType(e.card)===tf);
+  if(rrf) ents=ents.filter(e=>cardRace(e.card)===rrf);
+  if(stf) ents=ents.filter(e=>cardSubtypes(e.card).includes(stf));
+  if(q) ents=ents.filter(e=>cname(e.card).toLowerCase().includes(q));
+  ents=ents.filter(e=>matchNum(e.card.level,'f-lv-op','f-lv-v1','f-lv-v2'));
+  ents=ents.filter(e=>matchNum(e.card.atk,  'f-atk-op','f-atk-v1','f-atk-v2'));
+  ents=ents.filter(e=>matchNum(e.card.def,  'f-def-op','f-def-v1','f-def-v2'));
+
+  // Stack identical cards (same title + rarity + art)
+  const stackMap=new Map();
+  for(const e of ents){
+    const key=`${e.cardTitle}||${e.rarity}||${e.imgFile||''}`;
+    if(!stackMap.has(key)) stackMap.set(key,{entry:e,count:0});
+    stackMap.get(key).count++;
+  }
+
+  grid.innerHTML='';
+  if(!stackMap.size){grid.innerHTML=`<p class="empty-msg">No cards.</p>`;return;}
+
+  for(const {entry:e,count} of stackMap.values()){
+    const f=e.imgFile||bestImg(e.card,e.setPrefix||'',e.rarity);
+    const rc=RC[e.rarity]||'';
+    const div=document.createElement('div');
+    div.className=`col-card ${rc}`;
+    div._cardData={card:e.card,rarity:e.rarity,imgFile:f||null};
+    div.innerHTML=`
+      <div class="col-img-wrap">
+        <div class="cph">？</div>
+        ${f?`<img src="${imgUrl(f)}" alt="${cname(e.card)}" loading="lazy"
+              onload="this.previousElementSibling.style.display='none'"
+              onerror="this.remove()">`:'' }
+        ${count>1?`<div class="stack-badge">×${count}</div>`:''}
+      </div>
+      <div class="col-ci">
+        <div class="col-cn">${cname(e.card)}</div>
+        <div class="col-cr">${rbHtml(e.rarity)}</div>
+      </div>`;
+    grid.appendChild(div);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   16. CUSTOM PACK BUILDER
+═══════════════════════════════════════════════════════ */
+let bCards=[];
+
+function cpToSet(pack){
+  const ents=pack.cards.map(({title,rarity})=>({card:MAP.get(title),rarity,imgFile:null})).filter(e=>e.card);
+  const byR={},rD={};
+  for(const e of ents){if(!byR[e.rarity])byR[e.rarity]=[];byR[e.rarity].push({card:e.card,imgFile:null});rD[e.rarity]=(rD[e.rarity]||0)+1;}
+  const sorted=[...ents].sort((a,b)=>rarityRank(b.rarity)-rarityRank(a.rarity));
+  const cv=sorted.find(e=>e.card.images?.length>0);
+  return {
+    pfx:`CUSTOM_${pack.id}`,name:pack.name,isPromo:false,pYear:null,
+    ents,byR,rDist:rD,
+    cvImg:cv?bestImg(cv.card,'',cv.rarity):null,
+    hiRar:sorted[0]?.rarity||'Common',
+    cCount:new Set(ents.map(e=>e.card.title)).size,
+    complete:true,sk:'9999_custom',ppb:15,cat:'custom',
+  };
+}
+
+function initBuilder(){
+  bCards=[];renderBldSel();
+  const si=document.getElementById('bld-search');si.value='';
+  document.getElementById('bld-results').innerHTML='';
+  si.oninput=()=>{
+    const q=si.value.trim().toLowerCase();
+    const res=document.getElementById('bld-results');
+    if(!q){res.innerHTML='';return;}
+    const hits=ALL.filter(c=>cname(c).toLowerCase().includes(q)).slice(0,60);
+    res.innerHTML='';
+    for(const card of hits){
+      const it=document.createElement('div');it.className='bld-item';
+      const f=card.images?.[0]?cleanFile(card.images[0].file):null;
+      it.innerHTML=`
+        ${f?`<img class="bld-thumb" src="${imgUrl(f)}" alt="" loading="lazy">`:`<div style="width:28px;height:41px;background:var(--bg3);border-radius:3px;flex-shrink:0"></div>`}
+        <span class="bld-iname">${cname(card)}</span>`;
+      it.addEventListener('click',()=>{bCards.push({title:card.title,rarity:'Common'});renderBldSel();});
+      res.appendChild(it);
+    }
+  };
+  document.getElementById('bld-save').onclick=saveBld;
+}
+
+function renderBldSel(){
+  const list=document.getElementById('bld-sel-list');list.innerHTML='';
+  for(let i=0;i<bCards.length;i++){
+    const {title,rarity}=bCards[i];
+    const card=MAP.get(title);
+    const it=document.createElement('div');it.className='bld-sel';
+    it.innerHTML=`
+      <span class="bld-sname">${card?cname(card):title}</span>
+      <select class="bld-srar" data-i="${i}">${RARITY_ORDER.map(r=>`<option value="${r}"${r===rarity?' selected':''}>${r}</option>`).join('')}</select>
+      <button class="bld-sdel" data-i="${i}">×</button>`;
+    it.querySelector('.bld-srar').onchange=e=>{bCards[+e.target.dataset.i].rarity=e.target.value;};
+    it.querySelector('.bld-sdel').onclick=e=>{bCards.splice(+e.target.dataset.i,1);renderBldSel();};
+    list.appendChild(it);
+  }
+}
+
+function saveBld(){
+  if(!bCards.length){toast('Add cards first!');return;}
+  const nm=document.getElementById('bld-name').value.trim()||'Custom Pack';
+  const packs=getCPs();
+  packs.push({id:`${Date.now()}`,name:nm,cards:[...bCards]});
+  saveCPs(packs);
+  bCards=[];renderBldSel();
+  document.getElementById('bld-name').value='';
+  renderCustomTiles();
+  toast(`"${nm}" saved!`);
+}
+
+/* ═══════════════════════════════════════════════════════
+   16b. DECK BUILDER
+═══════════════════════════════════════════════════════ */
+let DECKS_DATA={activeId:null,decks:[]};
+let dbDeck=null;           // currently-edited deck object
+let NAME_IDX=null;         // lowercase name → card title, for import
+
+function getDecks(){ return DECKS_DATA; }
+function saveDecksData(d){
+  DECKS_DATA=d;
+  fetch('/api/decks',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)}).catch(()=>{});
+}
+
+// Rush Duel: Fusion AND Ritual monsters live in the Extra Deck
+function isExtraCard(card){ return MONSTER_ATTRS.has(card.attribute)&&!!card.types&&/\b(Fusion|Ritual)\b/i.test(card.types); }
+
+// Map every owned card title → how many copies across all collections
+function ownedCounts(){
+  const m=new Map();
+  for(const col of getColls().collections)
+    for(const e of col.cards) m.set(e.cardTitle,(m.get(e.cardTitle)||0)+1);
+  return m;
+}
+
+function nameIndex(){
+  if(NAME_IDX) return NAME_IDX;
+  NAME_IDX=new Map();
+  for(const c of ALL){
+    for(const k of [c.name_en,c.title]){
+      if(k){ const kk=k.toLowerCase(); if(!NAME_IDX.has(kk)) NAME_IDX.set(kk,c.title); }
+    }
+  }
+  return NAME_IDX;
+}
+
+function dbActiveDeck(){
+  const d=getDecks();
+  let dk=d.decks.find(x=>x.id===d.activeId);
+  if(!dk){ dk=d.decks[0]||null; if(dk) d.activeId=dk.id; }
+  return dk;
+}
+function deckCountOf(title){ return dbDeck?((dbDeck.main[title]||0)+(dbDeck.extra[title]||0)):0; }
+function sumCounts(b){ return Object.values(b).reduce((a,n)=>a+n,0); }
+
+function initDeckBuilder(){
+  // Attribute filter (populate once)
+  const attrSel=document.getElementById('db-attr');
+  if(attrSel.options.length<=1){
+    const attrs=[...new Set(ALL.map(c=>c.attribute).filter(a=>MONSTER_ATTRS.has(a)))].sort();
+    attrSel.innerHTML='<option value="">All attributes</option>'+attrs.map(a=>`<option>${a}</option>`).join('');
+  }
+  // Ensure at least one deck exists
+  const d=getDecks();
+  if(!d.decks.length){
+    const nd={id:`deck_${Date.now()}`,name:'My Deck',main:{},extra:{}};
+    d.decks.push(nd); d.activeId=nd.id; saveDecksData(d);
+  }
+  dbDeck=dbActiveDeck();
+
+  document.getElementById('db-search').oninput=renderDbPool;
+  document.getElementById('db-type').onchange=renderDbPool;
+  document.getElementById('db-attr').onchange=renderDbPool;
+  document.getElementById('db-owned').onchange=renderDbPool;
+  document.getElementById('db-deck-sel').onchange=e=>{
+    const dd=getDecks(); dd.activeId=e.target.value; saveDecksData(dd);
+    dbDeck=dbActiveDeck(); document.getElementById('db-deck-name').value=dbDeck.name;
+    renderDeck(); renderDbPool();
+  };
+  document.getElementById('db-deck-new').onclick=dbNewDeck;
+  document.getElementById('db-deck-del').onclick=dbDeleteDeck;
+  document.getElementById('db-deck-name').oninput=e=>{ if(dbDeck){ dbDeck.name=e.target.value; renderDeckSelect(); } };
+  document.getElementById('db-deck-name').onblur=()=>saveDecksData(getDecks());
+  document.getElementById('db-save').onclick=()=>{
+    if(dbDeck) dbDeck.name=document.getElementById('db-deck-name').value.trim()||'Untitled Deck';
+    saveDecksData(getDecks()); renderDeckSelect();
+    document.getElementById('db-deck-name').value=dbDeck?dbDeck.name:'';
+    toast('Deck saved!');
+  };
+  document.getElementById('db-import').onclick=dbImport;
+  document.getElementById('db-export').onclick=dbExport;
+
+  renderDeckSelect();
+  document.getElementById('db-deck-name').value=dbDeck?dbDeck.name:'';
+  renderDeck();
+  renderDbPool();
+}
+
+function renderDeckSelect(){
+  const d=getDecks();
+  document.getElementById('db-deck-sel').innerHTML=
+    d.decks.map(dk=>`<option value="${dk.id}"${dk.id===d.activeId?' selected':''}>${(dk.name||'Untitled').replace(/</g,'&lt;')}</option>`).join('');
+}
+
+function dbNewDeck(){
+  const d=getDecks();
+  const nd={id:`deck_${Date.now()}`,name:'New Deck',main:{},extra:{}};
+  d.decks.push(nd); d.activeId=nd.id; saveDecksData(d);
+  dbDeck=nd;
+  renderDeckSelect();
+  document.getElementById('db-deck-name').value=nd.name;
+  renderDeck(); renderDbPool();
+}
+
+function dbDeleteDeck(){
+  if(!dbDeck) return;
+  if(!confirm(`Delete deck "${dbDeck.name}"?`)) return;
+  const d=getDecks();
+  d.decks=d.decks.filter(x=>x.id!==dbDeck.id);
+  if(!d.decks.length) d.decks.push({id:`deck_${Date.now()}`,name:'My Deck',main:{},extra:{}});
+  d.activeId=d.decks[0].id;
+  saveDecksData(d);
+  dbDeck=dbActiveDeck();
+  renderDeckSelect();
+  document.getElementById('db-deck-name').value=dbDeck.name;
+  renderDeck(); renderDbPool();
+}
+
+function dbAdd(title){
+  if(!dbDeck) return;
+  const card=MAP.get(title); if(!card) return;
+  const sec=isExtraCard(card)?'extra':'main';
+  const bucket=dbDeck[sec]||(dbDeck[sec]={});
+  // Legend rule: at most one Legend card per card-type, max one copy, never in Extra
+  if(isLegendCard(card)){
+    const mt=cardMainType(card);
+    const clash=Object.keys(dbDeck.main).some(t=>{
+      if(t===title) return false;
+      const c=MAP.get(t);
+      return c&&isLegendCard(c)&&cardMainType(c)===mt;
+    });
+    if(clash){ toast(`Only 1 Legend ${mt||'card'} allowed per deck`); return; }
+    if((bucket[title]||0)>=1){ toast('Only 1 copy of a Legend card'); return; }
+  }
+  if((bucket[title]||0)>=3){ toast('Max 3 copies of a card'); return; }
+  if(sec==='extra'&&sumCounts(dbDeck.extra)>=15){ toast('Extra Deck is full (15)'); return; }
+  if(sec==='main'&&sumCounts(dbDeck.main)>=60){ toast('Main Deck is full (60)'); return; }
+  bucket[title]=(bucket[title]||0)+1;
+  saveDecksData(getDecks());
+  renderDeck(); renderDbPoolCounts();
+}
+function dbRemove(title,sec){
+  if(!dbDeck||!dbDeck[sec]||!dbDeck[sec][title]) return;
+  dbDeck[sec][title]--;
+  if(dbDeck[sec][title]<=0) delete dbDeck[sec][title];
+  saveDecksData(getDecks());
+  renderDeck(); renderDbPoolCounts();
+}
+
+const DB_TYPE_ORDER={Monster:0,Spell:1,Trap:2,'':3};
+function dbSortTitles(titles){
+  return titles.sort((a,b)=>{
+    const ca=MAP.get(a),cb=MAP.get(b);
+    const ta=DB_TYPE_ORDER[cardMainType(ca||{})]??3, tb=DB_TYPE_ORDER[cardMainType(cb||{})]??3;
+    if(ta!==tb) return ta-tb;
+    const la=ca&&ca.level!=null?ca.level:-1, lb=cb&&cb.level!=null?cb.level:-1;
+    if(la!==lb) return lb-la;
+    return cname(ca||{}).localeCompare(cname(cb||{}));
+  });
+}
+
+function renderDbPool(){
+  const q=(document.getElementById('db-search').value||'').trim().toLowerCase();
+  const tf=document.getElementById('db-type').value;
+  const af=document.getElementById('db-attr').value;
+  const ownedOnly=document.getElementById('db-owned').checked;
+  const owned=ownedCounts();
+  let pool=ALL.filter(c=>c.title&&isComplete(c)&&isPlayable(c));
+  if(q)  pool=pool.filter(c=>cname(c).toLowerCase().includes(q));
+  if(tf) pool=pool.filter(c=>cardMainType(c)===tf);
+  if(af) pool=pool.filter(c=>c.attribute===af);
+  if(ownedOnly) pool=pool.filter(c=>owned.has(c.title));
+  pool.sort((a,b)=>{
+    const ta=DB_TYPE_ORDER[cardMainType(a)]??3, tb=DB_TYPE_ORDER[cardMainType(b)]??3;
+    if(ta!==tb) return ta-tb;
+    const la=a.level!=null?a.level:-1, lb=b.level!=null?b.level:-1;
+    if(la!==lb) return lb-la;
+    return cname(a).localeCompare(cname(b));
+  });
+  pool=pool.slice(0,300);
+
+  const grid=document.getElementById('db-pool-grid');
+  grid.innerHTML='';
+  if(!pool.length){ grid.innerHTML='<p class="db-empty">No cards match.</p>'; return; }
+  for(const card of pool){
+    const f=card.images&&card.images[0]?cleanFile(card.images[0].file):null;
+    const have=owned.get(card.title)||0;
+    const inDeck=deckCountOf(card.title);
+    const el=document.createElement('div');
+    el.className='db-pcard'; el.dataset.title=card.title; el._card=card;
+    el.innerHTML=`<div class="cph">？</div>
+      ${f?`<img src="${imgUrl(f)}" alt="${cname(card)}" loading="lazy" onload="this.previousElementSibling.style.display='none'" onerror="this.remove()">`:''}
+      ${have?`<span class="db-have">×${have}</span>`:''}
+      ${isLegendCard(card)?`<span class="db-legend" title="Legend Card">★</span>`:''}
+      <span class="db-indeck"${inDeck?'':' style="display:none"'}>${inDeck}</span>`;
+    el.addEventListener('click',()=>dbAdd(card.title));
+    grid.appendChild(el);
+  }
+}
+
+// Update only the in-deck badges (keeps scroll position + avoids image reload)
+function renderDbPoolCounts(){
+  document.querySelectorAll('#db-pool-grid .db-pcard').forEach(el=>{
+    const n=deckCountOf(el.dataset.title);
+    const b=el.querySelector('.db-indeck');
+    if(b){ b.textContent=n; b.style.display=n?'':'none'; }
+  });
+}
+
+function renderDeck(){
+  if(!dbDeck) return;
+  renderDeckGrid('db-main',dbDeck.main,'main');
+  renderDeckGrid('db-extra',dbDeck.extra,'extra');
+  const mc=sumCounts(dbDeck.main), ec=sumCounts(dbDeck.extra);
+  const mEl=document.getElementById('db-main-count');
+  mEl.textContent=mc; mEl.className='db-cnt '+(mc>=40&&mc<=60?'good':'bad');
+  const eEl=document.getElementById('db-extra-count');
+  eEl.textContent=ec; eEl.className='db-cnt '+(ec<=15?'':'bad');
+  let mon=0,sp=0,tr=0;
+  for(const [t,n] of Object.entries(dbDeck.main)){
+    const c=MAP.get(t); if(!c) continue;
+    const mt=cardMainType(c);
+    if(mt==='Monster') mon+=n; else if(mt==='Spell') sp+=n; else if(mt==='Trap') tr+=n;
+  }
+  document.getElementById('db-stats').innerHTML=
+    `<span class="db-stat">Total <b>${mc+ec}</b></span>`+
+    `<span class="db-stat">Mon <b>${mon}</b></span>`+
+    `<span class="db-stat">Spell <b>${sp}</b></span>`+
+    `<span class="db-stat">Trap <b>${tr}</b></span>`;
+}
+
+function renderDeckGrid(id,bucket,sec){
+  const grid=document.getElementById(id);
+  grid.innerHTML='';
+  const titles=dbSortTitles(Object.keys(bucket));
+  if(!titles.length){
+    grid.innerHTML=`<p class="db-empty">${sec==='extra'?'Fusion / Ritual monsters go here':'Click cards on the left to add them'}</p>`;
+    return;
+  }
+  for(const t of titles){
+    const card=MAP.get(t), n=bucket[t];
+    const f=card&&card.images&&card.images[0]?cleanFile(card.images[0].file):null;
+    const el=document.createElement('div');
+    el.className='db-dcard'; el.dataset.title=t; el._card=card;
+    el.title='Click to remove one';
+    el.innerHTML=`<div class="cph">？</div>
+      ${f?`<img src="${imgUrl(f)}" alt="${card?cname(card):t}" loading="lazy" onload="this.previousElementSibling.style.display='none'" onerror="this.remove()">`:''}
+      ${isLegendCard(card)?`<span class="db-legend" title="Legend Card">★</span>`:''}
+      <span class="db-qty">${n}</span>`;
+    el.addEventListener('click',()=>dbRemove(t,sec));
+    grid.appendChild(el);
+  }
+}
+
+/* ── Clipboard import / export ─────────────────────────────────────────────── */
+function deckToText(deck){
+  const sec={Monster:[],Spell:[],Trap:[]};
+  for(const t of dbSortTitles(Object.keys(deck.main))){
+    const c=MAP.get(t), mt=c?cardMainType(c):'Monster';
+    (sec[mt]||sec.Monster).push(`${deck.main[t]} ${c?cname(c):t}`);
+  }
+  const extra=dbSortTitles(Object.keys(deck.extra)).map(t=>{const c=MAP.get(t);return `${deck.extra[t]} ${c?cname(c):t}`;});
+  const out=['Monster',...sec.Monster,'Spell',...sec.Spell,'Trap',...sec.Trap,'Extra',...extra];
+  return out.join('\n');
+}
+
+async function dbExport(){
+  if(!dbDeck){ return; }
+  if(!sumCounts(dbDeck.main)&&!sumCounts(dbDeck.extra)){ toast('Deck is empty'); return; }
+  const txt=deckToText(dbDeck);
+  try{ await navigator.clipboard.writeText(txt); toast('Deck copied to clipboard!'); }
+  catch{
+    const ta=document.createElement('textarea');
+    ta.value=txt; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); toast('Deck copied to clipboard!'); }
+    catch{ prompt('Copy your deck text:',txt); }
+    ta.remove();
+  }
+}
+
+async function dbImport(){
+  let txt=null;
+  try{ txt=await navigator.clipboard.readText(); }catch{}
+  if(!txt) txt=prompt('Paste a deck list:');
+  if(!txt||!txt.trim()) return;
+  importDeckText(txt);
+}
+
+function importDeckText(txt){
+  const idx=nameIndex();
+  const main={},extra={};
+  let added=0, missing=0, section='main';
+  for(const raw of txt.split(/\r?\n/)){
+    const line=raw.trim();
+    if(!line) continue;
+    // Section header lines (not starting with a number)
+    if(!/^\d/.test(line)){
+      const low=line.toLowerCase();
+      if(/^(extra|fusion)/.test(low)) section='extra';
+      else if(/^side/.test(low)) section='side';
+      else if(/^(monster|spell|trap|main)/.test(low)) section='main';
+      continue;
+    }
+    if(section==='side') continue;
+    const m=line.match(/^(\d+)\s*x?\s+(.*)$/i);
+    const count=m?parseInt(m[1]):1;
+    const name=(m?m[2]:line).trim();
+    const title=idx.get(name.toLowerCase());
+    if(!title){ missing++; continue; }
+    const card=MAP.get(title);
+    // Route by the card's real type so the imported deck is always legal
+    const bucket=(card&&isExtraCard(card))?extra:main;
+    bucket[title]=Math.min(3,(bucket[title]||0)+count);
+    added+=count;
+  }
+  if(!added){ toast('No matching cards found'); return; }
+  const d=getDecks();
+  const nd={id:`deck_${Date.now()}`,name:'Imported Deck',main,extra};
+  d.decks.push(nd); d.activeId=nd.id; saveDecksData(d);
+  dbDeck=nd;
+  renderDeckSelect();
+  document.getElementById('db-deck-name').value=nd.name;
+  renderDeck(); renderDbPool();
+  toast(missing?`Imported — ${missing} unknown card${missing>1?'s':''} skipped`:'Deck imported!');
+}
+
+/* ═══════════════════════════════════════════════════════
+   17. SYNC PANEL
+═══════════════════════════════════════════════════════ */
+let syncPollTimer=null;
+
+function fmtTime(iso){
+  if(!iso) return 'Never';
+  const d=new Date(iso),now=new Date();
+  const diff=now-d;
+  if(diff<60000) return 'Just now';
+  if(diff<3600000) return `${Math.floor(diff/60000)}m ago`;
+  if(diff<86400000) return `${Math.floor(diff/3600000)}h ago`;
+  return d.toLocaleDateString();
+}
+
+async function fetchSyncStatus(){
+  try{
+    const data=await fetch('/api/sync-status').then(r=>r.json());
+    const anyRunning=data.cards.running||data.sets.running||data.gallery.running;
+    document.getElementById('sync-btn').classList.toggle('running',anyRunning);
+    for(const key of ['cards','sets','gallery']){
+      const s=data[key];
+      const dot=document.getElementById(`dot-${key}`);
+      const time=document.getElementById(`time-${key}`);
+      const ts=s.lastSync||s.lastModified;
+      const age=ts?Date.now()-new Date(ts).getTime():Infinity;
+      const isStale=age>s.staleAfterMs;
+      dot.className='sync-dot '+(s.running?'running':!ts?'stale':isStale?'stale':'ok');
+      time.textContent=s.running?'Running…':fmtTime(ts);
+    }
+    document.getElementById('sync-all-btn').disabled=anyRunning;
+    if(anyRunning&&!syncPollTimer){ syncPollTimer=setInterval(fetchSyncStatus,2500); }
+    else if(!anyRunning&&syncPollTimer){ clearInterval(syncPollTimer);syncPollTimer=null; }
+  }catch{}
+}
+
+function initSyncPanel(){
+  const btn=document.getElementById('sync-btn');
+  const panel=document.getElementById('sync-panel');
+  btn.addEventListener('click',e=>{
+    e.stopPropagation();
+    panel.classList.toggle('open');
+    if(panel.classList.contains('open')) fetchSyncStatus();
+  });
+  document.addEventListener('click',e=>{
+    if(!panel.contains(e.target)&&e.target!==btn) panel.classList.remove('open');
+  });
+  document.getElementById('sync-all-btn').addEventListener('click',async()=>{
+    document.getElementById('sync-all-btn').disabled=true;
+    await fetch('/api/sync',{method:'POST'});
+    fetchSyncStatus();
+    if(!syncPollTimer) syncPollTimer=setInterval(fetchSyncStatus,2500);
+  });
+  fetchSyncStatus();
+}
+
+/* ═══════════════════════════════════════════════════════
+   18. INIT
+═══════════════════════════════════════════════════════ */
+async function init(){
+  try{
+    // Load collections from server; one-time migration from localStorage if server is empty
+    const colRes=await fetch('/api/collections').catch(()=>null);
+    if(colRes?.ok){ const d=await colRes.json(); if(d&&Array.isArray(d.collections)) COLLS=d; }
+    if(!COLLS.collections.length){
+      try{
+        const old=JSON.parse(localStorage.getItem('ygo-collections')||'null');
+        if(old?.collections?.length){ COLLS=old; saveColls(COLLS); localStorage.removeItem('ygo-collections'); }
+      }catch{}
+    }
+
+    // Load saved decks from the server
+    const dkRes=await fetch('/api/decks').catch(()=>null);
+    if(dkRes?.ok){ const d=await dkRes.json(); if(d&&Array.isArray(d.decks)) DECKS_DATA=d; }
+
+    const [cr,sr,gr,ur]=await Promise.all([
+      fetch('/cards-clean.json'),
+      fetch('/sets-data.json').catch(()=>({ok:false})),
+      fetch('/gallery-images.json').catch(()=>({ok:false})),
+      fetch('/image-urls.json').catch(()=>({ok:false})),
+    ]);
+    ALL=await cr.json();
+    SDATA=sr.ok?await sr.json().catch(()=>({})):{};
+    const galleryImgs=gr.ok?await gr.json().catch(()=>({})):{};
+    IMG_URLS=ur.ok?await ur.json().catch(()=>({})): {};
+    const titleIdx=new Map(ALL.map(c=>[c.title,c]));
+    for(const [title,files] of Object.entries(galleryImgs)){
+      const card=titleIdx.get(title);
+      if(!card) continue;
+      card.images=files.map((f,i)=>({artwork:i+1,file:f}));
+    }
+  }catch(e){
+    document.getElementById('loading-msg').textContent='Error: '+e.message;return;
+  }
+  for(const c of ALL) if(c.title) MAP.set(c.title,c);
+  buildDB();
+  document.getElementById('loading').classList.add('hidden');
+  renderSets();renderDecks();renderOther();renderPromos();
+  document.querySelectorAll('#nav .nav-btn').forEach(b=>b.addEventListener('click',()=>goTo(b.dataset.scr)));
+  document.querySelectorAll('#menu-grid .menu-tile').forEach(t=>t.addEventListener('click',()=>goTo(t.dataset.go)));
+  document.getElementById('home-btn').addEventListener('click',()=>goTo('screen-home'));
+  document.getElementById('pack-back').addEventListener('click',()=>goTo('screen-sets'));
+  goTo('screen-home');
+  initModal();
+  initCardPopup();
+  initTooltip();
+  initSyncPanel();
+  setupNumFilter('f-lv-op','f-lv-v1','f-lv-v2','f-lv-sep');
+  setupNumFilter('f-atk-op','f-atk-v1','f-atk-v2','f-atk-sep');
+  setupNumFilter('f-def-op','f-def-v1','f-def-v2','f-def-sep');
+  // Heartbeat: keeps packaged server alive; server exits ~15s after window closes
+  fetch('/api/heartbeat',{method:'POST'}).catch(()=>{});
+  setInterval(()=>fetch('/api/heartbeat',{method:'POST'}).catch(()=>{}),5000);
+}
+
+document.addEventListener('DOMContentLoaded',init);
+</script>
+</body>
+</html>
