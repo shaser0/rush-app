@@ -4,9 +4,10 @@ const https = require('https');
 const fs    = require('fs');
 const path  = require('path');
 
-const CARDS_FILE  = path.join(__dirname, '../data/cards.json');
-const OUT_FILE    = path.join(__dirname, '../data/gallery-images.json');
-const URLS_FILE   = path.join(__dirname, '../data/image-urls.json');
+const DATA_DIR    = process.env.RUSH_DATA_DIR || path.join(__dirname, '../data');
+const CARDS_FILE  = path.join(DATA_DIR, 'cards.json');
+const OUT_FILE    = path.join(DATA_DIR, 'gallery-images.json');
+const URLS_FILE   = path.join(DATA_DIR, 'image-urls.json');
 const API         = 'https://yugipedia.com/api.php';
 const RATE_MS     = 1200;
 
@@ -162,7 +163,7 @@ async function syncGallery(){
     if(setsWithImages % 20 === 0){
       fs.writeFileSync(OUT_FILE, JSON.stringify(galleryData, null, 2));
       fs.writeFileSync(URLS_FILE, JSON.stringify(urlCache, null, 2));
-      fs.writeFileSync(path.join(__dirname, '../data/sync-progress-gallery.json'), JSON.stringify({ current: setsQueried, total: setNames.length }));
+      fs.writeFileSync(path.join(DATA_DIR, 'sync-progress-gallery.json'), JSON.stringify({ current: setsQueried, total: setNames.length }));
       console.log(`[sync-gallery] ${setsQueried}/${setNames.length} queried, ${setsWithImages} with galleries, ${newImages} new images`);
     }
   }

@@ -1,5 +1,21 @@
 'use strict';
 
+// ── Worker mode (pkg sync subprocess) ─────────────────────────────────────
+// When spawned with RUSH_SYNC=<name>, run the named sync script and exit.
+// RUSH_DATA_DIR points to the real data/ folder next to the binary.
+if (process.env.RUSH_SYNC) {
+  const mode = process.env.RUSH_SYNC;
+  if (mode === 'cards')   { require('./scripts/sync-cards');   return; }
+  if (mode === 'sets')    { require('./scripts/sync-sets');    return; }
+  if (mode === 'gallery') { require('./scripts/sync-gallery'); return; }
+  if (mode === 'banlist') {
+    require('./scripts/sync-banlist').syncBanlist()
+      .catch(e => { console.error(e); process.exit(1); });
+    return;
+  }
+  process.exit(1);
+}
+
 const express = require('express');
 const cors    = require('cors');
 const path    = require('path');
@@ -80,7 +96,15 @@ function startSync(name, force = false) {
     console.log(`[${name}] up to date, skipping`);
     return false;
   }
-  const proc = spawn('node', [...s.nodeArgs, s.script], { stdio: ['ignore', 'pipe', 'pipe'] });
+  // In pkg mode, re-spawn the binary with RUSH_SYNC env var (worker mode).
+  // --use-system-ca is passed so the re-spawn guard inside sync scripts is skipped.
+  const [cmd, args] = process.pkg
+    ? [process.execPath, ['--use-system-ca']]
+    : ['node', [...s.nodeArgs, s.script]];
+  const env = process.pkg
+    ? { ...process.env, RUSH_SYNC: name, RUSH_DATA_DIR: path.join(APP_DIR, 'data') }
+    : process.env;
+  const proc = spawn(cmd, args, { stdio: ['ignore', 'pipe', 'pipe'], env });
   s.running = true;
   s.exitCode = null;
   const tag = `[${name}]`;
@@ -363,11 +387,7 @@ app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
   runStartupMigrations();
 
-  // Sync scripts cannot run inside a pkg .exe (no node binary available)
-  if (process.pkg) {
-    openBrowser(`http://localhost:${PORT}`);
-  } else {
-    startStaleSyncs();
-    setInterval(startStaleSyncs, CHECK_INTERVAL_MS);
-  }
+  if (process.pkg) openBrowser(`http://localhost:${PORT}`);
+  startStaleSyncs();
+  setInterval(startStaleSyncs, CHECK_INTERVAL_MS);
 });

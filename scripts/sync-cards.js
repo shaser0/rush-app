@@ -6,9 +6,11 @@ const { cleanCards } = require('./clean-cards');
 
 // ── Config ───────────────────────────────────────────────────────────────────
 
-const CARDS_FILE    = require('path').join(__dirname, '../data/raw-cards.json');
-const STATE_FILE    = require('path').join(__dirname, '../data/sync-state.json');
-const PROGRESS_FILE = require('path').join(__dirname, '../data/sync-progress.json');
+const _path         = require('path');
+const DATA_DIR      = process.env.RUSH_DATA_DIR || _path.join(__dirname, '../data');
+const CARDS_FILE    = _path.join(DATA_DIR, 'raw-cards.json');
+const STATE_FILE    = _path.join(DATA_DIR, 'sync-state.json');
+const PROGRESS_FILE = _path.join(DATA_DIR, 'sync-progress.json');
 const RATE_MS       = 1100;
 const BATCH_SIZE    = 50; // titles per timestamp API call
 
@@ -337,7 +339,7 @@ async function main() {
       if ((i + 1) % 50 === 0) {
         fs.writeFileSync(CARDS_FILE,    JSON.stringify(cards, null, 2),               'utf8');
         fs.writeFileSync(PROGRESS_FILE, JSON.stringify({ lastIndex: i, toFetch }), 'utf8');
-        fs.writeFileSync(require('path').join(__dirname, '../data/sync-progress-cards.json'), JSON.stringify({ current: i + 1, total: toFetch.length }), 'utf8');
+        fs.writeFileSync(_path.join(DATA_DIR, 'sync-progress-cards.json'), JSON.stringify({ current: i + 1, total: toFetch.length }), 'utf8');
       }
 
       await sleep(RATE_MS);
@@ -347,7 +349,7 @@ async function main() {
   // ── 5. Final saves ─────────────────────────────────────────────────────────
   fs.writeFileSync(CARDS_FILE, JSON.stringify(cards, null, 2), 'utf8');
   if (fs.existsSync(PROGRESS_FILE))        fs.unlinkSync(PROGRESS_FILE);
-  const _spc = require('path').join(__dirname, '../data/sync-progress-cards.json');
+  const _spc = _path.join(DATA_DIR, 'sync-progress-cards.json');
   if (fs.existsSync(_spc)) fs.unlinkSync(_spc);
 
   fs.writeFileSync(STATE_FILE, JSON.stringify({

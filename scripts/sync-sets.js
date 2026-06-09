@@ -13,8 +13,9 @@ const fs = require('fs');
 const path = require('path');
 
 const API = 'https://yugipedia.com/api.php';
-const OUT      = path.join(__dirname, '../data/sets-data.json');
-const IMG_URLS = path.join(__dirname, '../data/image-urls.json');
+const DATA_DIR = process.env.RUSH_DATA_DIR || path.join(__dirname, '../data');
+const OUT      = path.join(DATA_DIR, 'sets-data.json');
+const IMG_URLS = path.join(DATA_DIR, 'image-urls.json');
 const RATE_MS = 1200;
 
 function sleep(ms) {
@@ -249,7 +250,7 @@ async function syncSets() {
 
     if (fetched % 10 === 0) {
       fs.writeFileSync(OUT, JSON.stringify(result, null, 2));
-      fs.writeFileSync(path.join(__dirname, '../data/sync-progress-sets.json'), JSON.stringify({ current: fetched, total: setTitles.size }));
+      fs.writeFileSync(path.join(DATA_DIR, 'sync-progress-sets.json'), JSON.stringify({ current: fetched, total: setTitles.size }));
       console.log(`[sync-sets] Saved ${fetched} sets so far...`);
     }
   }

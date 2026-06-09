@@ -19,7 +19,8 @@ const https = require('https');
 const fs    = require('fs');
 const path  = require('path');
 
-const OUT   = path.join(__dirname, '../data/banlist.json');
+const DATA_DIR = process.env.RUSH_DATA_DIR || path.join(__dirname, '../data');
+const OUT   = path.join(DATA_DIR, 'banlist.json');
 const API   = 'https://yugipedia.com/api.php';
 
 // Known anchor — update if this page ever disappears.
