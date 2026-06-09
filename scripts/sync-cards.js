@@ -40,7 +40,7 @@ function parseCardTable(wikitext) {
 
   const body = match[1];
   const raw  = {};
-  const re   = /\|\s*(\w+)\s*=\s*([\s\S]*?)(?=\n\s*\||\n\s*\}\}|$)/g;
+  const re   = /\|\s*(\w+)\s*=[ \t]*([\s\S]*?)(?=\n\s*\||\n\s*\}\}|$)/g;
   let m;
   while ((m = re.exec(body)) !== null) {
     const key = m[1].trim(), val = m[2].trim();

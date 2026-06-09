@@ -271,7 +271,7 @@ button,input,select{font-family:inherit}
 #cp-stats{font-size:13px;display:flex;gap:8px;flex-wrap:wrap;color:var(--text)}
 #cp-maxatk{font-size:15px;font-weight:700;color:#ff9800;letter-spacing:.5px;padding:2px 0}
 #cp-materials{font-size:13px;color:#c8e6c9;font-style:italic;line-height:1.4}
-#cp-condition{font-size:13px;color:var(--muted)}
+#cp-condition{font-size:13px;color:#ffcc80;font-style:italic;line-height:1.4}
 #cp-req,#cp-eff{font-size:13px;line-height:1.5}
 #cp-eff-body{white-space:pre-wrap}
 
@@ -285,7 +285,7 @@ button,input,select{font-family:inherit}
 #tt-condition{font-size:11px;color:#ffcc80;font-style:italic;line-height:1.4}
 .tt-lbl{color:var(--gold);font-weight:700;display:block;margin-bottom:1px}
 #tt-req{font-size:11px;line-height:1.4}
-#tt-req-body{color:#90caf9}
+#tt-req-body{color:var(--text)}
 #tt-eff{font-size:11px;color:var(--text);line-height:1.5;border-top:1px solid var(--border);padding-top:5px;margin-top:2px}
 
 /* ── Builder ───────────────────────────────────────────────────────────── */
@@ -377,6 +377,11 @@ button,input,select{font-family:inherit}
 .db-dcard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:1}
 .db-dcard .cph{position:absolute;inset:0;font-size:13px;width:auto;height:auto}
 .db-qty{position:absolute;bottom:2px;right:2px;background:rgba(0,0,0,.85);border:1px solid var(--gold);color:var(--gold);font-size:9px;font-weight:700;border-radius:3px;padding:0 3px;z-index:2}
+#db-rar-picker{position:fixed;background:#1a1a35;border:1px solid #7c4dff;border-radius:7px;padding:6px 5px;z-index:9999;box-shadow:0 6px 24px rgba(0,0,0,.85);display:none;flex-direction:column;gap:2px;min-width:170px;max-width:260px;max-height:60vh;overflow-y:auto}
+#db-rar-picker.open{display:flex}
+.db-rar-opt{padding:6px 12px;border-radius:5px;cursor:pointer;font-size:12px;display:flex;justify-content:space-between;align-items:center;gap:8px;color:#e8e0f0}
+.db-rar-opt:hover{background:#2e2e5a}
+.db-rar-opt.disabled{opacity:.4;cursor:default;pointer-events:none}
 .db-empty{grid-column:1/-1;color:var(--muted);font-size:11px;text-align:center;padding:14px}
 #db-save{padding:9px;background:var(--accent);border:none;border-radius:7px;color:#fff;font-weight:700;cursor:pointer;font-size:13px}
 #db-save:hover{opacity:.9}
@@ -391,9 +396,9 @@ button,input,select{font-family:inherit}
 #dbp-pool-filters input[type=text]:focus,#dbp-pool-filters select:focus{outline:none;border-color:var(--accent)}
 #dbp-pool-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px;max-height:calc(100vh - 150px);overflow-y:auto;padding-right:4px}
 #dbp-info{flex:0 0 calc(33.333% - 7px);min-width:260px;max-width:420px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:10px;position:sticky;top:58px;max-height:calc(100vh - 70px);overflow-y:auto}
-#dbp-img-wrap{position:relative;cursor:pointer;border-radius:8px;overflow:hidden;background:var(--bg3);aspect-ratio:59/86;display:flex;align-items:center;justify-content:center}
+#dbp-img-wrap{position:relative;cursor:pointer;border-radius:8px;overflow:hidden;background:var(--bg3);width:100%;aspect-ratio:59/86;flex-shrink:0;display:flex;align-items:center;justify-content:center}
 #dbp-img-wrap img{width:100%;height:100%;object-fit:contain;display:block}
-#dbp-gallery{display:flex;gap:5px;flex-wrap:wrap}
+#dbp-gallery{display:flex;gap:5px;flex-wrap:wrap;flex-shrink:0}
 .dbp-thumb{width:44px;height:64px;object-fit:cover;border-radius:4px;border:1.5px solid var(--border);cursor:pointer;opacity:.7;transition:opacity .15s,border-color .15s}
 .dbp-thumb:hover,.dbp-thumb.sel{opacity:1;border-color:var(--accent)}
 #dbp-name{font-size:16px;font-weight:700;color:var(--gold);line-height:1.3}
@@ -428,6 +433,7 @@ button,input,select{font-family:inherit}
   <div class="sync-row"><span class="sync-dot" id="dot-cards"></span><span class="sync-label">Cards</span><span class="sync-time" id="time-cards">—</span></div>
   <div class="sync-row"><span class="sync-dot" id="dot-sets"></span><span class="sync-label">Sets</span><span class="sync-time" id="time-sets">—</span></div>
   <div class="sync-row"><span class="sync-dot" id="dot-gallery"></span><span class="sync-label">Gallery</span><span class="sync-time" id="time-gallery">—</span></div>
+  <div class="sync-row"><span class="sync-dot" id="dot-banlist"></span><span class="sync-label">Banlist</span><span class="sync-time" id="time-banlist">—</span></div>
   <button id="sync-all-btn">Sync All</button>
 </div>
 
@@ -499,16 +505,17 @@ button,input,select{font-family:inherit}
     <div id="dbp-pool">
       <div id="dbp-pool-filters">
         <input id="dbp-search" type="text" placeholder="Search cards…" autocomplete="off">
-        <select id="dbp-type">
-          <option value="">All types</option>
+        <select id="dbp-ctype">
+          <option value="">All card types</option>
           <option value="Monster">Monster</option>
           <option value="Spell">Spell</option>
           <option value="Trap">Trap</option>
         </select>
         <select id="dbp-attr"><option value="">All attributes</option></select>
         <select id="dbp-rarity"><option value="">All rarities</option></select>
-        <select id="dbp-race"><option value="">All races</option></select>
-        <input id="dbp-series" type="text" placeholder="Series…" autocomplete="off" style="min-width:90px">
+        <select id="dbp-mtype"><option value="">All monster types</option></select>
+        <select id="dbp-subtype"><option value="">All subtypes</option></select>
+        <select id="dbp-series" style="min-width:90px"><option value="">All series</option></select>
         <span style="display:flex;align-items:center;gap:3px">
           <select id="dbp-lvl-op" style="min-width:42px"><option value="">LV</option><option>=</option><option>≥</option><option>></option><option>≤</option><option><</option></select>
           <input id="dbp-lvl-val" type="number" min="0" max="12" placeholder="–" style="width:46px">
@@ -522,6 +529,16 @@ button,input,select{font-family:inherit}
           <input id="dbp-def-val" type="number" min="0" placeholder="–" style="width:58px">
         </span>
         <label><input type="checkbox" id="dbp-legend"> Legend only</label>
+        <select id="dbp-sort">
+          <option value="name-asc">Name A–Z</option>
+          <option value="name-desc">Name Z–A</option>
+          <option value="release-asc">Release old→new</option>
+          <option value="release-desc">Release new→old</option>
+          <option value="rarity-desc">Rarity high–low</option>
+          <option value="rarity-asc">Rarity low–high</option>
+          <option value="level-desc">Level high–low</option>
+          <option value="level-asc">Level low–high</option>
+        </select>
       </div>
       <div id="dbp-pool-grid"></div>
     </div>
@@ -568,17 +585,28 @@ button,input,select{font-family:inherit}
           <select id="f-arch"><option value="">All series</option></select>
         </div>
         <div class="filter-row">
-          <select id="f-type">
-            <option value="">All types</option>
+          <select id="f-ctype">
+            <option value="">All card types</option>
             <option value="Monster">Monster</option>
             <option value="Spell">Spell</option>
             <option value="Trap">Trap</option>
           </select>
-          <select id="f-race"><option value="">All races</option></select>
+          <select id="f-mtype"><option value="">All monster types</option></select>
           <select id="f-subtype"><option value="">All subtypes</option></select>
         </div>
         <div class="filter-row">
           <label style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);cursor:pointer"><input type="checkbox" id="f-legend"> Legend only</label>
+          <select id="f-sort">
+            <option value="date-desc">Newest first</option>
+            <option value="date-asc">Oldest first</option>
+            <option value="name-asc">Name A–Z</option>
+            <option value="name-desc">Name Z–A</option>
+            <option value="release-asc">Release old→new</option>
+            <option value="release-desc">Release new→old</option>
+            <option value="rarity-desc">Rarity high–low</option>
+            <option value="rarity-asc">Rarity low–high</option>
+            <option value="count-desc">Count (most)</option>
+          </select>
         </div>
         <div class="filter-row">
           <div class="fng">
@@ -642,22 +670,25 @@ button,input,select{font-family:inherit}
   </div>
 </section>
 
+<div id="db-rar-picker"></div>
+
 <!-- Deck Builder -->
 <section class="screen" id="screen-deckbuilder">
   <div id="db-layout">
     <div id="db-pool">
       <div id="db-pool-filters">
         <input id="db-search" type="text" placeholder="Search cards…" autocomplete="off">
-        <select id="db-type">
-          <option value="">All types</option>
+        <select id="db-ctype">
+          <option value="">All card types</option>
           <option value="Monster">Monster</option>
           <option value="Spell">Spell</option>
           <option value="Trap">Trap</option>
         </select>
         <select id="db-attr"><option value="">All attributes</option></select>
         <select id="db-rarity"><option value="">All rarities</option></select>
-        <select id="db-race"><option value="">All races</option></select>
-        <input id="db-series" type="text" placeholder="Series…" autocomplete="off" style="min-width:90px">
+        <select id="db-mtype"><option value="">All monster types</option></select>
+        <select id="db-subtype"><option value="">All subtypes</option></select>
+        <select id="db-series" style="min-width:90px"><option value="">All series</option></select>
         <span style="display:flex;align-items:center;gap:3px">
           <select id="db-lvl-op" style="min-width:42px"><option value="">LV</option><option>=</option><option>≥</option><option>></option><option>≤</option><option><</option></select>
           <input id="db-lvl-val" type="number" min="0" max="12" placeholder="–" style="width:46px">
@@ -674,6 +705,17 @@ button,input,select{font-family:inherit}
         <select id="db-collection-sel"><option value="">All collections</option></select>
         <label><input type="checkbox" id="db-legend"> Legend only</label>
         <label><input type="checkbox" id="db-banlist"> Enforce banlist</label>
+        <select id="db-sort">
+          <option value="type">Type / Level</option>
+          <option value="name-asc">Name A–Z</option>
+          <option value="name-desc">Name Z–A</option>
+          <option value="release-asc">Release old→new</option>
+          <option value="release-desc">Release new→old</option>
+          <option value="rarity-desc">Rarity high–low</option>
+          <option value="rarity-asc">Rarity low–high</option>
+          <option value="level-desc">Level high–low</option>
+          <option value="level-asc">Level low–high</option>
+        </select>
       </div>
       <div id="db-pool-grid"></div>
     </div>
@@ -831,7 +873,7 @@ const FORCE_PROMO = new Set([
 ]);
 
 const SOUND_TIER = r => rarityRank(r)>=rarityRank('Rush Rare')?'explosion'
-  :rarityRank(r)>=rarityRank('Super Rare')?'sparkle':'whoosh';
+  :rarityRank(r)>=rarityRank('Super Rare')?'sparkle':null;
 
 const COL_COLORS = ['','#7c4dff','#ffd700','#f44336','#4caf50','#2196f3','#00bcd4','#ff9800'];
 
@@ -864,9 +906,9 @@ function cardRace(card){
   return card.types.split('/')[0].trim();
 }
 function cardSubtypes(card){
+  if(!MONSTER_ATTRS.has(card.attribute)) return card.property?[card.property]:[];
   if(!card.types) return [];
-  const parts=card.types.split('/').map(p=>p.trim());
-  return MONSTER_ATTRS.has(card.attribute)?parts.slice(1):parts;
+  return card.types.split('/').map(p=>p.trim()).slice(1);
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -901,11 +943,25 @@ function mkPh(){
    4. UI UTILS
 ═══════════════════════════════════════════════════════ */
 function cname(card){ return card.name_en||card.title||''; }
+let cardImgObserver=null;
+function getCardImgObserver(){
+  if(!cardImgObserver) cardImgObserver=new IntersectionObserver((entries,obs)=>{
+    for(const e of entries){
+      if(!e.isIntersecting) continue;
+      const img=e.target;
+      if(img.dataset.src){img.src=img.dataset.src;img.removeAttribute('data-src');}
+      obs.unobserve(img);
+    }
+  },{rootMargin:'150px 0px'});
+  return cardImgObserver;
+}
+function lcrRank(n){ return n.endsWith(' [L]')?0:n.endsWith(' [R]')?2:1; }
+function nameCmp(a,b){ const ba=a.replace(/ \[(?:L|R)\]$/,''),bb=b.replace(/ \[(?:L|R)\]$/,''); return ba.localeCompare(bb)||lcrRank(a)-lcrRank(b); }
 function rbHtml(r){ return `<span class="rb ${RBC[r]||''}">${r||''}</span>`; }
 function maxBadgeHtml(card){
   const n=card.name_en||'';
-  if(n.endsWith('(L)')) return '<span class="badge-lr">L</span>';
-  if(n.endsWith('(R)')) return '<span class="badge-lr">R</span>';
+  if(n.endsWith('[L]')) return '<span class="badge-lr">L</span>';
+  if(n.endsWith('[R]')) return '<span class="badge-lr">R</span>';
   if(card.maximum_atk!=null) return '<span class="badge-max">MAX</span>';
   return '';
 }
@@ -929,6 +985,26 @@ function saveColls(d){
     .then(r=>{if(!r.ok)console.warn('saveColls HTTP',r.status);})
     .catch(e=>console.warn('saveColls failed:',e.message));
 }
+// Migrate old format (one entry per copy) → new format (one entry + count).
+// Returns true if data was changed.
+function migrateColls(d){
+  let changed=false;
+  for(const col of d.collections){
+    const seen=new Map();
+    for(const e of col.cards){
+      const k=`${e.cardTitle}||${e.rarity}||${e.imgFile||''}`;
+      if(seen.has(k)){ seen.get(k).count=(seen.get(k).count||1)+(e.count||1); changed=true; }
+      else{ const entry={...e,count:e.count??1}; if(e.count==null) changed=true; seen.set(k,entry); }
+    }
+    col.cards=[...seen.values()];
+  }
+  return changed;
+}
+function upsertColCard(cards,entry){
+  const ex=cards.find(e=>e.cardTitle===entry.cardTitle&&e.rarity===entry.rarity&&(e.imgFile||'')===(entry.imgFile||''));
+  if(ex){ ex.count=(ex.count||1)+1; }
+  else{ cards.push({...entry,count:1}); }
+}
 function getCPs(){ try{return JSON.parse(localStorage.getItem('ygo-custom-packs')||'[]');}catch{return[];} }
 function saveCPs(p){ localStorage.setItem('ygo-custom-packs',JSON.stringify(p)); }
 
@@ -949,10 +1025,10 @@ function getFullDeck(set){
   for(const [title,count] of qty){
     const card=MAP.get(title); if(!card) continue;
     const rarity=(set.ents.find(e=>e.card.title===title)||{}).rarity||'Common';
-    for(let i=0;i<count;i++){
-      target.cards.push({cardTitle:title,rarity,collectedAt:new Date().toISOString()});
-      added++;
-    }
+    const ex=target.cards.find(e=>e.cardTitle===title&&e.rarity===rarity&&!e.imgFile);
+    if(ex){ ex.count=(ex.count||1)+count; }
+    else{ target.cards.push({cardTitle:title,rarity,collectedAt:new Date().toISOString(),count}); }
+    added+=count;
   }
   saveColls(data);
   toast(`Added ${added} cards to "${target.name}"!`);
@@ -983,6 +1059,59 @@ function sortKey(name,meta){
   }
   const ym=name.match(YEAR_RE);
   return (ym?ym[1]:'9999')+'_'+name;
+}
+
+// Returns the imgFile (cleaned) for the lowest rarity (or lowest owned rarity) of a card.
+// ownedRarities: Set of rarity strings to restrict to, or null for all rarities.
+function lowestRarityImg(card, ownedRarities){
+  const cleanImgs=(card.images||[]).map(i=>cleanFile(i.file)).filter(f=>f&&!/-KRS?-/.test(f));
+  if(!cleanImgs.length) return null;
+  const rarEntries=[];
+  for(const s of card.sets_jp||[]){
+    const sc=s.code.split('-')[0].replace('/','');
+    for(const r of (s.rarity||'').split(',').map(x=>x.trim())){
+      if(r&&(!ownedRarities||ownedRarities.has(r))) rarEntries.push({rarity:r,sc});
+    }
+  }
+  if(!rarEntries.length) return cleanImgs[0];
+  rarEntries.sort((a,b)=>rarityRank(a.rarity)-rarityRank(b.rarity));
+  for(const {rarity,sc} of rarEntries){
+    const abbr=RA[rarity];
+    if(abbr){ const img=cleanImgs.find(f=>f.includes(sc)&&f.includes('-'+abbr)); if(img) return img; }
+    const img=cleanImgs.find(f=>f.includes(sc)); if(img) return img;
+  }
+  return cleanImgs[0];
+}
+function cardRarityMax(card){ return Math.max(0,...(card.sets_jp||[]).flatMap(s=>(s.rarity||'').split(',').map(r=>rarityRank(r.trim())))); }
+function cardRarityMin(card){ const r=(card.sets_jp||[]).flatMap(s=>(s.rarity||'').split(',').map(x=>rarityRank(x.trim())));return r.length?Math.min(...r):0; }
+function cardRelKey(card){
+  let best=null;
+  for(const s of card.sets_jp||[]){
+    const meta=SDATA[s.name];
+    if(!meta||!meta.releaseDateJP) continue;
+    const d=new Date(meta.releaseDateJP);
+    if(isNaN(d)) continue;
+    const ts=d.getTime();
+    const nm=s.code.match(/(\d+)$/);
+    const num=nm?parseInt(nm[1],10):9999;
+    if(!best||ts<best.ts||(ts===best.ts&&num<best.num)) best={ts,num};
+  }
+  return best||{ts:Infinity,num:9999};
+}
+// Returns the best image for a specific rarity (falls back to lowestRarityImg)
+function rarityImg(card, rarity){
+  if(!rarity) return lowestRarityImg(card,null);
+  const cleanImgs=(card.images||[]).map(i=>cleanFile(i.file)).filter(f=>f&&!/-KRS?-/.test(f));
+  if(!cleanImgs.length) return null;
+  const abbr=RA[rarity];
+  for(const s of card.sets_jp||[]){
+    const rar=(s.rarity||'').split(',').map(x=>x.trim());
+    if(!rar.includes(rarity)) continue;
+    const sc=s.code.split('-')[0].replace('/','');
+    if(abbr){ const img=cleanImgs.find(f=>f.includes(sc)&&f.includes('-'+abbr)); if(img) return img; }
+    const img=cleanImgs.find(f=>f.includes(sc)); if(img) return img;
+  }
+  return lowestRarityImg(card,null);
 }
 
 function mkEntries(card,pfx,rarity){
@@ -1200,6 +1329,7 @@ const PACK_PROFILES={
     foilRates:{'Super Rare':7,'Super Parallel Rare':2,'Ultra Rare':3,'Secret Rare':2.5,'Over Rush Rare':1.5},
   },
   // High-Grade Collection — 24 packs/box, ≥1 SR+ per pack, ~28 foils/box (SR20 UR3.5 ScR3.5 ORR1.5).
+  // ORR pity applies as a safety net (~1.5 expected, occasionally 0).
   'High-Grade Collection':{
     baseCommons:2, rareSlot:false, foilSlots:[1,0.17],
     foilRates:{'Super Rare':20,'Ultra Rare':3.5,'Secret Rare':3.5,'Over Rush Rare':1.5},
@@ -1210,6 +1340,21 @@ const PACK_PROFILES={
   'Over Rush Pack 4':{
     foilRates:{'Super Rare':9,'Ultra Rare':4,'Secret Rare':1,'Over Rush Rare':1,'Full Over Rush Rare':0.17},
   },
+  // 5th Anniversary Pack — all-foil, 15 packs × 4 cards = 60 slots/box.
+  // Community data: 1 ORR, 2 ScR, ~9 UR(+UPR) per box; remaining ~48 slots are SR/SPR.
+  // Weights sum to ~60 so each slot probability matches the per-box expectation.
+  '5th Anniversary Pack':{
+    foilRates:{
+      'Super Rare':30,'Super Parallel Rare':18,
+      'Ultra Rare':6,'Ultra Parallel Rare':3,
+      'Secret Rare':2,
+      'Over Rush Rare':1,'Over Rush Rare (Premium Black Version)':0.02,
+    },
+  },
+  // Megaroad Pack — has Rush Rare but no ORR; pity would skip naturally but flag for clarity.
+  'Megaroad Pack':{ noOrrPity:true },
+  // Megaroad Pack 2 — has ORR but no guaranteed ORR per box (0–2 average across boxes).
+  'Megaroad Pack 2':{ noOrrPity:true },
 };
 
 function packProfile(set){
@@ -1249,16 +1394,37 @@ function simPack(set){
 function simBox(set){
   const n=set.ppb>0?set.ppb:15;
   const packs=Array.from({length:n},()=>simPack(set));
+  const last=packs[packs.length-1];
+  const profile=PACK_PROFILES[set.name]||{};
+
+  // Pity 1: guarantee ≥1 Ultra Rare per box
   const uRank=rarityRank('Ultra Rare');
   const hasU=packs.flat().some(e=>e&&rarityRank(e.rarity)>=uRank);
   if(!hasU){
     const pool=RARITY_ORDER.filter(r=>rarityRank(r)>=uRank&&set.byR[r]?.length>0);
     if(pool.length){
-      const last=packs[packs.length-1];
       const got=wPick(set.byR,pool);
       if(got&&last.length>0) last[last.length-1]=got;
     }
   }
+
+  // Pity 2: guarantee ≥1 ORR per box (community data: ~1 per box for standard sets).
+  // Skipped when noOrrPity is set (Megaroad packs have no per-box ORR guarantee).
+  // Trigger: no ORR+ (including FORR) pulled anywhere in the box.
+  // Pool: ORR and ORR Black only — FORR is ~1/carton, too rare for a per-box guarantee.
+  if(!profile.noOrrPity){
+    const orrRank=rarityRank('Over Rush Rare');
+    const hasORR=packs.flat().some(e=>e&&rarityRank(e.rarity)>=orrRank);
+    if(!hasORR){
+      // ORR Black is a carton-level rarity (like FORR) from Accel Road of the Attack onward — excluded from the guarantee.
+      const orrPool=['Over Rush Rare'].filter(r=>set.byR[r]?.length>0);
+      if(orrPool.length){
+        const got=wPickByRate(set.byR,orrPool);
+        if(got&&last.length>0) last[last.length-1]=got;
+      }
+    }
+  }
+
   return packs;
 }
 
@@ -1508,13 +1674,23 @@ function initDatabasePage(){
     const rars=[...new Set(ALL.flatMap(c=>(c.sets_jp||[]).flatMap(s=>s.rarity?s.rarity.split(',').map(r=>r.trim()):[])))].sort();
     rarSel.innerHTML='<option value="">All rarities</option>'+rars.map(r=>`<option>${r}</option>`).join('');
   }
-  const raceSel=document.getElementById('dbp-race');
+  const raceSel=document.getElementById('dbp-mtype');
   if(raceSel.options.length<=1){
     const races=[...new Set(ALL.map(c=>cardRace(c)).filter(Boolean))].sort();
-    raceSel.innerHTML='<option value="">All races</option>'+races.map(r=>`<option>${r}</option>`).join('');
+    raceSel.innerHTML='<option value="">All monster types</option>'+races.map(r=>`<option>${r}</option>`).join('');
   }
-  ['dbp-search','dbp-series'].forEach(id=>document.getElementById(id).oninput=renderDbpPool);
-  ['dbp-type','dbp-attr','dbp-rarity','dbp-race',
+  const subtypeSel=document.getElementById('dbp-subtype');
+  if(subtypeSel.options.length<=1){
+    const subs=[...new Set(ALL.flatMap(c=>cardSubtypes(c)))].filter(Boolean).sort();
+    subtypeSel.innerHTML='<option value="">All subtypes</option>'+subs.map(s=>`<option>${s}</option>`).join('');
+  }
+  const seriesSelDbp=document.getElementById('dbp-series');
+  if(seriesSelDbp.options.length<=1){
+    const series=[...new Set(ALL.flatMap(c=>c.archseries||[]))].filter(Boolean).sort();
+    seriesSelDbp.innerHTML='<option value="">All series</option>'+series.map(s=>`<option>${s}</option>`).join('');
+  }
+  document.getElementById('dbp-search').oninput=renderDbpPool;
+  ['dbp-ctype','dbp-attr','dbp-rarity','dbp-mtype','dbp-subtype','dbp-series','dbp-sort',
    'dbp-lvl-op','dbp-lvl-val','dbp-atk-op','dbp-atk-val','dbp-def-op','dbp-def-val'
   ].forEach(id=>{const el=document.getElementById(id);if(el)el.onchange=renderDbpPool;});
   document.getElementById('dbp-legend').onchange=renderDbpPool;
@@ -1523,11 +1699,12 @@ function initDatabasePage(){
 
 function renderDbpPool(){
   const q=(document.getElementById('dbp-search')?.value||'').trim().toLowerCase();
-  const tf=document.getElementById('dbp-type')?.value||'';
+  const tf=document.getElementById('dbp-ctype')?.value||'';
   const af=document.getElementById('dbp-attr')?.value||'';
   const rf=document.getElementById('dbp-rarity')?.value||'';
-  const racef=document.getElementById('dbp-race')?.value||'';
-  const seriesf=(document.getElementById('dbp-series')?.value||'').trim().toLowerCase();
+  const racef=document.getElementById('dbp-mtype')?.value||'';
+  const subtypef=document.getElementById('dbp-subtype')?.value||'';
+  const seriesf=document.getElementById('dbp-series')?.value||'';
   const legendOnly=document.getElementById('dbp-legend')?.checked||false;
   let pool=ALL.filter(c=>c.title&&isPlayable(c));
   if(q)        pool=pool.filter(c=>cname(c).toLowerCase().includes(q));
@@ -1535,27 +1712,41 @@ function renderDbpPool(){
   if(af)       pool=pool.filter(c=>c.attribute===af);
   if(rf)       pool=pool.filter(c=>(c.sets_jp||[]).some(s=>s.rarity&&s.rarity.split(',').map(r=>r.trim()).includes(rf)));
   if(racef)    pool=pool.filter(c=>cardRace(c)===racef);
-  if(seriesf)  pool=pool.filter(c=>(c.archseries||[]).some(a=>a.toLowerCase().includes(seriesf)));
+  if(subtypef) pool=pool.filter(c=>cardSubtypes(c).includes(subtypef));
+  if(seriesf)  pool=pool.filter(c=>(c.archseries||[]).includes(seriesf));
   if(legendOnly) pool=pool.filter(c=>isLegendCard(c));
   pool=pool.filter(c=>dbNumCmp(c.level,'dbp-lvl-op','dbp-lvl-val'));
   pool=pool.filter(c=>dbNumCmp(c.atk,  'dbp-atk-op','dbp-atk-val'));
   pool=pool.filter(c=>dbNumCmp(c.def,  'dbp-def-op','dbp-def-val'));
-  pool.sort((a,b)=>cname(a).localeCompare(cname(b)));
-  pool=pool.slice(0,300);
+  const sortBy=document.getElementById('dbp-sort')?.value||'name-asc';
+  pool.sort((a,b)=>{
+    if(sortBy==='name-desc') return nameCmp(cname(b),cname(a));
+    if(sortBy==='release-asc'){ const ka=cardRelKey(a),kb=cardRelKey(b); return ka.ts-kb.ts||ka.num-kb.num||nameCmp(cname(a),cname(b)); }
+    if(sortBy==='release-desc'){ const ka=cardRelKey(a),kb=cardRelKey(b); return kb.ts-ka.ts||ka.num-kb.num||nameCmp(cname(a),cname(b)); }
+    if(sortBy==='rarity-desc') return cardRarityMax(b)-cardRarityMax(a)||nameCmp(cname(a),cname(b));
+    if(sortBy==='rarity-asc') return cardRarityMin(a)-cardRarityMin(b)||nameCmp(cname(a),cname(b));
+    if(sortBy==='level-desc') return (b.level??-1)-(a.level??-1)||nameCmp(cname(a),cname(b));
+    if(sortBy==='level-asc') return (a.level??-1)-(b.level??-1)||nameCmp(cname(a),cname(b));
+    return nameCmp(cname(a),cname(b)); // name-asc default
+  });
   const grid=document.getElementById('dbp-pool-grid');
+  if(cardImgObserver) cardImgObserver.disconnect();
   grid.innerHTML='';
   if(!pool.length){grid.innerHTML='<p class="db-empty">No cards match.</p>';return;}
+  const obs=getCardImgObserver();
   for(const card of pool){
-    const f=card.images&&card.images[0]?cleanFile(card.images[0].file):null;
+    const f=lowestRarityImg(card,null);
     const el=document.createElement('div');
     el.className='db-pcard'+(dbpSelected?.title===card.title?' dbp-sel':'');
     el.dataset.title=card.title; el._card=card;
     el.innerHTML=`<div class="cph">？</div>
-      ${f?`<img src="${imgUrl(f)}" alt="${cname(card)}" loading="lazy" onload="this.previousElementSibling.style.display='none'" onerror="this.remove()">`:''}
+      ${f?`<img data-src="${imgUrl(f)}" alt="${cname(card)}" onload="this.previousElementSibling.style.display='none'" onerror="this.remove()">`:''}
       ${isLegendCard(card)?`<span class="db-legend" title="Legend Card">★</span>`:''}
       ${maxBadgeHtml(card)}`;
     el.addEventListener('click',()=>showDbpDetail(card));
     grid.appendChild(el);
+    const img=el.querySelector('img[data-src]');
+    if(img) obs.observe(img);
   }
 }
 
@@ -1576,6 +1767,7 @@ function showDbpDetail(card){
   if(isMon&&card.def!=null) stats.push('DEF '+card.def);
   const setRows=(card.sets_jp||[]).map(s=>`<tr><td>${s.code}</td><td>${s.name}</td><td>${rbHtml(s.rarity)}</td></tr>`).join('');
   const isFlavor=!card.effect&&!!card.flavor_text;
+  const effLabel=isFlavor?'':(card.effect_types?'【'+card.effect_types+' Effect】':'【Effect】');
 
   panel.innerHTML=`
     <div id="dbp-img-wrap"><div class="cph" style="font-size:40px">？</div>${imgs[0]?`<img id="dbp-main-img" src="${imgUrl(imgs[0])}" alt="${cname(card)}" onload="this.previousElementSibling.style.display='none'" onerror="this.remove()">`:''}</div>
@@ -1584,9 +1776,10 @@ function showDbpDetail(card){
     <div id="dbp-type">${card.types||(card.card_type?[card.card_type,card.property].filter(Boolean).join(' / '):'')||''}</div>
     ${stats.length?`<div id="dbp-stats">${stats.join(' · ')}</div>`:''}
     ${isMon&&card.maximum_atk!=null?`<div id="dbp-maxatk">⚡ MAX ATK  ${card.maximum_atk}</div>`:''}
-    ${card.condition?`<div style="font-size:12px;color:var(--muted)">${card.condition}</div>`:''}
-    ${card.requirement?`<div style="font-size:12px"><b style="color:var(--gold)">【Requirement】</b> ${card.requirement}</div>`:''}
-    ${card.effect||card.flavor_text?`<div style="font-size:12px;line-height:1.55;${isFlavor?'font-style:italic;color:var(--muted)':''}">${card.effect||card.flavor_text}</div>`:''}
+    ${card.materials?`<div style="font-size:12px;color:#c8e6c9;font-style:italic;line-height:1.5">${card.materials}</div>`:''}
+    ${card.condition?`<div style="font-size:12px;color:#ffcc80;font-style:italic;line-height:1.5">${card.condition}</div>`:''}
+    ${card.requirement?`<div style="font-size:12px;line-height:1.5"><b style="color:var(--gold);font-weight:700">【Requirement】</b> ${card.requirement}</div>`:''}
+    ${card.effect||card.flavor_text?`<div style="font-size:12px;line-height:1.55;${isFlavor?'font-style:italic;color:var(--muted)':''}">${effLabel?`<b style="color:var(--gold);font-weight:700">${effLabel}</b> `:''}${card.effect||card.flavor_text}</div>`:''}
     ${setRows?`<div id="dbp-sets"><b style="font-size:12px;color:var(--gold)">Sets</b><table style="margin-top:4px">${setRows}</table></div>`:''}`;
 
   // Gallery click: swap main image
@@ -1886,7 +2079,7 @@ function mkFlip(ent){
     if(w.classList.contains('flipped')) return;
     w.classList.add('flipped');
     slot.classList.add('revealed');
-    if(ent) snd(SOUND_TIER(ent.rarity));
+    if(ent){ const t=SOUND_TIER(ent.rarity); if(t) snd(t); }
     checkDone();
   });
   w.addEventListener('contextmenu',e=>{
@@ -1972,7 +2165,7 @@ function showAssign(){
     const col=d.collections.find(c=>c.id===id);
     if(col){
       for(const e of sess.pulled.filter(Boolean)){
-        col.cards.push({cardTitle:e.card.title,rarity:e.rarity,setPrefix:sess.set.pfx,setName:sess.set.name,imgFile:e.imgFile||null,pulledAt:Date.now()});
+        upsertColCard(col.cards,{cardTitle:e.card.title,rarity:e.rarity,setPrefix:sess.set.pfx,setName:sess.set.name,imgFile:e.imgFile||null,pulledAt:Date.now()});
       }
     }
     saveColls(d);
@@ -2046,7 +2239,7 @@ function renderColScreen(){
     it.style.borderLeftColor=col.color||'transparent';
     it.innerHTML=`
       <span class="col-iname">${col.name}</span>
-      <span class="col-icnt">${col.cards.length}</span>
+      <span class="col-icnt">${col.cards.reduce((s,e)=>s+(e.count||1),0)}</span>
       <button class="col-gear" title="Settings">⚙</button>
       <button class="col-idel" title="Delete">×</button>`;
 
@@ -2128,15 +2321,16 @@ function buildFilters(){
   sa.innerHTML=`<option value="">All attributes</option>`+attrs.map(a=>`<option value="${a}"${a===curA?' selected':''}>${a}</option>`).join('');
   const sc=document.getElementById('f-arch'),curC=sc.value;
   sc.innerHTML=`<option value="">All series</option>`+archs.map(a=>`<option value="${a}"${a===curC?' selected':''}>${a}</option>`).join('');
-  const srr=document.getElementById('f-race'),curRr=srr.value;
-  srr.innerHTML=`<option value="">All races</option>`+races.map(r=>`<option value="${r}"${r===curRr?' selected':''}>${r}</option>`).join('');
+  const srr=document.getElementById('f-mtype'),curRr=srr.value;
+  srr.innerHTML=`<option value="">All monster types</option>`+races.map(r=>`<option value="${r}"${r===curRr?' selected':''}>${r}</option>`).join('');
   const sst=document.getElementById('f-subtype'),curSt=sst.value;
   sst.innerHTML=`<option value="">All subtypes</option>`+subtypes.map(s=>`<option value="${s}"${s===curSt?' selected':''}>${s}</option>`).join('');
 
   [sr,sa,sc,srr,sst,
    document.getElementById('f-search'),
-   document.getElementById('f-type'),
-   document.getElementById('f-legend')
+   document.getElementById('f-ctype'),
+   document.getElementById('f-legend'),
+   document.getElementById('f-sort')
   ].forEach(el=>{ if(el){el.onchange=renderColCards;el.oninput=renderColCards;} });
 }
 
@@ -2150,12 +2344,12 @@ function renderColCards(){
   const rf=document.getElementById('f-rarity')?.value||'';
   const af=document.getElementById('f-attr')?.value||'';
   const cf=document.getElementById('f-arch')?.value||'';
-  const tf=document.getElementById('f-type')?.value||'';
-  const rrf=document.getElementById('f-race')?.value||'';
+  const tf=document.getElementById('f-ctype')?.value||'';
+  const rrf=document.getElementById('f-mtype')?.value||'';
   const stf=document.getElementById('f-subtype')?.value||'';
   const legendOnly=document.getElementById('f-legend')?.checked||false;
 
-  let ents=[...col.cards].reverse()
+  let ents=[...col.cards]
     .map(e=>({...e,card:MAP.get(e.cardTitle)}))
     .filter(e=>e.card);
 
@@ -2170,19 +2364,22 @@ function renderColCards(){
   ents=ents.filter(e=>matchNum(e.card.level,'f-lv-op','f-lv-v1','f-lv-v2'));
   ents=ents.filter(e=>matchNum(e.card.atk,  'f-atk-op','f-atk-v1','f-atk-v2'));
   ents=ents.filter(e=>matchNum(e.card.def,  'f-def-op','f-def-v1','f-def-v2'));
-
-  // Stack identical cards (same title + rarity + art)
-  const stackMap=new Map();
-  for(const e of ents){
-    const key=`${e.cardTitle}||${e.rarity}||${e.imgFile||''}`;
-    if(!stackMap.has(key)) stackMap.set(key,{entry:e,count:0});
-    stackMap.get(key).count++;
-  }
+  const colSort=document.getElementById('f-sort')?.value||'date-desc';
+  if(colSort==='date-desc') ents.reverse();
+  else if(colSort==='name-asc') ents.sort((a,b)=>nameCmp(cname(a.card),cname(b.card)));
+  else if(colSort==='name-desc') ents.sort((a,b)=>nameCmp(cname(b.card),cname(a.card)));
+  else if(colSort==='rarity-desc') ents.sort((a,b)=>rarityRank(b.rarity)-rarityRank(a.rarity)||nameCmp(cname(a.card),cname(b.card)));
+  else if(colSort==='rarity-asc') ents.sort((a,b)=>rarityRank(a.rarity)-rarityRank(b.rarity)||nameCmp(cname(a.card),cname(b.card)));
+  else if(colSort==='count-desc') ents.sort((a,b)=>(b.count||1)-(a.count||1)||nameCmp(cname(a.card),cname(b.card)));
+  else if(colSort==='release-asc') ents.sort((a,b)=>{ const ka=cardRelKey(a.card),kb=cardRelKey(b.card); return ka.ts-kb.ts||ka.num-kb.num||nameCmp(cname(a.card),cname(b.card)); });
+  else if(colSort==='release-desc') ents.sort((a,b)=>{ const ka=cardRelKey(a.card),kb=cardRelKey(b.card); return kb.ts-ka.ts||ka.num-kb.num||nameCmp(cname(a.card),cname(b.card)); });
+  // date-asc: keep insertion order (as-is, already not reversed)
 
   grid.innerHTML='';
-  if(!stackMap.size){grid.innerHTML=`<p class="empty-msg">No cards.</p>`;return;}
+  if(!ents.length){grid.innerHTML=`<p class="empty-msg">No cards.</p>`;return;}
 
-  for(const {entry:e,count} of stackMap.values()){
+  for(const e of ents){
+    const count=e.count||1;
     const f=e.imgFile||bestImg(e.card,e.setPrefix||'',e.rarity);
     const rc=RC[e.rarity]||'';
     const div=document.createElement('div');
@@ -2303,11 +2500,21 @@ function ownedCounts(collId){
     ? getColls().collections.filter(c=>c.id===collId)
     : getColls().collections;
   for(const col of cols)
-    for(const e of col.cards) m.set(e.cardTitle,(m.get(e.cardTitle)||0)+1);
+    for(const e of col.cards) m.set(e.cardTitle,(m.get(e.cardTitle)||0)+(e.count||1));
   return m;
 }
 function getOwnedCount(title,collId){
   return ownedCounts(collId).get(title)||0;
+}
+function ownedByRarity(title,collId){
+  const m=new Map();
+  const cols=collId
+    ?getColls().collections.filter(c=>c.id===collId)
+    :getColls().collections;
+  for(const col of cols)
+    for(const e of col.cards)
+      if(e.cardTitle===title) m.set(e.rarity||'',(m.get(e.rarity||'')||0)+(e.count||1));
+  return m;
 }
 
 function nameIndex(){
@@ -2327,7 +2534,20 @@ function dbActiveDeck(){
   if(!dk){ dk=d.decks[0]||null; if(dk) d.activeId=dk.id; }
   return dk;
 }
-function deckCountOf(title){ return dbDeck?((dbDeck.main[title]||0)+(dbDeck.extra[title]||0)):0; }
+function deckKey(title,rarity){ return rarity?title+'||'+rarity:title; }
+function deckKeyParts(key){ const i=key.indexOf('||'); return i<0?{title:key,rarity:''}:{title:key.slice(0,i),rarity:key.slice(i+2)}; }
+function deckCountOf(title){
+  if(!dbDeck) return 0;
+  const prefix=title+'||'; let n=0;
+  for(const [k,v] of Object.entries(dbDeck.main||{})) if(k===title||k.startsWith(prefix)) n+=v;
+  for(const [k,v] of Object.entries(dbDeck.extra||{})) if(k===title||k.startsWith(prefix)) n+=v;
+  return n;
+}
+function deckCountOfRarity(title,rarity){
+  if(!dbDeck) return 0;
+  const key=deckKey(title,rarity);
+  return (dbDeck.main[key]||0)+(dbDeck.extra[key]||0);
+}
 function sumCounts(b){ return Object.values(b).reduce((a,n)=>a+n,0); }
 
 function refreshDbCollectionSel(){
@@ -2352,10 +2572,16 @@ function initDeckBuilder(){
     rarSel.innerHTML='<option value="">All rarities</option>'+rars.map(r=>`<option>${r}</option>`).join('');
   }
   // Race filter (populate once)
-  const raceSel=document.getElementById('db-race');
+  const raceSel=document.getElementById('db-mtype');
   if(raceSel.options.length<=1){
     const races=[...new Set(ALL.map(c=>cardRace(c)).filter(Boolean))].sort();
-    raceSel.innerHTML='<option value="">All races</option>'+races.map(r=>`<option>${r}</option>`).join('');
+    raceSel.innerHTML='<option value="">All monster types</option>'+races.map(r=>`<option>${r}</option>`).join('');
+  }
+  // Subtype filter (populate once)
+  const subtypeSelDb=document.getElementById('db-subtype');
+  if(subtypeSelDb.options.length<=1){
+    const subs=[...new Set(ALL.flatMap(c=>cardSubtypes(c)))].filter(Boolean).sort();
+    subtypeSelDb.innerHTML='<option value="">All subtypes</option>'+subs.map(s=>`<option>${s}</option>`).join('');
   }
   // Collection selector (refresh each time we enter deck builder)
   refreshDbCollectionSel();
@@ -2367,8 +2593,13 @@ function initDeckBuilder(){
   }
   dbDeck=dbActiveDeck();
 
-  ['db-search','db-series'].forEach(id=>document.getElementById(id).oninput=renderDbPool);
-  ['db-type','db-attr','db-rarity','db-race','db-collection-sel',
+  const seriesSelDb=document.getElementById('db-series');
+  if(seriesSelDb.options.length<=1){
+    const series=[...new Set(ALL.flatMap(c=>c.archseries||[]))].filter(Boolean).sort();
+    seriesSelDb.innerHTML='<option value="">All series</option>'+series.map(s=>`<option>${s}</option>`).join('');
+  }
+  document.getElementById('db-search').oninput=renderDbPool;
+  ['db-ctype','db-attr','db-rarity','db-mtype','db-subtype','db-series','db-sort','db-collection-sel',
    'db-lvl-op','db-lvl-val','db-atk-op','db-atk-val','db-def-op','db-def-val'].forEach(id=>{
     const el=document.getElementById(id); if(el) el.onchange=renderDbPool;
   });
@@ -2429,45 +2660,50 @@ function dbDeleteDeck(){
   renderDeck(); renderDbPool();
 }
 
-function dbAdd(title){
+function dbAdd(title, rarity=''){
   if(!dbDeck) return;
   const card=MAP.get(title); if(!card) return;
   const sec=isExtraCard(card)?'extra':'main';
   const bucket=dbDeck[sec]||(dbDeck[sec]={});
-  // Legend rule: at most one Legend card per card-type, max one copy, never in Extra
+  const key=deckKey(title,rarity);
+  const totalCount=deckCountOf(title);
   if(isLegendCard(card)){
     const mt=cardMainType(card);
-    const clash=Object.keys(dbDeck.main).some(t=>{
-      if(t===title) return false;
-      const c=MAP.get(t);
-      return c&&isLegendCard(c)&&cardMainType(c)===mt;
+    const clash=Object.keys(dbDeck.main).some(k=>{
+      const {title:t}=deckKeyParts(k); if(t===title) return false;
+      const c=MAP.get(t); return c&&isLegendCard(c)&&cardMainType(c)===mt;
     });
     if(clash){ toast(`Only 1 Legend ${mt||'card'} allowed per deck`); return; }
-    if((bucket[title]||0)>=1){ toast('Only 1 copy of a Legend card'); return; }
+    if(totalCount>=1){ toast('Only 1 copy of a Legend card'); return; }
   }
-  if((bucket[title]||0)>=3){ toast('Max 3 copies of a card'); return; }
+  if(totalCount>=3){ toast('Max 3 copies of a card'); return; }
   if(document.getElementById('db-owned').checked){
     const collId=document.getElementById('db-collection-sel').value||'';
-    const own=getOwnedCount(title,collId);
-    if((bucket[title]||0)>=own){ toast(own?`Only ${own} copy owned`:'Card not owned'); return; }
+    if(rarity){
+      const byRar=ownedByRarity(title,collId);
+      const ownedRar=byRar.get(rarity)||0;
+      if(deckCountOfRarity(title,rarity)>=ownedRar){ toast(ownedRar?`Only ${ownedRar} ${rarity} owned`:'Not owned'); return; }
+    } else {
+      const own=getOwnedCount(title,collId);
+      if(totalCount>=own){ toast(own?`Only ${own} copy owned`:'Card not owned'); return; }
+    }
   }
   if(document.getElementById('db-banlist').checked){
-    const card2=MAP.get(title);
-    const status=card2?BANLIST[card2.raw_name_en||cname(card2)]:undefined;
+    const status=BANLIST[card.raw_name_en||cname(card)];
     if(status==='Forbidden'){ toast('Forbidden card'); return; }
-    if(status==='Limited'&&(bucket[title]||0)>=1){ toast('Limited: max 1 copy'); return; }
-    if(status==='Semi-Limited'&&(bucket[title]||0)>=2){ toast('Semi-Limited: max 2 copies'); return; }
+    if(status==='Limited'&&totalCount>=1){ toast('Limited: max 1 copy'); return; }
+    if(status==='Semi-Limited'&&totalCount>=2){ toast('Semi-Limited: max 2 copies'); return; }
   }
   if(sec==='extra'&&sumCounts(dbDeck.extra)>=15){ toast('Extra Deck is full (15)'); return; }
   if(sec==='main'&&sumCounts(dbDeck.main)>=60){ toast('Main Deck is full (60)'); return; }
-  bucket[title]=(bucket[title]||0)+1;
+  bucket[key]=(bucket[key]||0)+1;
   saveDecksData(getDecks());
   renderDeck(); renderDbPoolCounts();
 }
-function dbRemove(title,sec){
-  if(!dbDeck||!dbDeck[sec]||!dbDeck[sec][title]) return;
-  dbDeck[sec][title]--;
-  if(dbDeck[sec][title]<=0) delete dbDeck[sec][title];
+function dbRemove(key,sec){
+  if(!dbDeck||!dbDeck[sec]||!dbDeck[sec][key]) return;
+  dbDeck[sec][key]--;
+  if(dbDeck[sec][key]<=0) delete dbDeck[sec][key];
   saveDecksData(getDecks());
   renderDeck(); renderDbPoolCounts();
 }
@@ -2480,7 +2716,20 @@ function dbSortTitles(titles){
     if(ta!==tb) return ta-tb;
     const la=ca&&ca.level!=null?ca.level:-1, lb=cb&&cb.level!=null?cb.level:-1;
     if(la!==lb) return lb-la;
-    return cname(ca||{}).localeCompare(cname(cb||{}));
+    return nameCmp(cname(ca||{}),cname(cb||{}));
+  });
+}
+function dbSortKeys(keys){
+  return keys.sort((a,b)=>{
+    const {title:ta,rarity:ra}=deckKeyParts(a), {title:tb,rarity:rb}=deckKeyParts(b);
+    const ca=MAP.get(ta),cb=MAP.get(tb);
+    const oa=DB_TYPE_ORDER[cardMainType(ca||{})]??3, ob=DB_TYPE_ORDER[cardMainType(cb||{})]??3;
+    if(oa!==ob) return oa-ob;
+    const la=ca&&ca.level!=null?ca.level:-1, lb=cb&&cb.level!=null?cb.level:-1;
+    if(la!==lb) return lb-la;
+    const nc=nameCmp(cname(ca||{}),cname(cb||{}));
+    if(nc!==0) return nc;
+    return rarityRank(rb)-rarityRank(ra); // higher rarity first within same card
   });
 }
 
@@ -2496,13 +2745,57 @@ function dbNumCmp(val,opId,valId){
   return true;
 }
 
+function closePicker(){
+  const p=document.getElementById('db-rar-picker');
+  if(p) p.classList.remove('open');
+}
+function openRarityPicker(card, evt){
+  const ownedOnly=document.getElementById('db-owned').checked;
+  const collId=document.getElementById('db-collection-sel').value||'';
+  // Build rarity list
+  let rarities;
+  if(ownedOnly){
+    const byRar=ownedByRarity(card.title,collId);
+    if(!byRar.size){ toast('Card not owned'); return; }
+    rarities=[...byRar.entries()].map(([r,n])=>({rarity:r,owned:n}));
+  } else {
+    const set=new Set();
+    for(const s of card.sets_jp||[])
+      if(s.rarity) for(const r of s.rarity.split(',')) set.add(r.trim());
+    if(!set.size) set.add('');
+    rarities=[...set].map(r=>({rarity:r,owned:null}));
+  }
+  rarities.sort((a,b)=>rarityRank(b.rarity)-rarityRank(a.rarity));
+  // Skip picker if single choice
+  if(rarities.length===1){ dbAdd(card.title,rarities[0].rarity); return; }
+  const picker=document.getElementById('db-rar-picker');
+  picker.innerHTML='';
+  for(const {rarity,owned} of rarities){
+    const inDeck=deckCountOfRarity(card.title,rarity);
+    const full=ownedOnly&&owned!==null&&inDeck>=owned;
+    const opt=document.createElement('div');
+    opt.className='db-rar-opt'+(full?' disabled':'');
+    const ownedHint=ownedOnly&&owned!==null?`<span style="color:var(--muted);font-size:10px">×${owned}${inDeck?' ('+inDeck+' in deck)':''}</span>`:'';
+    opt.innerHTML=`<span>${rarity||'Common'}</span>${ownedHint}`;
+    if(!full) opt.addEventListener('click',e=>{ e.stopPropagation(); dbAdd(card.title,rarity); closePicker(); });
+    picker.appendChild(opt);
+  }
+  const cx=evt.clientX, cy=evt.clientY;
+  const px=Math.min(cx,window.innerWidth-270);
+  const py=window.innerHeight-cy>200?cy+6:Math.max(4,cy-200);
+  picker.style.left=px+'px'; picker.style.top=py+'px';
+  picker.classList.add('open');
+  setTimeout(()=>document.addEventListener('click',closePicker,{once:true}),0);
+}
+
 function renderDbPool(){
   const q=(document.getElementById('db-search').value||'').trim().toLowerCase();
-  const tf=document.getElementById('db-type').value;
+  const tf=document.getElementById('db-ctype').value;
   const af=document.getElementById('db-attr').value;
   const rf=document.getElementById('db-rarity').value;
-  const racef=document.getElementById('db-race').value;
-  const seriesf=(document.getElementById('db-series').value||'').trim().toLowerCase();
+  const racef=document.getElementById('db-mtype').value;
+  const subtypef=document.getElementById('db-subtype')?.value||'';
+  const seriesf=document.getElementById('db-series').value||'';
   const legendOnly=document.getElementById('db-legend').checked;
   const ownedOnly=document.getElementById('db-owned').checked;
   const collId=document.getElementById('db-collection-sel').value||'';
@@ -2513,39 +2806,64 @@ function renderDbPool(){
   if(af)       pool=pool.filter(c=>c.attribute===af);
   if(rf)       pool=pool.filter(c=>(c.sets_jp||[]).some(s=>s.rarity&&s.rarity.split(',').map(r=>r.trim()).includes(rf)));
   if(racef)    pool=pool.filter(c=>cardRace(c)===racef);
-  if(seriesf)  pool=pool.filter(c=>(c.archseries||[]).some(a=>a.toLowerCase().includes(seriesf)));
+  if(subtypef) pool=pool.filter(c=>cardSubtypes(c).includes(subtypef));
+  if(seriesf)  pool=pool.filter(c=>(c.archseries||[]).includes(seriesf));
   if(legendOnly) pool=pool.filter(c=>isLegendCard(c));
   pool=pool.filter(c=>dbNumCmp(c.level,'db-lvl-op','db-lvl-val'));
   pool=pool.filter(c=>dbNumCmp(c.atk,  'db-atk-op','db-atk-val'));
   pool=pool.filter(c=>dbNumCmp(c.def,  'db-def-op','db-def-val'));
   if(ownedOnly) pool=pool.filter(c=>owned.has(c.title));
+  const sortBy=document.getElementById('db-sort')?.value||'type';
   pool.sort((a,b)=>{
+    if(sortBy==='name-asc') return nameCmp(cname(a),cname(b));
+    if(sortBy==='name-desc') return nameCmp(cname(b),cname(a));
+    if(sortBy==='release-asc'){ const ka=cardRelKey(a),kb=cardRelKey(b); return ka.ts-kb.ts||ka.num-kb.num||nameCmp(cname(a),cname(b)); }
+    if(sortBy==='release-desc'){ const ka=cardRelKey(a),kb=cardRelKey(b); return kb.ts-ka.ts||ka.num-kb.num||nameCmp(cname(a),cname(b)); }
+    if(sortBy==='rarity-desc') return cardRarityMax(b)-cardRarityMax(a)||nameCmp(cname(a),cname(b));
+    if(sortBy==='rarity-asc') return cardRarityMin(a)-cardRarityMin(b)||nameCmp(cname(a),cname(b));
+    if(sortBy==='level-desc') return (b.level??-1)-(a.level??-1)||nameCmp(cname(a),cname(b));
+    if(sortBy==='level-asc') return (a.level??-1)-(b.level??-1)||nameCmp(cname(a),cname(b));
+    // type: by type > level desc > name
     const ta=DB_TYPE_ORDER[cardMainType(a)]??3, tb=DB_TYPE_ORDER[cardMainType(b)]??3;
     if(ta!==tb) return ta-tb;
     const la=a.level!=null?a.level:-1, lb=b.level!=null?b.level:-1;
     if(la!==lb) return lb-la;
-    return cname(a).localeCompare(cname(b));
+    return nameCmp(cname(a),cname(b));
   });
-  pool=pool.slice(0,300);
+  // Precompute owned-by-rarity for lowest rarity image selection
+  const ownedRarMap=new Map();
+  if(ownedOnly){
+    const cols=collId?getColls().collections.filter(c=>c.id===collId):getColls().collections;
+    for(const col of cols)
+      for(const e of col.cards){
+        if(!ownedRarMap.has(e.cardTitle)) ownedRarMap.set(e.cardTitle,new Set());
+        ownedRarMap.get(e.cardTitle).add(e.rarity||'');
+      }
+  }
 
   const grid=document.getElementById('db-pool-grid');
+  if(cardImgObserver) cardImgObserver.disconnect();
   grid.innerHTML='';
   if(!pool.length){ grid.innerHTML='<p class="db-empty">No cards match.</p>'; return; }
+  const obs=getCardImgObserver();
   for(const card of pool){
-    const f=card.images&&card.images[0]?cleanFile(card.images[0].file):null;
+    const rarFilter=ownedOnly?(ownedRarMap.get(card.title)||null):null;
+    const f=lowestRarityImg(card,rarFilter);
     const have=owned.get(card.title)||0;
     const inDeck=deckCountOf(card.title);
     const el=document.createElement('div');
     el.className='db-pcard'; el.dataset.title=card.title; el._card=card;
     el.innerHTML=`<div class="cph">？</div>
-      ${f?`<img src="${imgUrl(f)}" alt="${cname(card)}" loading="lazy" onload="this.previousElementSibling.style.display='none'" onerror="this.remove()">`:''}
+      ${f?`<img data-src="${imgUrl(f)}" alt="${cname(card)}" onload="this.previousElementSibling.style.display='none'" onerror="this.remove()">`:''}
       ${have?`<span class="db-have">×${have}</span>`:''}
       ${isLegendCard(card)?`<span class="db-legend" title="Legend Card">★</span>`:''}
       ${maxBadgeHtml(card)}
       ${banBadgeHtml(card)}
       <span class="db-indeck"${inDeck?'':' style="display:none"'}>${inDeck}</span>`;
-    el.addEventListener('click',()=>dbAdd(card.title));
+    el.addEventListener('click',(e)=>openRarityPicker(card,e));
     grid.appendChild(el);
+    const img=el.querySelector('img[data-src]');
+    if(img) obs.observe(img);
   }
 }
 
@@ -2568,8 +2886,8 @@ function renderDeck(){
   const eEl=document.getElementById('db-extra-count');
   eEl.textContent=ec; eEl.className='db-cnt '+(ec<=15?'':'bad');
   let mon=0,sp=0,tr=0;
-  for(const [t,n] of Object.entries(dbDeck.main)){
-    const c=MAP.get(t); if(!c) continue;
+  for(const [k,n] of Object.entries(dbDeck.main)){
+    const {title}=deckKeyParts(k); const c=MAP.get(title); if(!c) continue;
     const mt=cardMainType(c);
     if(mt==='Monster') mon+=n; else if(mt==='Spell') sp+=n; else if(mt==='Trap') tr+=n;
   }
@@ -2583,38 +2901,46 @@ function renderDeck(){
 function renderDeckGrid(id,bucket,sec){
   const grid=document.getElementById(id);
   grid.innerHTML='';
-  const titles=dbSortTitles(Object.keys(bucket));
-  if(!titles.length){
+  const keys=dbSortKeys(Object.keys(bucket));
+  if(!keys.length){
     grid.innerHTML=`<p class="db-empty">${sec==='extra'?'Fusion / Ritual monsters go here':'Click cards on the left to add them'}</p>`;
     return;
   }
-  for(const t of titles){
-    const card=MAP.get(t), n=bucket[t];
-    const f=card&&card.images&&card.images[0]?cleanFile(card.images[0].file):null;
+  for(const key of keys){
+    const {title,rarity}=deckKeyParts(key);
+    const card=MAP.get(title), n=bucket[key];
+    const f=card?rarityImg(card,rarity):null;
     const el=document.createElement('div');
-    el.className='db-dcard'; el.dataset.title=t; el._card=card;
+    el.className='db-dcard'; el.dataset.key=key; el.dataset.title=title; el._card=card;
     el.title='Click to remove one';
     el.innerHTML=`<div class="cph">？</div>
-      ${f?`<img src="${imgUrl(f)}" alt="${card?cname(card):t}" loading="lazy" onload="this.previousElementSibling.style.display='none'" onerror="this.remove()">`:''}
+      ${f?`<img src="${imgUrl(f)}" alt="${card?cname(card):title}" loading="lazy" onload="this.previousElementSibling.style.display='none'" onerror="this.remove()">`:''}
       ${isLegendCard(card)?`<span class="db-legend" title="Legend Card">★</span>`:''}
       ${card?maxBadgeHtml(card):''}
       <span class="db-qty">${n}</span>`;
-    el.addEventListener('click',()=>dbRemove(t,sec));
+    el.addEventListener('click',()=>dbRemove(key,sec));
     grid.appendChild(el);
   }
 }
 
 /* ── Clipboard import / export ─────────────────────────────────────────────── */
 function rawCname(c){ return c.raw_name_en||cname(c); }
-function deckToText(deck){
-  const sec={Monster:[],Spell:[],Trap:[]};
-  for(const t of dbSortTitles(Object.keys(deck.main))){
-    const c=MAP.get(t), mt=c?cardMainType(c):'Monster';
-    (sec[mt]||sec.Monster).push(`${deck.main[t]} ${c?rawCname(c):t}`);
+function aggregateByTitle(bucket){
+  const m={};
+  for(const [k,v] of Object.entries(bucket||{})){
+    const {title}=deckKeyParts(k); m[title]=(m[title]||0)+v;
   }
-  const extra=dbSortTitles(Object.keys(deck.extra)).map(t=>{const c=MAP.get(t);return `${deck.extra[t]} ${c?rawCname(c):t}`;});
-  const out=['Monster',...sec.Monster,'Spell',...sec.Spell,'Trap',...sec.Trap,'Extra',...extra];
-  return out.join('\n');
+  return m;
+}
+function deckToText(deck){
+  const main=aggregateByTitle(deck.main), extra=aggregateByTitle(deck.extra);
+  const sec={Monster:[],Spell:[],Trap:[]};
+  for(const t of dbSortTitles(Object.keys(main))){
+    const c=MAP.get(t), mt=c?cardMainType(c):'Monster';
+    (sec[mt]||sec.Monster).push(`${main[t]} ${c?rawCname(c):t}`);
+  }
+  const extraLines=dbSortTitles(Object.keys(extra)).map(t=>{const c=MAP.get(t);return `${extra[t]} ${c?rawCname(c):t}`;});
+  return ['Monster',...sec.Monster,'Spell',...sec.Spell,'Trap',...sec.Trap,'Extra',...extraLines].join('\n');
 }
 
 async function dbExport(){
@@ -2696,9 +3022,9 @@ function fmtTime(iso){
 async function fetchSyncStatus(){
   try{
     const data=await fetch('/api/sync-status').then(r=>r.json());
-    const anyRunning=data.cards.running||data.sets.running||data.gallery.running;
+    const anyRunning=data.cards.running||data.sets.running||data.gallery.running||data.banlist.running;
     document.getElementById('sync-btn').classList.toggle('running',anyRunning);
-    for(const key of ['cards','sets','gallery']){
+    for(const key of ['cards','sets','gallery','banlist']){
       const s=data[key];
       const dot=document.getElementById(`dot-${key}`);
       const time=document.getElementById(`time-${key}`);
@@ -2756,6 +3082,8 @@ async function init(){
         }catch{}
       }
     }
+    // Migrate to count-based format if needed
+    if(migrateColls(COLLS)) saveColls(COLLS);
 
     // Load saved decks from the server
     const dkRes=await fetch('/api/decks').catch(()=>null);

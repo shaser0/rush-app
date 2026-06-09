@@ -2193,7 +2193,7 @@
   "Yu-Gi-Oh! SEVENS Luke! Explosive Supremacy Legend!! Volume 3 promotional card": {
     "releaseDateJP": "May 2, 2022",
     "packsPerBox": null,
-    "coverImage": "RDCL03-PromoJP.png",
+    "coverImage": null,
     "cardsPerPack": null,
     "declaredSize": null
   },
@@ -2236,6 +2236,20 @@
     "releaseDateJP": "December 1, 2023",
     "packsPerBox": null,
     "coverImage": "WickedShadowDarkLurker-RDS23P-JP-OP.png",
+    "cardsPerPack": null,
+    "declaredSize": null
+  },
+  "Galaxy Cup 2026 Area Representative Match participation card": {
+    "releaseDateJP": "May 2, 2026",
+    "packsPerBox": null,
+    "coverImage": "GalaxyCup-LogoJP.png",
+    "cardsPerPack": null,
+    "declaredSize": null
+  },
+  "Galaxy Cup 2026 Finals prize card": {
+    "releaseDateJP": "September 13, 2026",
+    "packsPerBox": null,
+    "coverImage": "GalaxyCup-LogoJP.png",
     "cardsPerPack": null,
     "declaredSize": null
   }

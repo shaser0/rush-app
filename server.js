@@ -33,6 +33,7 @@ const STALE_MS = {
   cards:   WEEK_MS,
   sets:    WEEK_MS,
   gallery: WEEK_MS,
+  banlist: WEEK_MS,
 };
 
 // Which file to check for staleness per sync
@@ -40,12 +41,14 @@ const STALE_FILE = {
   cards:   'data/cards.json',
   sets:    'data/sets-data.json',
   gallery: 'data/gallery-images.json',
+  banlist: 'data/banlist.json',
 };
 
 const SYNCS = {
   cards:   { script: 'scripts/sync-cards.js',   nodeArgs: [],                  running: false, exitCode: null },
   sets:    { script: 'scripts/sync-sets.js',    nodeArgs: ['--use-system-ca'],  running: false, exitCode: null },
   gallery: { script: 'scripts/sync-gallery.js', nodeArgs: ['--use-system-ca'],  running: false, exitCode: null },
+  banlist: { script: 'scripts/sync-banlist.js', nodeArgs: ['--use-system-ca'],  running: false, exitCode: null },
 };
 
 function isStale(name) {
@@ -57,6 +60,19 @@ function isStale(name) {
   }
 }
 
+// Pipe a child process stream to a write stream, prefixing every line with `prefix`.
+// Returns a flush function to call on process exit to emit any buffered partial line.
+function pipePrefixed(stream, prefix, dest) {
+  let buf = '';
+  stream.on('data', chunk => {
+    buf += chunk.toString();
+    const lines = buf.split('\n');
+    buf = lines.pop();
+    for (const line of lines) dest.write(`${prefix} ${line}\n`);
+  });
+  return () => { if (buf) { dest.write(`${prefix} ${buf}\n`); buf = ''; } };
+}
+
 function startSync(name, force = false) {
   const s = SYNCS[name];
   if (s.running) return false;
@@ -64,11 +80,20 @@ function startSync(name, force = false) {
     console.log(`[${name}] up to date, skipping`);
     return false;
   }
-  const proc = spawn('node', [...s.nodeArgs, s.script], { stdio: 'inherit' });
+  const proc = spawn('node', [...s.nodeArgs, s.script], { stdio: ['ignore', 'pipe', 'pipe'] });
   s.running = true;
   s.exitCode = null;
-  proc.on('error', err => { console.error(`[${name}] error:`, err.message); s.running = false; });
-  proc.on('exit', code => { console.log(`[${name}] exited`, code); s.running = false; s.exitCode = code; });
+  const tag = `[${name}]`;
+  const flushOut = pipePrefixed(proc.stdout, tag, process.stdout);
+  const flushErr = pipePrefixed(proc.stderr, tag, process.stderr);
+  proc.on('error', err => { console.error(`${tag} error:`, err.message); s.running = false; });
+  proc.on('exit', code => {
+    flushOut();
+    flushErr();
+    console.log(`${tag} exited`, code);
+    s.running = false;
+    s.exitCode = code;
+  });
   return true;
 }
 
@@ -160,6 +185,7 @@ app.get('/api/sync-status', (req, res) => {
     cards:   { running: SYNCS.cards.running,   staleAfterMs: STALE_MS.cards,   lastSync: cardsLastSync,                        lastModified: fileMtime('cards.json')           },
     sets:    { running: SYNCS.sets.running,    staleAfterMs: STALE_MS.sets,    lastSync: fileMtime('sets-data.json'),           lastModified: fileMtime('sets-data.json')      },
     gallery: { running: SYNCS.gallery.running, staleAfterMs: STALE_MS.gallery, lastSync: fileMtime('gallery-images.json'),      lastModified: fileMtime('gallery-images.json') },
+    banlist: { running: SYNCS.banlist.running, staleAfterMs: STALE_MS.banlist, lastSync: fileMtime('banlist.json'),             lastModified: fileMtime('banlist.json')         },
   });
 });
 
