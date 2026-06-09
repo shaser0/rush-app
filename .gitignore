@@ -11,6 +11,8 @@ dist/
 # User data (created at runtime by the server)
 data/collections.json
 data/decks.json
+data/*.bak-v*.json
+data/schema.json
 
 # Logs & sync state
 *.log

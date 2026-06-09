@@ -249,10 +249,49 @@ if (process.pkg) {
   });
 }
 
+// ── Migrations ─────────────────────────────────────────────────────────────
+
+const { CURRENT: SCHEMA_CURRENT, runMigrations } = require('./scripts/migrations');
+const SCHEMA_FILE = path.join(APP_DIR, 'data', 'schema.json');
+
+function loadSchema() {
+  try { return JSON.parse(fs.readFileSync(SCHEMA_FILE, 'utf8')); }
+  catch { return {}; }
+}
+
+function saveSchema(schema) {
+  try { fs.writeFileSync(SCHEMA_FILE, JSON.stringify(schema, null, 2), 'utf8'); }
+  catch (e) { console.error('[migrations] Failed to save schema.json:', e.message); }
+}
+
+function runStartupMigrations() {
+  const schema = loadSchema();
+  for (const type of ['decks', 'collections']) {
+    const from = schema[type] ?? 0;
+    const target = SCHEMA_CURRENT[type];
+    if (from >= target) continue;
+    console.log(`[migrations] ${type}: v${from} → v${target}`);
+    try {
+      const file = type === 'decks' ? DECKS_FILE : COLLECTIONS_FILE;
+      let data = type === 'decks' ? loadDecks() : loadCollections();
+      const bakPath = file.replace(/\.json$/, `.bak-v${from}.json`);
+      fs.writeFileSync(bakPath, JSON.stringify(data, null, 2), 'utf8');
+      data = runMigrations(type, data, from);
+      if (type === 'decks') saveDecks(data); else saveCollections(data);
+      schema[type] = target;
+      saveSchema(schema);
+      console.log(`[migrations] ${type} migrated OK (backup: ${path.basename(bakPath)})`);
+    } catch (e) {
+      console.error(`[migrations] ${type} migration failed — data unchanged:`, e.message);
+    }
+  }
+}
+
 // ── Start server ───────────────────────────────────────────────────────────
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
+  runStartupMigrations();
 
   // Sync scripts cannot run inside a pkg .exe (no node binary available)
   if (process.pkg) {
