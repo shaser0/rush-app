@@ -45,6 +45,9 @@ button,input,select{font-family:inherit}
 #sync-all-btn{padding:8px;background:var(--accent);border:none;border-radius:7px;color:#fff;font-weight:700;font-size:13px;cursor:pointer;margin-top:2px}
 #sync-all-btn:hover{opacity:.9}
 #sync-all-btn:disabled{opacity:.45;cursor:default}
+#data-dl-btn{padding:8px;background:var(--bg3);border:1px solid var(--border);border-radius:7px;color:var(--text);font-weight:700;font-size:13px;cursor:pointer;width:100%}
+#data-dl-btn:hover{border-color:var(--accent);color:var(--text)}
+#data-dl-btn:disabled{opacity:.45;cursor:default}
 
 /* ── Screens ───────────────────────────────────────────────────────────── */
 .screen{display:none;padding:16px}
@@ -430,11 +433,19 @@ button,input,select{font-family:inherit}
 </nav>
 
 <div id="sync-panel">
+  <button id="data-dl-btn">⬇ Download latest data</button>
+  <div id="data-dl-progress" style="display:none">
+    <div style="background:var(--bg3);border-radius:4px;overflow:hidden;height:6px;margin:2px 0 4px">
+      <div id="data-dl-bar" style="height:100%;background:var(--accent);width:0;transition:width .2s"></div>
+    </div>
+    <span id="data-dl-msg" style="font-size:11px;color:var(--muted)"></span>
+  </div>
+  <div style="border-top:1px solid var(--border);margin:4px 0 2px"></div>
   <div class="sync-row"><span class="sync-dot" id="dot-cards"></span><span class="sync-label">Cards</span><span class="sync-time" id="time-cards">—</span></div>
   <div class="sync-row"><span class="sync-dot" id="dot-sets"></span><span class="sync-label">Sets</span><span class="sync-time" id="time-sets">—</span></div>
   <div class="sync-row"><span class="sync-dot" id="dot-gallery"></span><span class="sync-label">Gallery</span><span class="sync-time" id="time-gallery">—</span></div>
   <div class="sync-row"><span class="sync-dot" id="dot-banlist"></span><span class="sync-label">Banlist</span><span class="sync-time" id="time-banlist">—</span></div>
-  <button id="sync-all-btn">Sync All</button>
+  <button id="sync-all-btn">Sync All (live)</button>
 </div>
 
 <!-- Main Menu -->
@@ -3041,6 +3052,44 @@ async function fetchSyncStatus(){
   }catch{}
 }
 
+async function runDataDownload(){
+  const dlBtn=document.getElementById('data-dl-btn');
+  const prog=document.getElementById('data-dl-progress');
+  const bar=document.getElementById('data-dl-bar');
+  const msg=document.getElementById('data-dl-msg');
+  dlBtn.disabled=true;
+  prog.style.display='block';
+  msg.textContent='Checking…';
+  bar.style.width='0%';
+  try{
+    const res=await fetch('/api/data/apply',{method:'POST'});
+    const reader=res.body.getReader();
+    const dec=new TextDecoder();
+    let buf='';
+    while(true){
+      const {done,value}=await reader.read();
+      if(done) break;
+      buf+=dec.decode(value,{stream:true});
+      const lines=buf.split('\n');
+      buf=lines.pop();
+      for(const line of lines){
+        if(!line.trim()) continue;
+        try{
+          const d=JSON.parse(line);
+          if(d.progress!=null){bar.style.width=Math.round(d.progress*100)+'%';msg.textContent='Downloading… '+Math.round(d.progress*100)+'%';}
+          if(d.alreadyUpToDate){msg.textContent='Already up to date.';bar.style.width='100%';}
+          if(d.done&&!d.alreadyUpToDate){msg.textContent='Done! Reloading…';bar.style.width='100%';setTimeout(()=>location.reload(),1200);}
+          if(d.error){msg.textContent='Error: '+d.error;dlBtn.disabled=false;}
+        }catch{}
+      }
+    }
+  }catch(e){
+    msg.textContent='Error: '+e.message;
+    dlBtn.disabled=false;
+  }
+  setTimeout(()=>{prog.style.display='none';dlBtn.disabled=false;},3000);
+}
+
 function initSyncPanel(){
   const btn=document.getElementById('sync-btn');
   const panel=document.getElementById('sync-panel');
@@ -3058,6 +3107,7 @@ function initSyncPanel(){
     fetchSyncStatus();
     if(!syncPollTimer) syncPollTimer=setInterval(fetchSyncStatus,2500);
   });
+  document.getElementById('data-dl-btn').addEventListener('click',runDataDownload);
   fetchSyncStatus();
 }
 

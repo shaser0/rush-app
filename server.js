@@ -249,6 +249,42 @@ if (process.pkg) {
   });
 }
 
+// ── Data update API ────────────────────────────────────────────────────────
+
+const { checkDataUpdate, downloadData } = require('./scripts/data-update');
+
+app.get('/api/data/check', async (req, res) => {
+  try {
+    const info = await checkDataUpdate(APP_DIR);
+    res.json(info);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+app.post('/api/data/apply', async (req, res) => {
+  res.setHeader('Content-Type', 'application/x-ndjson');
+  res.setHeader('Transfer-Encoding', 'chunked');
+  res.flushHeaders();
+  try {
+    const info = await checkDataUpdate(APP_DIR);
+    if (!info.hasUpdate) {
+      res.write(JSON.stringify({ done: true, alreadyUpToDate: true }) + '\n');
+      return res.end();
+    }
+    await downloadData(APP_DIR, info.files, pct => {
+      res.write(JSON.stringify({ progress: Math.round(pct * 100) / 100 }) + '\n');
+    });
+    // Write updated local data-version.json
+    const verPath = path.join(APP_DIR, 'data', 'data-version.json');
+    fs.writeFileSync(verPath, JSON.stringify(info.remoteManifest, null, 2), 'utf8');
+    res.write(JSON.stringify({ done: true, version: info.remoteVersion }) + '\n');
+  } catch (e) {
+    res.write(JSON.stringify({ error: e.message }) + '\n');
+  }
+  res.end();
+});
+
 // ── Migrations ─────────────────────────────────────────────────────────────
 
 const { CURRENT: SCHEMA_CURRENT, runMigrations } = require('./scripts/migrations');

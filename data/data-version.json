@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "files": [
+    "cards.json",
+    "sets-data.json",
+    "gallery-images.json",
+    "image-urls.json",
+    "banlist.json"
+  ]
+}
