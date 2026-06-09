@@ -33,7 +33,7 @@ const APP_DIR = process.pkg ? path.dirname(process.execPath) : __dirname;
   const logPath = path.join(APP_DIR, 'data', 'rush-app.log');
   try { fs.mkdirSync(path.join(APP_DIR, 'data'), { recursive: true }); } catch {}
   const logStream = fs.createWriteStream(logPath, { flags: 'a' });
-  const ts = () => new Date().toISOString().replace('T',' ').slice(0,19);
+  const ts = () => { const d = new Date(), p = n => String(n).padStart(2,'0'); return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}`; };
   const fmt = a => a.map(x => typeof x === 'object' ? JSON.stringify(x) : String(x)).join(' ');
   const orig = { log: console.log.bind(console), error: console.error.bind(console), warn: console.warn.bind(console) };
   console.log   = (...a) => { logStream.write(`[${ts()}] ${fmt(a)}\n`);        if (!process.pkg) orig.log(...a);   };

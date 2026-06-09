@@ -340,8 +340,8 @@ button,input,select{font-family:inherit}
 #menu-wrap{display:flex;flex-direction:column;align-items:center;gap:6px;max-width:780px;width:100%}
 #menu-title{font-size:42px;font-weight:800;color:var(--gold);letter-spacing:1px;text-align:center}
 #menu-sub{color:var(--muted);font-size:15px;margin-bottom:26px;text-align:center}
-#menu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;width:100%}
-@media(max-width:680px){#menu-grid{grid-template-columns:1fr}}
+#menu-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;width:100%;max-width:560px}
+@media(max-width:480px){#menu-grid{grid-template-columns:1fr}}
 .menu-tile{display:flex;flex-direction:column;align-items:center;gap:10px;padding:32px 18px;background:var(--bg2);border:1px solid var(--border);border-radius:14px;color:var(--text);cursor:pointer;transition:border-color .18s,transform .15s,background .18s;text-align:center}
 .menu-tile:hover{border-color:var(--accent);transform:translateY(-3px);background:rgba(124,77,255,.12)}
 .mt-icon{font-size:40px;line-height:1}
@@ -781,6 +781,20 @@ button,input,select{font-family:inherit}
 </section>
 
 <!-- Quantity modal -->
+<!-- Get Deck modal -->
+<div class="modal-back hidden" id="gd-back">
+  <div class="modal">
+    <h2 id="gd-title"></h2>
+    <div style="font-size:12px;color:var(--muted)" id="gd-summary"></div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <label style="font-size:12px;color:var(--muted)">Add to collection</label>
+      <select id="gd-col-sel" style="padding:8px 10px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:13px;cursor:pointer"></select>
+    </div>
+    <button class="modal-ok" id="gd-ok">Get Deck</button>
+    <button class="modal-cancel" id="gd-cancel">Cancel</button>
+  </div>
+</div>
+
 <div class="modal-back hidden" id="modal-back">
   <div class="modal">
     <h2 id="modal-title"></h2>
@@ -898,6 +912,7 @@ const FORCE_OTHER = new Set([
   'Attraction Pack',
   'Battle Bonus Pack 2026 Vol.1',
 ]);
+const FORCE_OTHER_RE = /^Battle Bonus Pack/i;
 // Korean/non-JP sets that should not appear as openable packs at all
 const EXCLUDE_SETS = new Set([
   'Strongest Battle Deck Promotion Pack',
@@ -1044,19 +1059,26 @@ function upsertColCard(cards,entry){
 function getCPs(){ try{return JSON.parse(localStorage.getItem('ygo-custom-packs')||'[]');}catch{return[];} }
 function saveCPs(p){ localStorage.setItem('ygo-custom-packs',JSON.stringify(p)); }
 
-function getFullDeck(set){
+function openGetDeckModal(set){
   const data=getColls();
   const cols=data.collections;
   if(!cols.length){toast('No collection available');return;}
-  // Pick the active collection (or first if no active)
-  const target=cols.find(c=>c.id===data.activeId)||cols[0];
-  // Count exact quantities per card title in this deck
   const qty=new Map();
-  for(const {card,rarity} of set.ents){
-    const t=card.title;
-    qty.set(t,(qty.get(t)||0)+1);
-  }
-  // Add each card once per quantity
+  for(const {card} of set.ents) qty.set(card.title,(qty.get(card.title)||0)+1);
+  const total=[...qty.values()].reduce((s,v)=>s+v,0);
+  document.getElementById('gd-title').textContent=set.name;
+  document.getElementById('gd-summary').textContent=`${total} cards (${qty.size} unique)`;
+  const sel=document.getElementById('gd-col-sel');
+  sel.innerHTML=cols.map(c=>`<option value="${c.id}"${c.id===data.activeId?' selected':''}>${c.name}</option>`).join('');
+  const back=document.getElementById('gd-back');
+  back._set=set; back._qty=qty;
+  back.classList.remove('hidden');
+}
+
+function confirmGetDeck(set,qty,collId){
+  const data=getColls();
+  const target=data.collections.find(c=>c.id===collId)||data.collections[0];
+  if(!target){toast('Collection not found');return;}
   let added=0;
   for(const [title,count] of qty){
     const card=MAP.get(title); if(!card) continue;
@@ -1067,7 +1089,21 @@ function getFullDeck(set){
     added+=count;
   }
   saveColls(data);
-  toast(`Added ${added} cards to "${target.name}"!`);
+  const decksData=getDecks();
+  const exists=decksData.decks.some(d=>d.name===set.name);
+  if(!exists){
+    const main={},extra={};
+    for(const [title,count] of qty){
+      const card=MAP.get(title); if(!card) continue;
+      if(isExtraCard(card)) extra[title]=(extra[title]||0)+count;
+      else main[title]=(main[title]||0)+count;
+    }
+    decksData.decks.push({id:`deck_${Date.now()}`,name:set.name,main,extra});
+    saveDecksData(decksData);
+    toast(`Added ${added} cards to "${target.name}" · deck "${set.name}" created`);
+  } else {
+    toast(`Added ${added} cards to "${target.name}"!`);
+  }
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -1196,7 +1232,7 @@ function buildDB(){
     const meta=SDATA[name]||null; // declared early so pYear calc can use it
     // Skip sets with a future release date (not yet released)
     if(meta?.releaseDateJP){const rd=new Date(meta.releaseDateJP);if(!isNaN(rd)&&rd>new Date())continue;}
-    const isPromo=!FORCE_OTHER.has(name)&&(PROMO_NAME_RE.test(name)||PROMO_CODE_RE.test(pfx)||FORCE_PROMO.has(name));
+    const isPromo=!FORCE_OTHER.has(name)&&!FORCE_OTHER_RE.test(name)&&(PROMO_NAME_RE.test(name)||PROMO_CODE_RE.test(pfx)||FORCE_PROMO.has(name));
     let pYear=null;
     if(isPromo){
       const fn=name.match(YEAR_RE),fc=pfx.match(PROMO_CODE_RE);
@@ -1591,7 +1627,7 @@ function mkTile(set){
   d.querySelector('.tile-open').addEventListener('click',e=>{e.stopPropagation();showModal(set);});
   if(isDeck){
     const gb=d.querySelector('.tile-getdeck');
-    if(gb) gb.addEventListener('click',e=>{e.stopPropagation();getFullDeck(set);});
+    if(gb) gb.addEventListener('click',e=>{e.stopPropagation();openGetDeckModal(set);});
   }
   d.addEventListener('click',()=>showModal(set));
   return d;
@@ -1834,6 +1870,18 @@ function showDbpDetail(card){
 /* ═══════════════════════════════════════════════════════
    11. MODAL
 ═══════════════════════════════════════════════════════ */
+function initGetDeckModal(){
+  const back=document.getElementById('gd-back');
+  document.getElementById('gd-ok').addEventListener('click',()=>{
+    const set=back._set,qty=back._qty;
+    const collId=document.getElementById('gd-col-sel').value;
+    back.classList.add('hidden');
+    confirmGetDeck(set,qty,collId);
+  });
+  document.getElementById('gd-cancel').addEventListener('click',()=>back.classList.add('hidden'));
+  back.addEventListener('click',e=>{if(e.target===back)back.classList.add('hidden');});
+}
+
 let mSet=null,mQty=1;
 
 function showModal(set){
@@ -3202,6 +3250,7 @@ async function init(){
   document.getElementById('pack-back').addEventListener('click',()=>goTo('screen-sets'));
   goTo('screen-home');
   initModal();
+  initGetDeckModal();
   initCardPopup();
   initTooltip();
   initSyncPanel();
