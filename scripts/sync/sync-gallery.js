@@ -143,6 +143,52 @@ async function syncGallery(){
     await resolveImageUrls(unresolvedBase, urlCache);
   }
 
+  // Post-process OP (Official Proxy) images — per-set-prefix.
+  //
+  // An OP file is Yugipedia's pre-release placeholder scan for the highest rarity of its set.
+  // Rules applied per set-code found in the filename (e.g. "RDVSP1" in "Foo-RDVSP1-JP-OP.png"):
+  //   • Drop non-OP files that have no resolved URL — they're not yet uploaded on Yugipedia
+  //     and would appear as broken-image gallery slots.
+  //   • If all non-OP files for a set have resolved URLs (every rarity scan is available),
+  //     drop the OP — the real scans supersede it.
+  //   • If any non-OP file for a set has no URL (at least one rarity scan is missing),
+  //     keep the OP as the visual proxy for that missing highest-rarity scan.
+  //   • If a set has only an OP and no non-OP files at all, keep the OP.
+  const setCodeFromFile = f => { const m=f.match(/-(RD[A-Z0-9]+)-/); return m?m[1]:null; };
+  let opDropped = 0, phantomDropped = 0;
+  for(const [key, files] of Object.entries(galleryData)){
+    // Group files by set-code
+    const bySet = new Map();
+    for(const f of files){
+      const sc = setCodeFromFile(f) || '__unknown__';
+      if(!bySet.has(sc)) bySet.set(sc, {op:[], nonOpResolved:[], nonOpUnresolved:[]});
+      const g = bySet.get(sc);
+      if(/-OP\.png$/i.test(f))  g.op.push(f);
+      else if(urlCache[f])       g.nonOpResolved.push(f);
+      else                       g.nonOpUnresolved.push(f);
+    }
+
+    const kept = [];
+    for(const g of bySet.values()){
+      phantomDropped += g.nonOpUnresolved.length;
+      kept.push(...g.nonOpResolved);
+
+      if(g.nonOpUnresolved.length > 0){
+        // At least one rarity scan is missing — keep OP as proxy for the unreleased scan
+        kept.push(...g.op);
+      } else if(g.nonOpResolved.length > 0){
+        // Every rarity scan for this set is uploaded — OP is superseded, drop it
+        opDropped += g.op.length;
+      } else {
+        // No non-OP files at all for this set — keep OP as only available image
+        kept.push(...g.op);
+      }
+    }
+    galleryData[key] = kept;
+  }
+  if(opDropped)      console.log(`[sync-gallery] Dropped ${opDropped} OP placeholder(s) superseded by complete rarity scans.`);
+  if(phantomDropped) console.log(`[sync-gallery] Dropped ${phantomDropped} unreleased file(s) with no uploaded image on Yugipedia.`);
+
   writeJsonAtomic(OUT_FILE, galleryData);
   writeJsonAtomic(URLS_FILE, urlCache);
   console.log(`[sync-gallery] Done. Queried ${setsQueried} sets, ${setsWithImages} had galleries, ${newImages} new images for ${Object.keys(galleryData).length} cards. ${Object.keys(urlCache).length} URLs cached.`);

@@ -35,7 +35,6 @@
   "Counter Cannonball": [
     "CounterCannonball-RDSST1-JP-C.png",
     "CounterCannonball-RDKP01-JP-R.png",
-    "CounterCannonball-RDATR1-JP-C.png",
     "CounterCannonball-RDSBD5-JP-C.png",
     "CounterCannonball-RDSBD6-JP-C.png",
     "CounterCannonball-RDSBD2-JP-C.png"
@@ -51,8 +50,7 @@
   "Defender of Dragon Sorcerers": [
     "DefenderofDragonSorcerers-RDKP01-JP-R.png",
     "DefenderofDragonSorcerers-RDSD0A-JP-C.png",
-    "DefenderofDragonSorcerers-RDB004-JP-C.png",
-    "DefenderofDragonSorcerers-RDB004-JP-SR.png"
+    "DefenderofDragonSorcerers-RDB004-JP-C.png"
   ],
   "Diabolic King Beetle": [
     "DiabolicKingBeetle-RDKP01-JP-C.png"
@@ -86,13 +84,13 @@
   "Kuribot": [
     "Kuribot-RD5TH1-JP-SR.png",
     "Kuribot-RD711A-JP-NPR.png",
-    "Kuribot-RDSST1-JP-C-AA.png",
     "Kuribot-RD711A-JP-NPR-AA.png",
-    "Kuribot-RDSST1-JP-C-AA2.png",
     "Kuribot-RD711A-JP-NPR-AA2.png",
+    "Kuribot-RDSST1-JP-C-AA.png",
+    "Kuribot-RDSST1-JP-C-AA2.png",
+    "Kuribot-RDSST1-JP-C.png",
     "Kuribot-RDS242-JP-UPR.png",
     "Kuribot-RDKP01-JP-R.png",
-    "Kuribot-RDSST1-JP-C.png",
     "Kuribot-RDEXT1-JP-R.png",
     "Kuribot-RDMAX1-JP-R.png"
   ],
@@ -127,13 +125,12 @@
   ],
   "Multistrike Dragon Dragias": [
     "MultistrikeDragonDragias-RDMRP2-JP-R.png",
+    "MultistrikeDragonDragias-RDMRP2-JP-ScR.png",
     "MultistrikeDragonDragias-RDAKG2-JP-UR.png",
     "MultistrikeDragonDragias-RD5TH1-JP-UPR.png",
     "MultistrikeDragonDragias-RDCCC1-JP-NPR.png",
-    "MultistrikeDragonDragias-RDMRP2-JP-ScR.png",
     "MultistrikeDragonDragias-RDECG1-JP-NPR.png",
     "MultistrikeDragonDragias-RDKP01-JP-RR.png",
-    "MultistrikeDragonDragias-RDATR1-JP-NPR.png",
     "MultistrikeDragonDragias-RDKP12-JP-ORR.png",
     "MultistrikeDragonDragias-RDSST1-JP-C.png",
     "MultistrikeDragonDragias-RDGRP1-JP-GRR.png",
@@ -148,25 +145,23 @@
   ],
   "Petit Moth": [
     "PetitMoth-RDAP02-JP-C.png",
-    "PetitMoth-RDKP01-JP-C.png",
-    "PetitMoth-RDB254-JP-SR.png"
+    "PetitMoth-RDKP01-JP-C.png"
   ],
   "Pierce!": [
     "Pierce-RDGRD2-JP-C.png",
     "Pierce-RDKP01-JP-C.png",
     "Pierce-RDSBD1-JP-C.png",
-    "Pierce-RDTH02-JP-C.png",
     "Pierce-RDSST1-JP-C.png",
     "Pierce-RDGRD1-JP-C.png",
     "Pierce-RDSBD2-JP-C.png"
   ],
   "Prima Guitarna the Shining Superstar": [
     "PrimaGuitarnatheShiningSuperstar-RDMRP2-JP-C.png",
+    "PrimaGuitarnatheShiningSuperstar-RDMRP2-JP-ORR.png",
     "PrimaGuitarnatheShiningSuperstar-RDCCC1-JP-NPR.png",
     "PrimaGuitarnatheShiningSuperstar-RD5TH1-JP-UPR.png",
     "PrimaGuitarnatheShiningSuperstar-RD5TH1-KR-UPR.png",
     "PrimaGuitarnatheShiningSuperstar-RDKP01-JP-UR.png",
-    "PrimaGuitarnatheShiningSuperstar-RDMRP2-JP-ORR.png",
     "PrimaGuitarnatheShiningSuperstar-RDGRP1-JP-GRR.png",
     "PrimaGuitarnatheShiningSuperstar-RDMRP1-JP-C.png",
     "PrimaGuitarnatheShiningSuperstar-RDSBD4-JP-C.png",
@@ -193,17 +188,15 @@
     "SevensRoadMagician-RDAKG1-JP-UR.png",
     "SevensRoadMagician-RD711A-JP-NPR.png",
     "SevensRoadMagician-RDMRP1-JP-R.png",
+    "SevensRoadMagician-RDMRP1-JP-ScR.png",
     "SevensRoadMagician-RD5TH1-JP-UPR.png",
     "SevensRoadMagician-RDCCC1-JP-NPR.png",
     "SevensRoadMagician-RDECG1-JP-NPR.png",
     "SevensRoadMagician-RDKP01-JP-RR.png",
     "SevensRoadMagician-RDMRP2-JP-C.png",
-    "SevensRoadMagician-RDATR1-JP-NPR.png",
-    "SevensRoadMagician-RDTH02-JP-C.png",
     "SevensRoadMagician-RDSST1-JP-C.png",
     "SevensRoadMagician-RDGRP1-JP-GRR.png",
     "SevensRoadMagician-RDORP1-JP-ORR.png",
-    "SevensRoadMagician-RDMRP1-JP-ScR.png",
     "SevensRoadMagician-RDST01-JP-SPR.png",
     "SevensRoadMagician-RDSA01-JP-ScR.png",
     "SevensRoadMagician-RDP001-JP-C.png",
@@ -215,6 +208,7 @@
     "SevensRoadWitch-RDAKG3-JP-UR.png",
     "SevensRoadWitch-RDMRP1-JP-R.png",
     "SevensRoadWitch-RDMRP1-KR-R.png",
+    "SevensRoadWitch-RDMRP1-JP-ScR.png",
     "SevensRoadWitch-RDBD07-JP-UPR.png",
     "SevensRoadWitch-RD5TH1-JP-UPR.png",
     "SevensRoadWitch-RD5TH1-KR-UPR.png",
@@ -222,8 +216,6 @@
     "SevensRoadWitch-RDKP01-JP-UR.png",
     "SevensRoadWitch-RDMRP2-JP-C.png",
     "SevensRoadWitch-RDKP13-JP-ORR.png",
-    "SevensRoadWitch-RDTH02-JP-C.png",
-    "SevensRoadWitch-RDMRP1-JP-ScR.png",
     "SevensRoadWitch-RDGRC1-JP-GRR.png",
     "SevensRoadWitch-RDSA02-JP-ScR.png",
     "SevensRoadWitch-RDVS01-JP-SPR.png"
@@ -244,15 +236,12 @@
   ],
   "Sparks": [
     "Sparks-RDAP02-JP-C.png",
-    "Sparks-RDKP01-JP-C.png",
-    "Sparks-RDTH02-JP-C.png",
-    "Sparks-RDAP02-JP-ScR.png"
+    "Sparks-RDAP02-JP-ScR.png",
+    "Sparks-RDKP01-JP-C.png"
   ],
   "Spice the Elite Noodle Ninja": [
     "SpicetheEliteNoodleNinja-RDSD04-JP-C.png",
-    "SpicetheEliteNoodleNinja-RDKP01-JP-SR.png",
-    "SpicetheEliteNoodleNinja-RDB254-JP-C.png",
-    "SpicetheEliteNoodleNinja-RDB254-JP-SR.png"
+    "SpicetheEliteNoodleNinja-RDKP01-JP-SR.png"
   ],
   "Sportsdragon Pitcher": [
     "SportsdragonPitcher-RDKP01-JP-R.png",
@@ -281,11 +270,11 @@
   ],
   "Yamiruler the Dark Delayer": [
     "YamirulertheDarkDelayer-RDMRP2-JP-C.png",
+    "YamirulertheDarkDelayer-RDMRP2-JP-ORR.png",
     "YamirulertheDarkDelayer-RD5TH1-JP-UPR.png",
     "YamirulertheDarkDelayer-RDCCC2-JP-NPR.png",
     "YamirulertheDarkDelayer-RDKP01-JP-UR.png",
     "YamirulertheDarkDelayer-RDSBD3-JP-C.png",
-    "YamirulertheDarkDelayer-RDMRP2-JP-ORR.png",
     "YamirulertheDarkDelayer-RDGRP1-JP-GRR.png",
     "YamirulertheDarkDelayer-RDSA01-JP-ScR.png"
   ],
@@ -296,8 +285,6 @@
   "Block Attack": [
     "BlockAttack-RDSD02-JP-C.png",
     "BlockAttack-RDSBD3-JP-C.png",
-    "BlockAttack-RDATR1-JP-C.png",
-    "BlockAttack-RDTH02-JP-C.png",
     "BlockAttack-RDCP01-JP-R.png",
     "BlockAttack-RDGRD1-JP-C.png"
   ],
@@ -357,7 +344,6 @@
     "SakakazetheTalismanicWarrior-RDSD0B-JP-C.png",
     "SakakazetheTalismanicWarrior-RDSBD3-JP-C.png",
     "SakakazetheTalismanicWarrior-RDB224-JP-C.png",
-    "SakakazetheTalismanicWarrior-RDB224-JP-SR.png",
     "SakakazetheTalismanicWarrior-RDKP04-JP-R.png"
   ],
   "Semeruler the Dark Summoner": [
@@ -369,7 +355,6 @@
   "Stop Defense": [
     "StopDefense-RDGRD2-JP-C.png",
     "StopDefense-RDSBD3-JP-C.png",
-    "StopDefense-RDATR1-JP-C.png",
     "StopDefense-RDSBD4-JP-C.png",
     "StopDefense-RDSBD5-JP-C.png",
     "StopDefense-RDSBD2-JP-C.png"
@@ -400,9 +385,9 @@
   ],
   "Abyss Soldier": [
     "AbyssSoldier-RDLGP2-JP-SR.png",
+    "AbyssSoldier-RDLGP2-JP-UPR.png",
     "AbyssSoldier-RDKP10-JP-RR.png",
-    "AbyssSoldier-RDKP10-JP-ScR.png",
-    "AbyssSoldier-RDLGP2-JP-UPR.png"
+    "AbyssSoldier-RDKP10-JP-ScR.png"
   ],
   "Beaming Bell Beam": [
     "BeamingBellBeam-RDORP3-JP-C.png",
@@ -410,14 +395,13 @@
   ],
   "Blue-Fang Burst Dragon": [
     "BlueFangBurstDragon-RD5THS-JP-SPR.png",
+    "BlueFangBurstDragon-RD5THS-JP-ORR.png",
     "BlueFangBurstDragon-RD711B-JP-NPR.png",
     "BlueFangBurstDragon-RDCCC1-JP-NPR.png",
     "BlueFangBurstDragon-RDKP10-JP-RR.png",
     "BlueFangBurstDragon-RDKP10-JP-UR.png",
     "BlueFangBurstDragon-RDORP2-JP-C.png",
-    "BlueFangBurstDragon-RDORP2-JP-ScR.png",
-    "BlueFangBurstDragon-RDATR1-JP-NPR.png",
-    "BlueFangBurstDragon-RD5THS-JP-ORR.png"
+    "BlueFangBurstDragon-RDORP2-JP-ScR.png"
   ],
   "Burst Ray Blaster": [
     "BurstRayBlaster-RDSD05-JP-C.png",
@@ -425,10 +409,10 @@
   ],
   "Chemicalized Salamander": [
     "ChemicalizedSalamander-RDLGP2-JP-C.png",
+    "ChemicalizedSalamander-RDLGP2-JP-ScR.png",
     "ChemicalizedSalamander-RD711B-JP-NPR.png",
     "ChemicalizedSalamander-RDKP10-JP-RR.png",
-    "ChemicalizedSalamander-RDKP10-JP-UR.png",
-    "ChemicalizedSalamander-RDLGP2-JP-ScR.png"
+    "ChemicalizedSalamander-RDKP10-JP-UR.png"
   ],
   "Delirium Papillon": [
     "DeliriumPapillon-RDAP02-JP-C.png",
@@ -438,8 +422,7 @@
   ],
   "Dynamo Might": [
     "DynamoMight-RDSD04-JP-C.png",
-    "DynamoMight-RDKP10-JP-C.png",
-    "DynamoMight-RDATR1-JP-C.png"
+    "DynamoMight-RDKP10-JP-C.png"
   ],
   "Miginagi the Talismanic Warrior": [
     "MiginagitheTalismanicWarrior-RDSD0B-JP-C.png",
@@ -451,8 +434,8 @@
   ],
   "Splitter Slime": [
     "SplitterSlime-RDLGP2-JP-C.png",
-    "SplitterSlime-RDKP10-JP-SR.png",
-    "SplitterSlime-RDLGP2-JP-ScR.png"
+    "SplitterSlime-RDLGP2-JP-ScR.png",
+    "SplitterSlime-RDKP10-JP-SR.png"
   ],
   "Voidvelg Requiem": [
     "VoidvelgRequiem-RD5TH1-JP-SPR.png",
@@ -460,8 +443,6 @@
     "VoidvelgRequiem-RDCCC2-JP-NPR.png",
     "VoidvelgRequiem-RDKP10-JP-RR.png",
     "VoidvelgRequiem-RDKP10-JP-UR.png",
-    "VoidvelgRequiem-RDATR1-JP-NPR.png",
-    "VoidvelgRequiem-RDTH03-JP-C.png",
     "VoidvelgRequiem-RDS224-JP-ScR.png"
   ],
   "Wooly Wonderland Air Aries": [
@@ -508,7 +489,6 @@
     "BarrageofSteel-RDS253-JP-OP.png",
     "BarrageofSteel-RDKP06-JP-R.png",
     "BarrageofSteel-RDGRD2-JP-C.png",
-    "BarrageofSteel-RDS253-JP-UPR.png",
     "BarrageofSteel-RDSD02-JP-C.png"
   ],
   "Battle Demotion": [
@@ -575,9 +555,9 @@
   ],
   "Handy Lady": [
     "HandyLady-RDAP01-JP-C.png",
+    "HandyLady-RDAP01-JP-SPR.png",
     "HandyLady-RDKP22-JP-ORR.png",
     "HandyLady-RDKP06-JP-R.png",
-    "HandyLady-RDAP01-JP-SPR.png",
     "HandyLady-RDMRP1-JP-R.png",
     "HandyLady-RDMRP1-JP-ScR.png"
   ],
@@ -589,8 +569,8 @@
   ],
   "JAM:P Set!": [
     "JAMPSet-RDMRP1-JP-R.png",
-    "JAMPSet-RDKP06-JP-SR.png",
-    "JAMPSet-RDMRP1-JP-ScR.png"
+    "JAMPSet-RDMRP1-JP-ScR.png",
+    "JAMPSet-RDKP06-JP-SR.png"
   ],
   "Jasmine the Shadow Flower Festival": [
     "JasminetheShadowFlowerFestival-RDKP06-JP-C.png"
@@ -629,8 +609,7 @@
   ],
   "Salary Slash": [
     "SalarySlash-RDSD02-JP-C.png",
-    "SalarySlash-RDKP06-JP-C.png",
-    "SalarySlash-RDTH01-JP-C.png"
+    "SalarySlash-RDKP06-JP-C.png"
   ],
   "Secret Service Shine Guard": [
     "SecretServiceShineGuard-RDKP06-JP-C.png"
@@ -640,16 +619,15 @@
   ],
   "Speedy Performer": [
     "SpeedyPerformer-RDHC01-JP-C.png",
-    "SpeedyPerformer-RDKP06-JP-SR.png",
     "SpeedyPerformer-RDHC01-JP-ScR.png",
-    "SpeedyPerformer-RDATR1-JP-C.png"
+    "SpeedyPerformer-RDKP06-JP-SR.png"
   ],
   "Steel Strike Dragon Metagias": [
     "SteelStrikeDragonMetagias-RD5THS-JP-SPR.png",
+    "SteelStrikeDragonMetagias-RD5THS-JP-ORR.png",
     "SteelStrikeDragonMetagias-RDKP06-JP-RR.png",
     "SteelStrikeDragonMetagias-RDKP06-JP-UR.png",
-    "SteelStrikeDragonMetagias-RDS222-JP-ScR.png",
-    "SteelStrikeDragonMetagias-RD5THS-JP-ORR.png"
+    "SteelStrikeDragonMetagias-RDS222-JP-ScR.png"
   ],
   "Stock Buster Dragon": [
     "StockBusterDragon-RDKP06-JP-C.png",
@@ -661,8 +639,7 @@
   ],
   "Talismanic Seal Array": [
     "TalismanicSealArray-RDSD01-JP-C.png",
-    "TalismanicSealArray-RDKP06-JP-SR.png",
-    "TalismanicSealArray-RDATR1-JP-C.png"
+    "TalismanicSealArray-RDKP06-JP-SR.png"
   ],
   "Thunderbold, the Blazing Thunder": [
     "ThunderboldtheBlazingThunder-RD5TH1-JP-ORR.png",
@@ -714,7 +691,6 @@
     "DarkMagicAttack-RDSD0E-JP-C.png",
     "DarkMagicAttack-RDMRP2-JP-C.png",
     "DarkMagicAttack-RDB004-JP-C.png",
-    "DarkMagicAttack-RDB004-JP-SR.png",
     "DarkMagicAttack-RDKP02-JP-C.png"
   ],
   "Dark Magician": [
@@ -729,17 +705,16 @@
   ],
   "Dark Revelation": [
     "DarkRevelation-RDORP4-JP-C.png",
+    "DarkRevelation-RDORP4-JP-ScR.png",
     "DarkRevelation-RDMRP2-JP-C.png",
     "DarkRevelation-RDGRP1-JP-SR.png",
-    "DarkRevelation-RDORP4-JP-ScR.png",
     "DarkRevelation-RDST01-JP-C.png",
     "DarkRevelation-RDST01-JP-R.png"
   ],
   "Dark Sword Magician": [
     "DarkSwordMagician-RDSD0E-JP-C.png",
     "DarkSwordMagician-RDMRP2-JP-ORR.png",
-    "DarkSwordMagician-RDMRP2-JP-UR.png",
-    "DarkSwordMagician-RDTH02-JP-C.png"
+    "DarkSwordMagician-RDMRP2-JP-UR.png"
   ],
   "Divine Transformation": [
     "DivineTransformation-RDMRP2-JP-UR.png",
@@ -763,9 +738,7 @@
   "Gias x Gias": [
     "GiasxGias-RDMRP2-JP-UR.png",
     "GiasxGias-RDMRP2-JP-ORR-AA.png",
-    "GiasxGias-RDMRP2-JP-ORR.png",
-    "GiasxGias-RDB253-JP-C.png",
-    "GiasxGias-RDB253-JP-SR.png"
+    "GiasxGias-RDMRP2-JP-ORR.png"
   ],
   "Kimeterasu the Divine Ruler": [
     "KimeterasutheDivineRuler-RDMRP2-JP-R.png",
@@ -782,13 +755,11 @@
   "Mezame the Ringing Alarm": [
     "MezametheRingingAlarm-RDSD0B-JP-C.png",
     "MezametheRingingAlarm-RDMRP2-JP-R.png",
-    "MezametheRingingAlarm-RDKP07-JP-SR.png",
-    "MezametheRingingAlarm-RDTH01-JP-C.png"
+    "MezametheRingingAlarm-RDKP07-JP-SR.png"
   ],
   "Obsidian Magical Soldier": [
     "ObsidianMagicalSoldier-RDSD0E-JP-C.png",
-    "ObsidianMagicalSoldier-RDMRP2-JP-SR.png",
-    "ObsidianMagicalSoldier-RDTH02-JP-C.png"
+    "ObsidianMagicalSoldier-RDMRP2-JP-SR.png"
   ],
   "Phoenix Dragon": [
     "PhoenixDragon-RDTB02-JP-C.png",
@@ -824,7 +795,6 @@
     "ShipofSevenTreasures-RDMRP2-JP-SR.png",
     "ShipofSevenTreasures-RDKP07-JP-UR.png",
     "ShipofSevenTreasures-RDLGP1-JP-ScR.png",
-    "ShipofSevenTreasures-RDDK01-JP-ScR.png",
     "ShipofSevenTreasures-RDSD0B-JP-NPR.png"
   ],
   "Skysavior Watch": [
@@ -844,7 +814,6 @@
     "ThousandKnives-RDSD0E-JP-C.png",
     "ThousandKnives-RDMRP2-JP-C.png",
     "ThousandKnives-RDB004-JP-C.png",
-    "ThousandKnives-RDB004-JP-SR.png",
     "ThousandKnives-RDKP02-JP-C.png"
   ],
   "Thunderbold, the Echoing Thunder": [
@@ -1018,12 +987,11 @@
   ],
   "Monster Reborn": [
     "MonsterReborn-RDAP02-JP-C.png",
-    "MonsterReborn-RDSBD0-JP-ScR-AA.png",
-    "MonsterReborn-RDSD0A-JP-NPR.png",
     "MonsterReborn-RDAP02-JP-ORR.png",
-    "MonsterReborn-RDP007-JP-ScRRed.png",
+    "MonsterReborn-RDSBD0-JP-ScR-AA.png",
     "MonsterReborn-RDSBD0-JP-SPR.png",
-    "MonsterReborn-RDSBD0-JP-ScR.png"
+    "MonsterReborn-RDSBD0-JP-ScR.png",
+    "MonsterReborn-RDSD0A-JP-NPR.png"
   ],
   "Siesta Torero": [
     "SiestaTorero-RDSD0B-JP-C.png",
@@ -1041,17 +1009,15 @@
   ],
   "The Ultimate Blue-Eyed Legend": [
     "TheUltimateBlueEyedLegend-RDSD0A-JP-C.png",
-    "TheUltimateBlueEyedLegend-RDS251-JP-UPR.png",
-    "TheUltimateBlueEyedLegend-RDSD0A-JP-SR.png"
+    "TheUltimateBlueEyedLegend-RDSD0A-JP-SR.png",
+    "TheUltimateBlueEyedLegend-RDS251-JP-UPR.png"
   ],
   "Trade-In": [
     "TradeIn-RDSD0F-JP-C.png",
     "TradeIn-RDSD0A-JP-C.png",
     "TradeIn-RD5TH1-JP-ScR.png",
     "TradeIn-RDMRP1-JP-R.png",
-    "TradeIn-RDB232-JP-C.png",
-    "TradeIn-RDB232-JP-SR.png",
-    "TradeIn-RDB232-JP-URRed.png"
+    "TradeIn-RDB232-JP-C.png"
   ],
   "Treasure of Eyes of Blue": [
     "TreasureofEyesofBlue-RDSD0A-JP-C.png",
@@ -1068,9 +1034,9 @@
   ],
   "Battletested Gaia The Fierce Knight": [
     "BattletestedGaiaTheFierceKnight-RDKP14-JP-SR.png",
+    "BattletestedGaiaTheFierceKnight-RDKP14-JP-ScR.png",
     "BattletestedGaiaTheFierceKnight-RDAP01-JP-UR.png",
-    "BattletestedGaiaTheFierceKnight-RDAP01-JP-ScR.png",
-    "BattletestedGaiaTheFierceKnight-RDKP14-JP-ScR.png"
+    "BattletestedGaiaTheFierceKnight-RDAP01-JP-ScR.png"
   ],
   "Blaze Fiend Overlord Zebulth": [
     "BlazeFiendOverlordZebulth-RDAP01-JP-SR.png",
@@ -1093,8 +1059,8 @@
   ],
   "Brick Phone Nyan Nyan": [
     "BrickPhoneNyanNyan-RDAP01-JP-C.png",
-    "BrickPhoneNyanNyan-RDMRP1-KR-UR.png",
     "BrickPhoneNyanNyan-RDAP01-JP-ScR.png",
+    "BrickPhoneNyanNyan-RDMRP1-KR-UR.png",
     "BrickPhoneNyanNyan-RDMRP1-JP-RR.png",
     "BrickPhoneNyanNyan-RDMRP1-JP-UR.png"
   ],
@@ -1132,8 +1098,8 @@
   ],
   "Gaia the Dragon Champion": [
     "GaiatheDragonChampion-RDAP01-JP-C.png",
-    "GaiatheDragonChampion-RD711C-JP-NPR.png",
     "GaiatheDragonChampion-RDAP01-JP-ORR.png",
+    "GaiatheDragonChampion-RD711C-JP-NPR.png",
     "GaiatheDragonChampion-RDHC01-JP-SR.png",
     "GaiatheDragonChampion-RDHC01-JP-ScR.png",
     "GaiatheDragonChampion-RDB223-JP-C.png",
@@ -1172,10 +1138,7 @@
   "Great Maju Garzett": [
     "GreatMajuGarzett-RDAP01-JP-C.png",
     "GreatMajuGarzett-RDAP01-JP-ScR.png",
-    "GreatMajuGarzett-RDLGP1-JP-R.png",
-    "GreatMajuGarzett-RDB241-JP-C.png",
-    "GreatMajuGarzett-RDB241-JP-SR.png",
-    "GreatMajuGarzett-RDB241-JP-URRed.png"
+    "GreatMajuGarzett-RDLGP1-JP-R.png"
   ],
   "Jagged Claw Attack": [
     "JaggedClawAttack-RDAP01-JP-SR.png",
@@ -1205,15 +1168,14 @@
   ],
   "Secret Order": [
     "SecretOrder-RDAP01-JP-C.png",
-    "SecretOrder-RDSD0B-KR-C.png",
-    "SecretOrder-RD26PR-JP-NPR.png",
     "SecretOrder-RDAP01-JP-ORR.png",
+    "SecretOrder-RDSD0B-KR-C.png",
+    "SecretOrder-RDSD0B-JP-C.png",
+    "SecretOrder-RD26PR-JP-NPR.png",
     "SecretOrder-RDGRP1-JP-SR.png",
     "SecretOrder-RDLGP1-JP-ScR.png",
-    "SecretOrder-RDTH03-JP-C.png",
     "SecretOrder-RDDK01-JP-SR.png",
-    "SecretOrder-RDDK01-JP-ScR.png",
-    "SecretOrder-RDSD0B-JP-C.png"
+    "SecretOrder-RDDK01-JP-ScR.png"
   ],
   "Shining Shamaness": [
     "ShiningShamaness-RDAP01-JP-C.png",
@@ -1235,9 +1197,9 @@
   ],
   "Veteran Curse of Dragon": [
     "VeteranCurseofDragon-RDKP14-JP-SR.png",
+    "VeteranCurseofDragon-RDKP14-JP-ScR.png",
     "VeteranCurseofDragon-RDAP01-JP-UR.png",
-    "VeteranCurseofDragon-RDAP01-JP-ScR.png",
-    "VeteranCurseofDragon-RDKP14-JP-ScR.png"
+    "VeteranCurseofDragon-RDAP01-JP-ScR.png"
   ],
   "Wanderer of Zera": [
     "WandererofZera-RDAP01-JP-UR.png",
@@ -1245,8 +1207,7 @@
   ],
   "Warrior of Zera": [
     "WarriorofZera-RDAP01-JP-SR.png",
-    "WarriorofZera-RDAP01-JP-ScR.png",
-    "WarriorofZera-RDTH01-JP-C.png"
+    "WarriorofZera-RDAP01-JP-ScR.png"
   ],
   "Wicked Fire Blast of Zera": [
     "WickedFireBlastofZera-RDAP01-JP-SR.png",
@@ -1298,15 +1259,13 @@
     "GalacticaOblivion-RD711B-JP-NPR.png",
     "GalacticaOblivion-RDCCC1-JP-NPR.png",
     "GalacticaOblivion-RDKP25-JP-OP.png",
-    "GalacticaOblivion-RDKP25-JP-FORR.png",
-    "GalacticaOblivion-RDATR1-JP-NPR.png",
     "GalacticaOblivion-RDORP1-JP-ORR.png",
     "GalacticaOblivion-RDKP09-JP-RR.png",
     "GalacticaOblivion-RDKP09-JP-UR.png",
     "GalacticaOblivion-RDGRD1-JP-NPR.png",
-    "GalacticaOblivion-RDTH03-JP-C.png",
     "GalacticaOblivion-RDD002-JP-RRRed.png",
-    "GalacticaOblivion-RDS224-JP-ScR.png"
+    "GalacticaOblivion-RDS224-JP-ScR.png",
+    "GalacticaOblivion-RDKP25-JP-FORR.png"
   ],
   "Galactica Rising Oblivion": [
     "GalacticaRisingOblivion-RDKP25-JP-SR.png",
@@ -1434,8 +1393,8 @@
   "Black Skull Dragon": [
     "BlackSkullDragon-RDTB02-JP-C.png",
     "BlackSkullDragon-RDORP2-JP-C.png",
-    "BlackSkullDragon-RDORP2-JP-UPR.png",
-    "BlackSkullDragon-RDKP16-JP-ORR.png"
+    "BlackSkullDragon-RDKP16-JP-ORR.png",
+    "BlackSkullDragon-RDORP2-JP-UPR.png"
   ],
   "Chaos Femtron": [
     "ChaosFemtron-RDORP2-JP-C.png",
@@ -1477,8 +1436,8 @@
   ],
   "Dragon Tribe Fusion": [
     "DragonTribeFusion-RDORP2-JP-C.png",
-    "DragonTribeFusion-RDS23P-JP-UPR.png",
     "DragonTribeFusion-RDORP2-JP-ScR.png",
+    "DragonTribeFusion-RDS23P-JP-UPR.png",
     "DragonTribeFusion-RDLGP1-JP-R.png"
   ],
   "Dual Space Yggdrago": [
@@ -1507,14 +1466,12 @@
   ],
   "Jointech Rex": [
     "JointechRex-RDORP2-JP-C.png",
+    "JointechRex-RDORP2-JP-ScR.png",
     "JointechRex-RD711B-JP-NPR.png",
     "JointechRex-RDCCC1-JP-NPR.png",
-    "JointechRex-RDORP2-JP-ScR.png",
-    "JointechRex-RDATR1-JP-NPR.png",
     "JointechRex-RDKP09-JP-RR.png",
     "JointechRex-RDKP09-JP-UR.png",
-    "JointechRex-RDGRD2-JP-NPR.png",
-    "JointechRex-RDD002-JP-RRRed.png"
+    "JointechRex-RDGRD2-JP-NPR.png"
   ],
   "Labyrinth Wall": [
     "LabyrinthWall-RDORP2-JP-C.png",
@@ -1576,10 +1533,7 @@
     "MeteorBlackDragon-RDTB02-JP-C.png",
     "MeteorBlackDragon-RDORP2-JP-C.png",
     "MeteorBlackDragon-RDORP2-JP-UPR.png",
-    "MeteorBlackDragon-RDLGP1-JP-ORR.png",
-    "MeteorBlackDragon-RDB233-JP-C.png",
-    "MeteorBlackDragon-RDB233-JP-SR.png",
-    "MeteorBlackDragon-RDB233-JP-URRed.png"
+    "MeteorBlackDragon-RDLGP1-JP-ORR.png"
   ],
   "Multi-Space Yggdrago": [
     "MultiSpaceYggdrago-RDORP2-JP-SR.png",
@@ -1587,8 +1541,8 @@
   ],
   "Over Rush Storm": [
     "OverRushStorm-RDORP2-JP-UR.png",
-    "OverRushStorm-RD5TH1-JP-UPR.png",
     "OverRushStorm-RDORP2-JP-ORR.png",
+    "OverRushStorm-RD5TH1-JP-UPR.png",
     "OverRushStorm-RD5TH1-JP-ORR.png"
   ],
   "Peace Lovely Ángel": [
@@ -1614,8 +1568,8 @@
   ],
   "Sevens Road Charmy Witch": [
     "SevensRoadCharmyWitch-RDORP2-JP-UR.png",
-    "SevensRoadCharmyWitch-RDS252-JP-UPR.png",
-    "SevensRoadCharmyWitch-RDORP2-JP-ORR.png"
+    "SevensRoadCharmyWitch-RDORP2-JP-ORR.png",
+    "SevensRoadCharmyWitch-RDS252-JP-UPR.png"
   ],
   "Shiny Shady": [
     "ShinyShady-RD5TH1-JP-ScR.png",
@@ -1644,8 +1598,8 @@
   ],
   "The Dragias": [
     "TheDragias-RD5TH1-JP-SR.png",
-    "TheDragias-RDORP2-JP-C.png",
     "TheDragias-RD5TH1-JP-ScR.png",
+    "TheDragias-RDORP2-JP-C.png",
     "TheDragias-RDKP12-JP-RR.png",
     "TheDragias-RDKP12-JP-UR.png"
   ],
@@ -1656,11 +1610,9 @@
     "TransamLinac-RDS243-JP-UPR.png",
     "TransamLinac-RDCCC2-JP-NPR.png",
     "TransamLinac-RDORP2-JP-UR.png",
-    "TransamLinac-RDATR1-JP-C.png",
     "TransamLinac-RDSST1-JP-C.png",
     "TransamLinac-RDGRD1-JP-C.png",
     "TransamLinac-RDSD01-JP-C.png",
-    "TransamLinac-RDTH03-JP-C.png",
     "TransamLinac-RDS221-JP-ScR.png"
   ],
   "Transam Power Linac": [
@@ -1791,8 +1743,7 @@
   "Heavenly Invitation": [
     "HeavenlyInvitation-RDLGP2-JP-SR.png",
     "HeavenlyInvitation-RDVSP1-JP-SR.png",
-    "HeavenlyInvitation-RDVSP1-JP-ScR.png",
-    "HeavenlyInvitation-RDP007-JP-ScRRed.png"
+    "HeavenlyInvitation-RDVSP1-JP-ScR.png"
   ],
   "Jinzo": [
     "Jinzo-RDSD0C-JP-NPR.png",
@@ -1814,8 +1765,7 @@
   ],
   "Radiant Mirror Force": [
     "RadiantMirrorForce-RDVSP1-JP-SR.png",
-    "RadiantMirrorForce-RDVSP1-JP-ScR.png",
-    "RadiantMirrorForce-RD26PR-JP-NPR.png"
+    "RadiantMirrorForce-RDVSP1-JP-ScR.png"
   ],
   "Sea Dragon Knight": [
     "SeaDragonKnight-RDVSP1-JP-ScR.png",
@@ -1916,17 +1866,17 @@
   ],
   "Supreme Skystream Magnum Overlord (L)": [
     "SupremeSkystreamMagnumOverlordL-RDVSP1-JP-NPR.png",
-    "SupremeSkystreamMagnumOverlordL-RDVSP1-JP-ORR.png",
     "SupremeSkystreamMagnumOverlordL-RDMAX2-JP-RR.png",
     "SupremeSkystreamMagnumOverlordL-RDMAX2-JP-UR.png",
-    "SupremeSkystreamMagnumOverlordL-RDMAX2-JP-RRRed.png"
+    "SupremeSkystreamMagnumOverlordL-RDMAX2-JP-RRRed.png",
+    "SupremeSkystreamMagnumOverlordL-RDVSP1-JP-ORR.png"
   ],
   "Supreme Skystream Magnum Overlord (R)": [
     "SupremeSkystreamMagnumOverlordR-RDVSP1-JP-NPR.png",
-    "SupremeSkystreamMagnumOverlordR-RDVSP1-JP-ORR.png",
     "SupremeSkystreamMagnumOverlordR-RDMAX2-JP-RR.png",
     "SupremeSkystreamMagnumOverlordR-RDMAX2-JP-UR.png",
-    "SupremeSkystreamMagnumOverlordR-RDMAX2-JP-RRRed.png"
+    "SupremeSkystreamMagnumOverlordR-RDMAX2-JP-RRRed.png",
+    "SupremeSkystreamMagnumOverlordR-RDVSP1-JP-ORR.png"
   ],
   "Acid Trap Hole": [
     "AcidTrapHole-RDLGP2-JP-SR.png",
@@ -1991,12 +1941,11 @@
   "Fusion": [
     "Fusion-RDAP01-JP-C.png",
     "Fusion-RDLGP2-JP-ScR.png",
-    "Fusion-RDP013-JP-OP.png",
     "Fusion-RDLGP2-JP-SR.png",
+    "Fusion-RDP013-JP-OP.png",
     "Fusion-RD5TH1-JP-ORR.png",
     "Fusion-RDGRP1-JP-C.png",
     "Fusion-RDB231-JP-C.png",
-    "Fusion-RDB231-JP-SR.png",
     "Fusion-RDB231-JP-URRed.png",
     "Fusion-RDMRP1-JP-C.png",
     "Fusion-RDEXT1-JP-R.png",
@@ -2004,11 +1953,8 @@
     "Fusion-RDTB02-JP-C.png",
     "Fusion-RDTB01-JP-C.png",
     "Fusion-RDSD0C-JP-C.png",
-    "Fusion-RDB243-JP-C.png",
-    "Fusion-RDB243-JP-SR.png",
     "Fusion-RDSD0B-JP-C.png",
-    "Fusion-RDP006-JP-NPR.png",
-    "Fusion-RDP013-JP-ORR.png"
+    "Fusion-RDP006-JP-NPR.png"
   ],
   "Gear Section": [
     "GearSection-RDLGP2-JP-SR.png",
@@ -2065,8 +2011,8 @@
   ],
   "Legend Priest": [
     "LegendPriest-RDLGP2-JP-UR.png",
-    "LegendPriest-RDORP3-JP-ORR.png",
-    "LegendPriest-RDLGP2-JP-ORR.png"
+    "LegendPriest-RDLGP2-JP-ORR.png",
+    "LegendPriest-RDORP3-JP-ORR.png"
   ],
   "Legend Scout": [
     "LegendScout-RDLGP2-JP-C.png",
@@ -2091,8 +2037,8 @@
   "Legendary Magician": [
     "LegendaryMagician-RDORP3-JP-ORR.png",
     "LegendaryMagician-RDHC01-JP-ScR.png",
-    "LegendaryMagician-RDLGP2-JP-C.png",
     "LegendaryMagician-RDHC01-JP-SR.png",
+    "LegendaryMagician-RDLGP2-JP-C.png",
     "LegendaryMagician-RDSD0E-JP-C.png",
     "LegendaryMagician-RDLGP1-JP-ScR.png",
     "LegendaryMagician-RDLGP1-JP-UR.png"
@@ -2212,8 +2158,8 @@
   ],
   "Elite Agent Mystery": [
     "EliteAgentMystery-RDKP14-JP-R.png",
-    "EliteAgentMystery-RDBDG7-JP-UPR.png",
-    "EliteAgentMystery-RDKP14-JP-ScR.png"
+    "EliteAgentMystery-RDKP14-JP-ScR.png",
+    "EliteAgentMystery-RDBDG7-JP-UPR.png"
   ],
   "Ember the Hyper Assistant": [
     "EmbertheHyperAssistant-RDKP14-JP-SR.png",
@@ -2221,9 +2167,9 @@
   ],
   "Excutie Riding!": [
     "ExcutieRiding-RDKP14-JP-UR.png",
-    "ExcutieRiding-RD5TH1-JP-UPR.png",
     "ExcutieRiding-RDKP14-JP-ORR.png",
     "ExcutieRiding-RDKP14-JP-ScR.png",
+    "ExcutieRiding-RD5TH1-JP-UPR.png",
     "ExcutieRiding-RD5TH1-JP-ORR.png"
   ],
   "Gaia, Conqueror of Champions": [
@@ -2237,8 +2183,7 @@
   ],
   "Jointech Digup": [
     "JointechDigup-RDB251-JP-SR.png",
-    "JointechDigup-RDKP14-JP-C.png",
-    "JointechDigup-RDB251-JP-C.png"
+    "JointechDigup-RDKP14-JP-C.png"
   ],
   "Jointech Hero": [
     "JointechHero-RDKP14-JP-R.png",
@@ -2302,17 +2247,16 @@
   ],
   "Snake Princess of Purity": [
     "SnakePrincessofPurity-RDKP14-JP-UR.png",
-    "SnakePrincessofPurity-RD5TH1-JP-UPR.png",
     "SnakePrincessofPurity-RDKP14-JP-ORR.png",
     "SnakePrincessofPurity-RDKP14-JP-ScR.png",
+    "SnakePrincessofPurity-RD5TH1-JP-UPR.png",
     "SnakePrincessofPurity-RD5TH1-JP-ORR.png"
   ],
   "Specter of Heaven's Beginning": [
     "SpecterofHeavensBeginning-RDAP02-JP-C.png",
     "SpecterofHeavensBeginning-RDKP14-JP-ScR-AA.png",
     "SpecterofHeavensBeginning-RDKP14-JP-SR.png",
-    "SpecterofHeavensBeginning-RDKP14-JP-ScR.png",
-    "SpecterofHeavensBeginning-RD25PR-JP-NPR.png"
+    "SpecterofHeavensBeginning-RDKP14-JP-ScR.png"
   ],
   "Steel Soldier Gale Vainari": [
     "SteelSoldierGaleVainari-RDSD0C-JP-C.png",
@@ -2322,9 +2266,9 @@
   ],
   "Abysskite Party": [
     "AbysskiteParty-RDHC01-JP-SR.png",
+    "AbysskiteParty-RDHC01-JP-ScR.png",
     "AbysskiteParty-RD5TH1-JP-UPR.png",
-    "AbysskiteParty-RD5TH1-JP-ORR.png",
-    "AbysskiteParty-RDHC01-JP-ScR.png"
+    "AbysskiteParty-RD5TH1-JP-ORR.png"
   ],
   "Abysskite Ulti-Ange": [
     "AbysskiteUltiAnge-RD5TH1-JP-UR.png",
@@ -2334,16 +2278,14 @@
     "AceticAcidTrapHole-RD5TH1-JP-SPR.png",
     "AceticAcidTrapHole-RD5TH1-JP-ScR.png",
     "AceticAcidTrapHole-RDKP05-JP-SR.png",
-    "AceticAcidTrapHole-RDGRD0-JP-C.png",
-    "AceticAcidTrapHole-RDATR1-JP-C.png"
+    "AceticAcidTrapHole-RDGRD0-JP-C.png"
   ],
   "Altierra the Skysavior Transience": [
     "AltierratheSkysaviorTransience-RDORP4-JP-C.png",
     "AltierratheSkysaviorTransience-RD5TH1-JP-SPR.png",
     "AltierratheSkysaviorTransience-RD5TH1-JP-ScR.png",
     "AltierratheSkysaviorTransience-RDKP12-JP-R.png",
-    "AltierratheSkysaviorTransience-RDB231-JP-C.png",
-    "AltierratheSkysaviorTransience-RDB231-JP-SR.png"
+    "AltierratheSkysaviorTransience-RDB231-JP-C.png"
   ],
   "Ancient Gear Megaton Golem": [
     "AncientGearMegatonGolem-RD5TH1-JP-UR.png",
@@ -2370,15 +2312,15 @@
   ],
   "Chromatographagas": [
     "Chromatographagas-RD5TH1-JP-SPR.png",
-    "Chromatographagas-RDS241-JP-UPR.png",
     "Chromatographagas-RD5TH1-JP-ScR.png",
+    "Chromatographagas-RDS241-JP-UPR.png",
     "Chromatographagas-RDKP12-JP-R.png"
   ],
   "Ciela the Skysavior Knight": [
     "CielatheSkysaviorKnight-RDORP4-JP-C.png",
+    "CielatheSkysaviorKnight-RDORP4-JP-ScR.png",
     "CielatheSkysaviorKnight-RD5TH1-JP-SR.png",
-    "CielatheSkysaviorKnight-RDKP12-JP-R.png",
-    "CielatheSkysaviorKnight-RDORP4-JP-ScR.png"
+    "CielatheSkysaviorKnight-RDKP12-JP-R.png"
   ],
   "Dark Cavalry": [
     "DarkCavalry-RD5TH1-JP-UR.png",
@@ -2422,10 +2364,10 @@
   ],
   "Fadronir the Pure": [
     "FadronirthePure-RDKP17-JP-UR.png",
-    "FadronirthePure-RD5TH1-JP-UPR.png",
-    "FadronirthePure-RD5TH1-JP-ORR.png",
     "FadronirthePure-RDKP17-JP-ORR.png",
-    "FadronirthePure-RDKP17-JP-ScR.png"
+    "FadronirthePure-RDKP17-JP-ScR.png",
+    "FadronirthePure-RD5TH1-JP-UPR.png",
+    "FadronirthePure-RD5TH1-JP-ORR.png"
   ],
   "Harpie Lady 1 & 2 & 3": [
     "HarpieLady123-RD5TH1-JP-UR.png",
@@ -2434,27 +2376,21 @@
   "Malevolent Catastrophe": [
     "MalevolentCatastrophe-RD5TH1-JP-SPR.png",
     "MalevolentCatastrophe-RD5TH1-JP-ScR.png",
-    "MalevolentCatastrophe-RDLGP1-JP-R.png",
-    "MalevolentCatastrophe-RDB234-JP-C.png",
-    "MalevolentCatastrophe-RDB234-JP-SR.png",
-    "MalevolentCatastrophe-RDB234-JP-URRed.png"
+    "MalevolentCatastrophe-RDLGP1-JP-R.png"
   ],
   "Malevolent Seller": [
     "MalevolentSeller-RD5TH1-JP-SPR.png",
     "MalevolentSeller-RD5TH1-JP-ScR.png",
     "MalevolentSeller-RDLGP1-JP-C.png",
-    "MalevolentSeller-RDB232-JP-C.png",
-    "MalevolentSeller-RDB232-JP-SR.png"
+    "MalevolentSeller-RDB232-JP-C.png"
   ],
   "Necromaid Nana": [
     "NecromaidNana-RD5TH1-JP-SPR.png",
-    "NecromaidNana-RDS243-JP-UPR.png",
     "NecromaidNana-RD5TH1-JP-ScR.png",
+    "NecromaidNana-RDS243-JP-UPR.png",
     "NecromaidNana-RDSBD1-JP-C.png",
     "NecromaidNana-RDGRD0-JP-C.png",
-    "NecromaidNana-RDB001-JP-C.png",
-    "NecromaidNana-RDB001-JP-SR.png",
-    "NecromaidNana-RDP009-JP-ScRRed.png"
+    "NecromaidNana-RDB001-JP-C.png"
   ],
   "Neutron Blast": [
     "NeutronBlast-RD5TH1-JP-UR.png",
@@ -2475,8 +2411,8 @@
   ],
   "Prophecy Phrase the Colors of the Wind": [
     "ProphecyPhrasetheColorsoftheWind-RD5TH1-JP-SR.png",
-    "ProphecyPhrasetheColorsoftheWind-RDBDG2-JP-UPR.png",
     "ProphecyPhrasetheColorsoftheWind-RD5TH1-JP-ScR.png",
+    "ProphecyPhrasetheColorsoftheWind-RDBDG2-JP-UPR.png",
     "ProphecyPhrasetheColorsoftheWind-RDKP11-JP-UR.png"
   ],
   "Sevens Knight the Multistrike Dragon Knight": [
@@ -2485,9 +2421,9 @@
   ],
   "Sevens Wonder Fusion": [
     "SevensWonderFusion-RDKP13-JP-SR.png",
+    "SevensWonderFusion-RDKP13-JP-ScR.png",
     "SevensWonderFusion-RD5TH1-JP-UPR.png",
-    "SevensWonderFusion-RD5TH1-JP-ORR.png",
-    "SevensWonderFusion-RDKP13-JP-ScR.png"
+    "SevensWonderFusion-RD5TH1-JP-ORR.png"
   ],
   "Space Fusion - Extra Plasma": [
     "SpaceFusionExtraPlasma-RD5TH1-JP-SR.png",
@@ -2505,7 +2441,6 @@
   "Swift Gaia the Fierce Knight": [
     "SwiftGaiatheFierceKnight-RD5TH1-JP-SR.png",
     "SwiftGaiatheFierceKnight-RD5TH1-JP-ScR.png",
-    "SwiftGaiatheFierceKnight-RDTH01-JP-C.png",
     "SwiftGaiatheFierceKnight-RDECG1-JP-NPR.png"
   ],
   "The Dragiastar": [
@@ -2572,9 +2507,9 @@
   ],
   "Deity of Seven Treasures - Ryozai": [
     "DeityofSevenTreasuresRyozai-RDKP16-JP-UR.png",
-    "DeityofSevenTreasuresRyozai-RDS244-JP-UPR.png",
     "DeityofSevenTreasuresRyozai-RDKP16-JP-ORR.png",
-    "DeityofSevenTreasuresRyozai-RDKP16-JP-ScR.png"
+    "DeityofSevenTreasuresRyozai-RDKP16-JP-ScR.png",
+    "DeityofSevenTreasuresRyozai-RDS244-JP-UPR.png"
   ],
   "Dice Key Caramail": [
     "DiceKeyCaramail-RDKP16-JP-R.png",
@@ -2614,8 +2549,7 @@
   "Obnoxious Celtic Guard": [
     "ObnoxiousCelticGuard-RDSD0E-JP-C.png",
     "ObnoxiousCelticGuard-RDKP16-JP-SR.png",
-    "ObnoxiousCelticGuard-RDKP16-JP-ScR.png",
-    "ObnoxiousCelticGuard-RDTH01-JP-C.png"
+    "ObnoxiousCelticGuard-RDKP16-JP-ScR.png"
   ],
   "Praime Dwarf": [
     "PraimeDwarf-RDKP16-JP-R.png",
@@ -2646,9 +2580,7 @@
   ],
   "Swift Gaia the Dragon Champion": [
     "SwiftGaiatheDragonChampion-RDKP16-JP-R.png",
-    "SwiftGaiatheDragonChampion-RDKP16-JP-ScR.png",
-    "SwiftGaiatheDragonChampion-RDB252-JP-C.png",
-    "SwiftGaiatheDragonChampion-RDB252-JP-SR.png"
+    "SwiftGaiatheDragonChampion-RDKP16-JP-ScR.png"
   ],
   "Threat from Outer Space": [
     "ThreatfromOuterSpace-RDKP16-JP-SR.png",
@@ -2666,8 +2598,7 @@
   ],
   "Transamvelg Linac": [
     "TransamvelgLinac-RDKP16-JP-SR.png",
-    "TransamvelgLinac-RDKP16-JP-ScR.png",
-    "TransamvelgLinac-RDP008-JP-ScRRed.png"
+    "TransamvelgLinac-RDKP16-JP-ScR.png"
   ],
   "Abysskite Miracle Girls": [
     "AbysskiteMiracleGirls-RDHC01-JP-SR.png",
@@ -2683,8 +2614,8 @@
   ],
   "Back Beat": [
     "BackBeat-RDHC01-JP-SR.png",
-    "BackBeat-RD5TH1-JP-UPR.png",
     "BackBeat-RDHC01-JP-ScR.png",
+    "BackBeat-RD5TH1-JP-UPR.png",
     "BackBeat-RDKP07-JP-UR.png"
   ],
   "Black Dragon Skull Archfiend": [
@@ -2734,9 +2665,7 @@
     "CelticGuardian-RDHC01-JP-C.png",
     "CelticGuardian-RDHC01-JP-ScR.png",
     "CelticGuardian-RDB001-JP-C.png",
-    "CelticGuardian-RDB001-JP-SR.png",
-    "CelticGuardian-RDB001-JP-URRed.png",
-    "CelticGuardian-RDTH01-JP-C.png"
+    "CelticGuardian-RDB001-JP-URRed.png"
   ],
   "Charis Magic Scepter - Death Wand": [
     "CharisMagicScepterDeathWand-RDAP01-JP-C.png",
@@ -2754,8 +2683,8 @@
   ],
   "Curse of Dragon": [
     "CurseofDragon-RDHC01-JP-SR.png",
-    "CurseofDragon-RD711C-JP-NPR.png",
     "CurseofDragon-RDHC01-JP-ScR.png",
+    "CurseofDragon-RD711C-JP-NPR.png",
     "CurseofDragon-RDB222-JP-C.png",
     "CurseofDragon-RDB222-JP-SR.png",
     "CurseofDragon-RDB222-JP-URRed.png"
@@ -2768,14 +2697,13 @@
   "Dark Resonance Burst": [
     "DarkResonanceBurst-RDSD0E-JP-C.png",
     "DarkResonanceBurst-RDGRP1-KR-SR.png",
-    "DarkResonanceBurst-RDHC01-JP-ScR.png",
-    "DarkResonanceBurst-RDGRP1-JP-SR.png"
+    "DarkResonanceBurst-RDGRP1-JP-SR.png",
+    "DarkResonanceBurst-RDHC01-JP-ScR.png"
   ],
   "Doushin Kaika the Shadow Flower Full Moon": [
     "DoushinKaikatheShadowFlowerFullMoon-RDB251-JP-SR.png",
     "DoushinKaikatheShadowFlowerFullMoon-RDHC01-JP-ScR.png",
-    "DoushinKaikatheShadowFlowerFullMoon-RDKP11-JP-C.png",
-    "DoushinKaikatheShadowFlowerFullMoon-RDB251-JP-C.png"
+    "DoushinKaikatheShadowFlowerFullMoon-RDKP11-JP-C.png"
   ],
   "Ember the Super Assistant": [
     "EmbertheSuperAssistant-RD5TH1-JP-SPR.png",
@@ -2794,15 +2722,14 @@
   ],
   "Etraynze the Shadow Flower Restricter": [
     "EtraynzetheShadowFlowerRestricter-RDHC01-JP-SR.png",
-    "EtraynzetheShadowFlowerRestricter-RDS251-JP-UPR.png",
-    "EtraynzetheShadowFlowerRestricter-RDHC01-JP-ORR.png"
+    "EtraynzetheShadowFlowerRestricter-RDHC01-JP-ORR.png",
+    "EtraynzetheShadowFlowerRestricter-RDS251-JP-UPR.png"
   ],
   "Excutie Plawtie": [
     "ExcutiePlawtie-RD5TH1-JP-SPR.png",
     "ExcutiePlawtie-RDHC01-JP-ScR.png",
     "ExcutiePlawtie-RDORP1-JP-C.png",
-    "ExcutiePlawtie-RDB231-JP-C.png",
-    "ExcutiePlawtie-RDB231-JP-SR.png"
+    "ExcutiePlawtie-RDB231-JP-C.png"
   ],
   "Excutie Power Up!": [
     "ExcutiePowerUp-RDHC01-JP-C.png",
@@ -2825,9 +2752,8 @@
   ],
   "Gemini Elf": [
     "GeminiElf-RDB251-JP-SR.png",
-    "GeminiElf-RDHC01-JP-UR.png",
-    "GeminiElf-RDB251-JP-C.png",
-    "GeminiElf-RDB251-JP-URRed.png"
+    "GeminiElf-RDB251-JP-URRed.png",
+    "GeminiElf-RDHC01-JP-UR.png"
   ],
   "Ghost Cyclone": [
     "GhostCyclone-RDSD0B-JP-C.png",
@@ -2920,17 +2846,16 @@
   ],
   "Red-Boot Boost Dragon": [
     "RedBootBoostDragon-RD5THS-JP-SPR.png",
+    "RedBootBoostDragon-RD5THS-JP-ORR.png",
     "RedBootBoostDragon-RDECG1-JP-NPR.png",
     "RedBootBoostDragon-RDHC01-JP-ScR.png",
     "RedBootBoostDragon-RDHC01-JP-UR.png",
-    "RedBootBoostDragon-RDSD03-JP-C.png",
-    "RedBootBoostDragon-RD5THS-JP-ORR.png"
+    "RedBootBoostDragon-RDSD03-JP-C.png"
   ],
   "Rhythmical Performer": [
     "RhythmicalPerformer-RDHC01-JP-UR.png",
-    "RhythmicalPerformer-RDKP08-KR-SR.png",
     "RhythmicalPerformer-RDHC01-JP-ScR.png",
-    "RhythmicalPerformer-RDATR1-JP-C.png",
+    "RhythmicalPerformer-RDKP08-KR-SR.png",
     "RhythmicalPerformer-RDKP08-JP-SR.png"
   ],
   "Ritzy King Rex": [
@@ -2977,8 +2902,7 @@
     "SevensgiastheMagicalDragonKnight-RD5TH1-JP-SR.png",
     "SevensgiastheMagicalDragonKnight-RDHC01-JP-ScR.png",
     "SevensgiastheMagicalDragonKnight-RDKP09-JP-RR.png",
-    "SevensgiastheMagicalDragonKnight-RDKP09-JP-UR.png",
-    "SevensgiastheMagicalDragonKnight-RDP008-JP-ScRRed.png"
+    "SevensgiastheMagicalDragonKnight-RDKP09-JP-UR.png"
   ],
   "Shadow Flower Dance": [
     "ShadowFlowerDance-RDHC01-JP-C.png",
@@ -3051,7 +2975,6 @@
   "Avian Spell Tactics": [
     "AvianSpellTactics-RDSD0D-JP-C.png",
     "AvianSpellTactics-RDKP05-JP-R.png",
-    "AvianSpellTactics-RDTH01-JP-C.png",
     "AvianSpellTactics-RDTB01-JP-C.png"
   ],
   "Bombing Bird": [
@@ -3064,16 +2987,16 @@
   ],
   "Buster Blader": [
     "BusterBlader-RDORP4-JP-C.png",
+    "BusterBlader-RDORP4-JP-ScR.png",
     "BusterBlader-RDS23P-JP-UPR.png",
     "BusterBlader-RDKP05-JP-RR.png",
-    "BusterBlader-RDLGP1-JP-R.png",
-    "BusterBlader-RDORP4-JP-ScR.png"
+    "BusterBlader-RDLGP1-JP-R.png"
   ],
   "CAN:D": [
     "CAND-RDAP01-JP-C.png",
+    "CAND-RDAP01-JP-SPR.png",
     "CAND-RDBD04-JP-UPR.png",
     "CAND-RDECG1-JP-NPR.png",
-    "CAND-RDAP01-JP-SPR.png",
     "CAND-RDKP05-JP-SR.png",
     "CAND-RDMRP1-JP-R.png",
     "CAND-RDMRP1-JP-ScR.png",
@@ -3103,8 +3026,8 @@
   "Etraynze the Shadow Flower Ninja": [
     "EtraynzetheShadowFlowerNinja-RDSA03-JP-ScR.png",
     "EtraynzetheShadowFlowerNinja-RDKP05-KR-SR.png",
-    "EtraynzetheShadowFlowerNinja-RD5THS-JP-SPR.png",
-    "EtraynzetheShadowFlowerNinja-RDKP05-JP-SR.png"
+    "EtraynzetheShadowFlowerNinja-RDKP05-JP-SR.png",
+    "EtraynzetheShadowFlowerNinja-RD5THS-JP-SPR.png"
   ],
   "Gatling the Shadow Flower Shinobi": [
     "GatlingtheShadowFlowerShinobi-RDS223-JP-ScR.png",
@@ -3116,19 +3039,16 @@
   ],
   "Ice Age Catapult": [
     "IceAgeCatapult-RDKP05-JP-UR.png",
-    "IceAgeCatapult-RDKP05-JP-RR.png",
-    "IceAgeCatapult-RDB243-JP-C.png",
-    "IceAgeCatapult-RDB243-JP-SR.png"
+    "IceAgeCatapult-RDKP05-JP-RR.png"
   ],
   "JAM:P Start!": [
     "JAMPStart-RDB223-JP-C.png",
-    "JAMPStart-RDKP05-JP-C.png",
-    "JAMPStart-RDB223-JP-SR.png"
+    "JAMPStart-RDB223-JP-SR.png",
+    "JAMPStart-RDKP05-JP-C.png"
   ],
   "JAM:P Up!": [
     "JAMPUp-RDB223-JP-C.png",
-    "JAMPUp-RDKP05-JP-R.png",
-    "JAMPUp-RDB223-JP-SR.png"
+    "JAMPUp-RDKP05-JP-R.png"
   ],
   "Judgment of the Rising Light": [
     "JudgmentoftheRisingLight-RDSD03-JP-C.png",
@@ -3144,8 +3064,7 @@
   ],
   "Lindo the Shadow Flower Warrior": [
     "LindotheShadowFlowerWarrior-RDB251-JP-SR.png",
-    "LindotheShadowFlowerWarrior-RDKP05-JP-C.png",
-    "LindotheShadowFlowerWarrior-RDB251-JP-C.png"
+    "LindotheShadowFlowerWarrior-RDKP05-JP-C.png"
   ],
   "Maginical Miracle": [
     "MaginicalMiracle-RD5TH1-JP-SR.png",
@@ -3153,14 +3072,12 @@
   ],
   "Music Princess's Recital": [
     "MusicPrincesssRecital-RDGRD0-JP-C.png",
-    "MusicPrincesssRecital-RDKP05-JP-SR.png",
-    "MusicPrincesssRecital-RDTH01-JP-C.png"
+    "MusicPrincesssRecital-RDKP05-JP-SR.png"
   ],
   "Night Vision the Phantom Pigeon": [
     "NightVisionthePhantomPigeon-RDB251-JP-SR.png",
     "NightVisionthePhantomPigeon-RDKP05-JP-R.png",
-    "NightVisionthePhantomPigeon-RDSBD7-JP-C.png",
-    "NightVisionthePhantomPigeon-RDB251-JP-C.png"
+    "NightVisionthePhantomPigeon-RDSBD7-JP-C.png"
   ],
   "Prison Island - Cell Block 5 & 6": [
     "PrisonIslandCellBlock56-RD5TH1-JP-SR.png",
@@ -3347,8 +3264,7 @@
   ],
   "Cyber Falcon": [
     "CyberFalcon-RDSBD1-JP-C.png",
-    "CyberFalcon-RDB001-JP-C.png",
-    "CyberFalcon-RDB001-JP-SR.png"
+    "CyberFalcon-RDB001-JP-C.png"
   ],
   "Doriado": [
     "Doriado-RDSBD1-JP-C.png",
@@ -3395,9 +3311,7 @@
     "StrayngeCat-RDS241-JP-UPR.png",
     "StrayngeCat-RDFM01-JP-OP.png",
     "StrayngeCat-RDSBD1-JP-C.png",
-    "StrayngeCat-RDTH02-JP-C.png",
-    "StrayngeCat-RDST01-JP-C.png",
-    "StrayngeCat-RDFM01-JP-NPR.png"
+    "StrayngeCat-RDST01-JP-C.png"
   ],
   "Type Change Beam": [
     "TypeChangeBeam-RDSBD1-JP-C.png",
@@ -3405,15 +3319,13 @@
   ],
   "Ceremonial Knight": [
     "CeremonialKnight-RDSD0E-JP-C.png",
-    "CeremonialKnight-RDS261-JP-OP.png",
     "CeremonialKnight-RDSD0E-JP-SR.png",
-    "CeremonialKnight-RDS261-JP-UPR.png"
+    "CeremonialKnight-RDS261-JP-OP.png"
   ],
   "Ceremonial Sorcerer": [
     "CeremonialSorcerer-RDSD0E-JP-C.png",
-    "CeremonialSorcerer-RDS254-JP-OP.png",
     "CeremonialSorcerer-RDSD0E-JP-SR.png",
-    "CeremonialSorcerer-RDS254-JP-UPR.png"
+    "CeremonialSorcerer-RDS254-JP-OP.png"
   ],
   "Dark-Guiding Kuriboh": [
     "DarkGuidingKuriboh-RDSD0E-JP-C.png",
@@ -3421,9 +3333,8 @@
   ],
   "Light-Calling Griffore": [
     "LightCallingGriffore-RDSD0E-JP-C.png",
-    "LightCallingGriffore-RDS254-JP-OP.png",
     "LightCallingGriffore-RDSD0E-JP-SR.png",
-    "LightCallingGriffore-RDS254-JP-UPR.png"
+    "LightCallingGriffore-RDS254-JP-OP.png"
   ],
   "Magician of Black Chaos": [
     "MagicianofBlackChaos-RDSD0E-JP-UR.png",
@@ -3563,135 +3474,105 @@
   "Torna the Windweaver": [
     "TornatheWindweaver-RD5TH1-JP-SR.png",
     "TornatheWindweaver-RDGRD0-JP-C.png",
-    "TornatheWindweaver-RDATR1-JP-C.png",
     "TornatheWindweaver-RDST01-JP-C.png",
     "TornatheWindweaver-RDST01-JP-R.png"
   ],
   "Trap Hole": [
     "TrapHole-RDSD0A-JP-C.png",
     "TrapHole-RDGRD0-JP-NPR.png",
-    "TrapHole-RDMAX1-JP-ScR.png",
-    "TrapHole-RDTH03-JP-C.png"
+    "TrapHole-RDMAX1-JP-ScR.png"
   ],
   "Amusi Performer": [
     "AmusiPerformer-RDB224-JP-C.png",
-    "AmusiPerformer-RDATR1-JP-C.png",
-    "AmusiPerformer-RDB224-JP-SR.png",
     "AmusiPerformer-RDCP01-JP-R.png",
     "AmusiPerformer-RDSBD4-JP-C.png"
   ],
   "Atlas Combat Beetle": [
-    "AtlasCombatBeetle-RDKP09-JP-R.png",
-    "AtlasCombatBeetle-RDATR1-JP-C.png"
+    "AtlasCombatBeetle-RDKP09-JP-R.png"
   ],
   "Blast Examiner": [
     "BlastExaminer-RDB223-JP-C.png",
-    "BlastExaminer-RDATR1-JP-C.png",
     "BlastExaminer-RDB223-JP-SR.png"
   ],
   "Crack Neutron": [
-    "CrackNeutron-RDB231-JP-C.png",
-    "CrackNeutron-RDATR1-JP-C.png",
-    "CrackNeutron-RDTH03-JP-C.png"
+    "CrackNeutron-RDB231-JP-C.png"
   ],
   "Destruction of the Universe": [
-    "DestructionoftheUniverse-RDTB01-JP-NPR.png",
-    "DestructionoftheUniverse-RDATR1-JP-C.png"
+    "DestructionoftheUniverse-RDTB01-JP-NPR.png"
   ],
   "Eclipse": [
-    "Eclipse-RDKP10-JP-R.png",
-    "Eclipse-RDATR1-JP-C.png"
+    "Eclipse-RDKP10-JP-R.png"
   ],
   "Elegant Firebird Harpyia": [
     "ElegantFirebirdHarpyia-RDSD0D-JP-C.png",
-    "ElegantFirebirdHarpyia-RDATR1-JP-NPR.png",
     "ElegantFirebirdHarpyia-RDGRP1-JP-SR.png"
   ],
   "Hammer Crush": [
     "HammerCrush-RDKP01-JP-SR.png",
     "HammerCrush-RDSST1-JP-C.png",
     "HammerCrush-RDS23P-JP-UPR.png",
-    "HammerCrush-RDATR1-JP-C.png",
     "HammerCrush-RDMAX2-JP-R.png",
     "HammerCrush-RDGRC1-JP-SR.png"
   ],
   "Innocent Lancer": [
     "InnocentLancer-RDSD04-JP-C.png",
-    "InnocentLancer-RDATR1-JP-C.png",
     "InnocentLancer-RDSST1-JP-C.png",
     "InnocentLancer-RDKP02-JP-R.png"
   ],
   "Lauan Adventurers": [
-    "LauanAdventurers-RDKP08-JP-R.png",
-    "LauanAdventurers-RDATR1-JP-C.png"
+    "LauanAdventurers-RDKP08-JP-R.png"
   ],
   "Lightning Braver": [
-    "LightningBraver-RDGRD2-JP-C.png",
-    "LightningBraver-RDATR1-JP-C.png"
+    "LightningBraver-RDGRD2-JP-C.png"
   ],
   "Magical Ghost": [
-    "MagicalGhost-RDMRP1-JP-C.png",
-    "MagicalGhost-RDATR1-JP-C.png"
+    "MagicalGhost-RDMRP1-JP-C.png"
   ],
   "Nessus the Star Knight": [
-    "NessustheStarKnight-RDSBD5-JP-C.png",
-    "NessustheStarKnight-RDATR1-JP-C.png"
+    "NessustheStarKnight-RDSBD5-JP-C.png"
   ],
   "Quadcropter GA84": [
-    "QuadcropterGA84-RDB223-JP-C.png",
-    "QuadcropterGA84-RDATR1-JP-C.png"
+    "QuadcropterGA84-RDB223-JP-C.png"
   ],
   "Sacred Tower in Crisis": [
-    "SacredTowerinCrisis-RDKP09-JP-UR.png",
-    "SacredTowerinCrisis-RDATR1-JP-C.png"
+    "SacredTowerinCrisis-RDKP09-JP-UR.png"
   ],
   "Sea Dragon King Granganus": [
     "SeaDragonKingGranganus-RDVSP1-JP-C.png",
-    "SeaDragonKingGranganus-RDATR1-JP-NPR.png",
     "SeaDragonKingGranganus-RDKP03-JP-UR.png",
     "SeaDragonKingGranganus-RDSD05-JP-C.png"
   ],
   "Sora Puyo": [
-    "SoraPuyo-RDGRD1-JP-C.png",
-    "SoraPuyo-RDATR1-JP-C.png"
+    "SoraPuyo-RDGRD1-JP-C.png"
   ],
   "The Barrier": [
     "TheBarrier-RDSST1-JP-C.png",
-    "TheBarrier-RDATR1-JP-C.png",
     "TheBarrier-RDEXT1-JP-C.png"
   ],
   "Thunder Cavalry Triggerdrago": [
-    "ThunderCavalryTriggerdrago-RDKP08-JP-UR.png",
-    "ThunderCavalryTriggerdrago-RDATR1-JP-NPR.png",
-    "ThunderCavalryTriggerdrago-RDB252-JP-C.png"
+    "ThunderCavalryTriggerdrago-RDKP08-JP-UR.png"
   ],
   "Twin Edge Dragon": [
     "TwinEdgeDragon-RDSD03-JP-C.png",
-    "TwinEdgeDragon-RDATR1-JP-C.png",
     "TwinEdgeDragon-RDST02-JP-C.png",
     "TwinEdgeDragon-RDST02-JP-R.png"
   ],
   "Ultimate Flag Mech Ace Breaker": [
     "UltimateFlagMechAceBreaker-RD5THS-JP-SPR.png",
-    "UltimateFlagMechAceBreaker-RDATR1-JP-NPR.png",
     "UltimateFlagMechAceBreaker-RD5THS-JP-ORR.png",
     "UltimateFlagMechAceBreaker-RDG001-JP-ScR.png"
   ],
   "Update Wyvern": [
     "UpdateWyvern-RDB223-JP-C.png",
-    "UpdateWyvern-RDATR1-JP-C.png",
     "UpdateWyvern-RDB223-JP-SR.png"
   ],
   "Voidvelg Palerider": [
     "VoidvelgPalerider-RD5TH1-JP-SPR.png",
-    "VoidvelgPalerider-RDATR1-JP-C.png",
     "VoidvelgPalerider-RDS223-JP-ScR.png",
-    "VoidvelgPalerider-RDSD05-JP-C.png",
-    "VoidvelgPalerider-RDTH03-JP-C.png"
+    "VoidvelgPalerider-RDSD05-JP-C.png"
   ],
   "Winged Dragon, Guardian of the Fortress 1": [
     "WingedDragonGuardianoftheFortress1-RDSD03-JP-C.png",
-    "WingedDragonGuardianoftheFortress1-RDATR1-JP-C.png",
     "WingedDragonGuardianoftheFortress1-RDGRC1-JP-SR.png"
   ],
   "Achacha Catcher": [
@@ -3706,11 +3587,11 @@
   ],
   "CAN:D LIVE": [
     "CANDLIVE-RD5THS-JP-SPR.png",
+    "CANDLIVE-RD5THS-JP-ORR.png",
     "CANDLIVE-RDBD06-JP-UPR.png",
     "CANDLIVE-RDKP07-JP-RR.png",
     "CANDLIVE-RDKP07-JP-UR.png",
-    "CANDLIVE-RDS223-JP-ScR.png",
-    "CANDLIVE-RD5THS-JP-ORR.png"
+    "CANDLIVE-RDS223-JP-ScR.png"
   ],
   "Card Revitalization": [
     "CardRevitalization-RDLGP1-JP-C.png",
@@ -3747,8 +3628,7 @@
   "Flavor Inspector": [
     "FlavorInspector-RDSD04-JP-C.png",
     "FlavorInspector-RDS254-JP-OP.png",
-    "FlavorInspector-RDKP07-JP-C.png",
-    "FlavorInspector-RDS254-JP-UPR.png"
+    "FlavorInspector-RDKP07-JP-C.png"
   ],
   "Gagaga Outfielder": [
     "GagagaOutfielder-RDKP07-JP-C.png"
@@ -3779,8 +3659,7 @@
   ],
   "Piercing Samurai": [
     "PiercingSamurai-RDSD0B-JP-C.png",
-    "PiercingSamurai-RDKP07-JP-R.png",
-    "PiercingSamurai-RDTH01-JP-C.png"
+    "PiercingSamurai-RDKP07-JP-R.png"
   ],
   "Player 39: Home Run Hitter": [
     "Player39HomeRunHitter-RDKP07-JP-UR.png"
@@ -3834,17 +3713,14 @@
   ],
   "Takriminos": [
     "Takriminos-RDKP07-JP-R.png",
-    "Takriminos-RDB231-JP-C.png",
-    "Takriminos-RDB231-JP-SR.png"
+    "Takriminos-RDB231-JP-C.png"
   ],
   "The Noodle Art of Roastery": [
     "TheNoodleArtofRoastery-RDKP07-JP-R.png"
   ],
   "The Noodle Art of Saucery": [
     "TheNoodleArtofSaucery-RDSD04-JP-C.png",
-    "TheNoodleArtofSaucery-RDKP07-JP-C.png",
-    "TheNoodleArtofSaucery-RDB243-JP-C.png",
-    "TheNoodleArtofSaucery-RDB243-JP-SR.png"
+    "TheNoodleArtofSaucery-RDKP07-JP-C.png"
   ],
   "Unidentified Mysterious Urchin": [
     "UnidentifiedMysteriousUrchin-RDKP07-JP-C.png"
@@ -3862,10 +3738,7 @@
   ],
   "Darklord Zerato": [
     "DarklordZerato-RDKP11-JP-ScR.png",
-    "DarklordZerato-RDKP11-JP-RR.png",
-    "DarklordZerato-RDB243-JP-C.png",
-    "DarklordZerato-RDB243-JP-SR.png",
-    "DarklordZerato-RDB243-JP-URRed.png"
+    "DarklordZerato-RDKP11-JP-RR.png"
   ],
   "Galactica Tabula Rasa": [
     "GalacticaTabulaRasa-RDKP11-JP-UR.png",
@@ -3901,8 +3774,8 @@
   ],
   "Dunkes the Skysavior Knight": [
     "DunkestheSkysaviorKnight-RDORP4-JP-C.png",
-    "DunkestheSkysaviorKnight-RDKP12-JP-SR.png",
-    "DunkestheSkysaviorKnight-RDORP4-JP-ScR.png"
+    "DunkestheSkysaviorKnight-RDORP4-JP-ScR.png",
+    "DunkestheSkysaviorKnight-RDKP12-JP-SR.png"
   ],
   "Excutie Flame": [
     "ExcutieFlame-RDHC01-JP-ScR.png",
@@ -3910,11 +3783,7 @@
   ],
   "Gilford the Lightning": [
     "GilfordtheLightning-RDKP12-JP-ScR.png",
-    "GilfordtheLightning-RDKP12-JP-RR.png",
-    "GilfordtheLightning-RDB244-JP-C.png",
-    "GilfordtheLightning-RDB244-JP-SR.png",
-    "GilfordtheLightning-RDB244-JP-URRed.png",
-    "GilfordtheLightning-RDTH01-JP-C.png"
+    "GilfordtheLightning-RDKP12-JP-RR.png"
   ],
   "Gilford the Rising": [
     "GilfordtheRising-RDSD0B-JP-C.png",
@@ -3923,14 +3792,12 @@
   "Lua the Skysavior Angel": [
     "LuatheSkysaviorAngel-RDORP4-JP-C.png",
     "LuatheSkysaviorAngel-RDORP4-JP-ORR.png",
-    "LuatheSkysaviorAngel-RDKP12-JP-R.png",
-    "LuatheSkysaviorAngel-RDB234-JP-C.png",
-    "LuatheSkysaviorAngel-RDB234-JP-SR.png"
+    "LuatheSkysaviorAngel-RDKP12-JP-R.png"
   ],
   "Melel the Beautiful Flame Spirit of the Lamp": [
     "MeleltheBeautifulFlameSpiritoftheLamp-RDB232-JP-C.png",
-    "MeleltheBeautifulFlameSpiritoftheLamp-RDKP12-JP-C.png",
-    "MeleltheBeautifulFlameSpiritoftheLamp-RDB232-JP-SR.png"
+    "MeleltheBeautifulFlameSpiritoftheLamp-RDB232-JP-SR.png",
+    "MeleltheBeautifulFlameSpiritoftheLamp-RDKP12-JP-C.png"
   ],
   "Ranga the Skysavior Knight": [
     "RangatheSkysaviorKnight-RDORP4-JP-C.png",
@@ -3946,9 +3813,7 @@
   ],
   "Skysavior Symbol": [
     "SkysaviorSymbol-RDB261-JP-NPR.png",
-    "SkysaviorSymbol-RDKP12-JP-C.png",
-    "SkysaviorSymbol-RDTH01-JP-C.png",
-    "SkysaviorSymbol-RDB261-JP-SPR.png"
+    "SkysaviorSymbol-RDKP12-JP-C.png"
   ],
   "Solcier the Skysavior Lightflash": [
     "SolciertheSkysaviorLightflash-RDORP4-JP-C.png",
@@ -3957,14 +3822,11 @@
   "Soleil the Skysavior Angel": [
     "SoleiltheSkysaviorAngel-RDORP4-JP-C.png",
     "SoleiltheSkysaviorAngel-RDORP4-JP-ORR.png",
-    "SoleiltheSkysaviorAngel-RDKP12-JP-R.png",
-    "SoleiltheSkysaviorAngel-RDB233-JP-C.png",
-    "SoleiltheSkysaviorAngel-RDB233-JP-SR.png"
+    "SoleiltheSkysaviorAngel-RDKP12-JP-R.png"
   ],
   "Star Cat Straynya": [
     "StarCatStraynya-RDB231-JP-C.png",
-    "StarCatStraynya-RDKP12-JP-C.png",
-    "StarCatStraynya-RDB231-JP-SR.png"
+    "StarCatStraynya-RDKP12-JP-C.png"
   ],
   "Transam Road Linac": [
     "TransamRoadLinac-RDKP12-JP-UR.png",
@@ -4008,8 +3870,8 @@
   ],
   "Dark Matter Enigmata": [
     "DarkMatterEnigmata-RDKP17-JP-SR.png",
-    "DarkMatterEnigmata-RDBDG9-JP-UPR.png",
-    "DarkMatterEnigmata-RDKP17-JP-ScR.png"
+    "DarkMatterEnigmata-RDKP17-JP-ScR.png",
+    "DarkMatterEnigmata-RDBDG9-JP-UPR.png"
   ],
   "Dark Matter Hazardoll": [
     "DarkMatterHazardoll-RDKP17-JP-SR.png",
@@ -4059,9 +3921,9 @@
   ],
   "Invitation to a Delirious Dream": [
     "InvitationtoaDeliriousDream-RDKP17-JP-UR.png",
-    "InvitationtoaDeliriousDream-RDS251-JP-UPR.png",
     "InvitationtoaDeliriousDream-RDKP17-JP-ORR.png",
-    "InvitationtoaDeliriousDream-RDKP17-JP-ScR.png"
+    "InvitationtoaDeliriousDream-RDKP17-JP-ScR.png",
+    "InvitationtoaDeliriousDream-RDS251-JP-UPR.png"
   ],
   "JAM:P Catch!": [
     "JAMPCatch-RDKP17-JP-SR.png",
@@ -4158,8 +4020,8 @@
   ],
   "Celeb Rose Magician": [
     "CelebRoseMagician-RDAP01-JP-C.png",
-    "CelebRoseMagician-RDBDG5-JP-UPR.png",
     "CelebRoseMagician-RDAP01-JP-SPR.png",
+    "CelebRoseMagician-RDBDG5-JP-UPR.png",
     "CelebRoseMagician-RDKP13-JP-SR.png",
     "CelebRoseMagician-RDKP13-JP-ScR.png"
   ],
@@ -4171,17 +4033,15 @@
   ],
   "Celeb Rose Witch": [
     "CelebRoseWitch-RDAP01-JP-C.png",
-    "CelebRoseWitch-RDBDG6-JP-UPR.png",
     "CelebRoseWitch-RDAP01-JP-SPR.png",
+    "CelebRoseWitch-RDBDG6-JP-UPR.png",
     "CelebRoseWitch-RDKP13-JP-SR.png",
     "CelebRoseWitch-RDKP13-JP-ScR.png"
   ],
   "Cyber Processor": [
     "CyberProcessor-RDAP01-JP-ScR.png",
     "CyberProcessor-RDKP13-JP-C.png",
-    "CyberProcessor-RDSD0C-JP-C.png",
-    "CyberProcessor-RDB233-JP-C.png",
-    "CyberProcessor-RDB233-JP-SR.png"
+    "CyberProcessor-RDSD0C-JP-C.png"
   ],
   "Cyber Tactical Dragon": [
     "CyberTacticalDragon-RDSD0C-JP-C.png",
@@ -4193,8 +4053,7 @@
     "EternalGalacticaOblivion-RDBDGZ-JP-UPR.png",
     "EternalGalacticaOblivion-RDKP13-JP-ORR.png",
     "EternalGalacticaOblivion-RDKP13-JP-ScR.png",
-    "EternalGalacticaOblivion-RDKP13-JP-UR.png",
-    "EternalGalacticaOblivion-RDD002-JP-RRRed.png"
+    "EternalGalacticaOblivion-RDKP13-JP-UR.png"
   ],
   "Gearpold the Magically Armored Beast": [
     "GearpoldtheMagicallyArmoredBeast-RD5TH1-JP-SR.png",
@@ -4258,9 +4117,7 @@
   ],
   "Star Monarch Estrome": [
     "StarMonarchEstrome-RDSD0F-JP-C.png",
-    "StarMonarchEstrome-RDKP13-JP-R.png",
-    "StarMonarchEstrome-RDB241-JP-C.png",
-    "StarMonarchEstrome-RDB241-JP-SR.png"
+    "StarMonarchEstrome-RDKP13-JP-R.png"
   ],
   "Star Replacer": [
     "StarReplacer-RDSD0F-JP-C.png",
@@ -4275,8 +4132,7 @@
   ],
   "The Emperor Realm": [
     "TheEmperorRealm-RDSD0F-JP-C.png",
-    "TheEmperorRealm-RDKP13-JP-C.png",
-    "TheEmperorRealm-RDB254-JP-SR.png"
+    "TheEmperorRealm-RDKP13-JP-C.png"
   ],
   "Voidvelg Chrysaor": [
     "VoidvelgChrysaor-RD5TH1-JP-SR.png",
@@ -4297,80 +4153,65 @@
   ],
   "Wilhel the Wisdom Monarch": [
     "WilheltheWisdomMonarch-RDSD0F-JP-C.png",
-    "WilheltheWisdomMonarch-RDKP13-JP-R.png",
-    "WilheltheWisdomMonarch-RDB241-JP-C.png",
-    "WilheltheWisdomMonarch-RDB241-JP-SR.png"
+    "WilheltheWisdomMonarch-RDKP13-JP-R.png"
   ],
   "Zaborg the Thunder Monarch": [
     "ZaborgtheThunderMonarch-RDKP13-JP-R.png",
     "ZaborgtheThunderMonarch-RDKP13-JP-ScR.png"
   ],
   "Aero Sorcerer": [
-    "AeroSorcerer-RDKP13-JP-C.png",
-    "AeroSorcerer-RDTH02-JP-C.png"
+    "AeroSorcerer-RDKP13-JP-C.png"
   ],
   "Curtain of Sparks": [
     "CurtainofSparks-RDAP02-JP-C.png",
-    "CurtainofSparks-RDTH02-JP-C.png",
+    "CurtainofSparks-RDAP02-JP-ORR.png",
     "CurtainofSparks-RDMRP1-JP-C.png",
     "CurtainofSparks-RDST01-JP-C.png",
-    "CurtainofSparks-RDAP02-JP-ORR.png",
     "CurtainofSparks-RDGRC1-JP-SR.png"
   ],
   "Light Sorcerer": [
     "LightSorcerer-RDGRD2-JP-C.png",
-    "LightSorcerer-RDTH02-JP-C.png",
     "LightSorcerer-RDKP03-JP-R.png"
   ],
   "Light Sorcerer of Sanctity": [
-    "LightSorcererofSanctity-RDSJMP-JP-NPR.png",
-    "LightSorcererofSanctity-RDTH02-JP-C.png"
+    "LightSorcererofSanctity-RDSJMP-JP-NPR.png"
   ],
   "Lily Slayer": [
-    "LilySlayer-RDKP17-JP-C.png",
-    "LilySlayer-RDTH02-JP-C.png"
+    "LilySlayer-RDKP17-JP-C.png"
   ],
   "Magic Fire Guard": [
-    "MagicFireGuard-RDMRP1-JP-R.png",
-    "MagicFireGuard-RDTH02-JP-C.png"
+    "MagicFireGuard-RDMRP1-JP-R.png"
   ],
   "Magic Mirror Youth": [
-    "MagicMirrorYouth-RDORP1-JP-C.png",
-    "MagicMirrorYouth-RDTH02-JP-C.png"
+    "MagicMirrorYouth-RDORP1-JP-C.png"
   ],
   "Magical Stream": [
     "MagicalStream-RDMRP1-JP-C.png",
-    "MagicalStream-RDTH02-JP-C.png",
     "MagicalStream-RDST01-JP-C.png"
   ],
   "Mystic Dealer": [
     "MysticDealer-RDMRP1-JP-C.png",
-    "MysticDealer-RDTH02-JP-C.png",
     "MysticDealer-RDST01-JP-C.png",
     "MysticDealer-RDST01-JP-R.png"
   ],
   "Pot of Greed": [
     "PotofGreed-RDORP4-JP-C.png",
     "PotofGreed-RDORP4-JP-ORR.png",
-    "PotofGreed-RDTH02-JP-C.png",
     "PotofGreed-RDG001-JP-ScR.png",
     "PotofGreed-RDSD0B-JP-NPR.png",
     "PotofGreed-RDP007-JP-ScRRed.png"
   ],
   "Sparkhearts Girl": [
     "SparkheartsGirl-RDAP02-JP-C.png",
-    "SparkheartsGirl-RDTH02-JP-C.png",
+    "SparkheartsGirl-RDAP02-JP-ScR.png",
     "SparkheartsGirl-RDMRP1-JP-R.png",
-    "SparkheartsGirl-RDKP03-JP-SR.png",
-    "SparkheartsGirl-RDAP02-JP-ScR.png"
+    "SparkheartsGirl-RDKP03-JP-SR.png"
   ],
   "The Tricky": [
-    "TheTricky-RDKP19-JP-C.png",
-    "TheTricky-RDTH02-JP-C.png"
+    "TheTricky-RDKP19-JP-C.png"
   ],
   "Wind Spirit's Protection": [
-    "WindSpiritsProtection-RDST01-JP-C.png",
-    "WindSpiritsProtection-RDTH02-JP-C.png"
+    "WindSpiritsProtection-RDST01-JP-C.png"
   ],
   "Agariel, the Finest Sushi Fairy": [
     "AgarieltheFinestSushiFairy-RDS223-JP-ScR.png",
@@ -4400,8 +4241,8 @@
   ],
   "Dynamic Dino Dynamix": [
     "DynamicDinoDynamix-RDMAX2-JP-UR.png",
-    "DynamicDinoDynamix-RDTB02-JP-C.png",
     "DynamicDinoDynamix-RDMAX2-JP-RR.png",
+    "DynamicDinoDynamix-RDTB02-JP-C.png",
     "DynamicDinoDynamix-RDTB02-JP-ORR.png"
   ],
   "Dynamic Dino Dynamix (L)": [
@@ -4426,7 +4267,6 @@
   "Horn Knives the Music Princess": [
     "HornKnivestheMusicPrincess-RDSD0B-JP-C.png",
     "HornKnivestheMusicPrincess-RDMAX2-JP-SR.png",
-    "HornKnivestheMusicPrincess-RDTH01-JP-C.png",
     "HornKnivestheMusicPrincess-RDTB01-JP-C.png"
   ],
   "Silvermountain of Blisstopia": [
@@ -4436,8 +4276,8 @@
   ],
   "Straight Pierce": [
     "StraightPierce-RDTB01-JP-NPR.png",
-    "StraightPierce-RDMAX2-JP-C.png",
-    "StraightPierce-RDTB01-JP-ScR.png"
+    "StraightPierce-RDTB01-JP-ScR.png",
+    "StraightPierce-RDMAX2-JP-C.png"
   ],
   "Turnback Shot": [
     "TurnbackShot-RDSD05-JP-C.png",
@@ -4454,9 +4294,8 @@
   "Meika Etraynze the Shadow Flower Venus": [
     "MeikaEtraynzetheShadowFlowerVenus-RDB251-JP-C.png",
     "MeikaEtraynzetheShadowFlowerVenus-RDKP08-KR-R.png",
-    "MeikaEtraynzetheShadowFlowerVenus-RDS223-JP-ScR.png",
     "MeikaEtraynzetheShadowFlowerVenus-RDKP08-JP-R.png",
-    "MeikaEtraynzetheShadowFlowerVenus-RDB251-JP-SR.png"
+    "MeikaEtraynzetheShadowFlowerVenus-RDS223-JP-ScR.png"
   ],
   "Aise the Snowmaiden of Sacred Splendor": [
     "AisetheSnowmaidenofSacredSplendor-RDKP20-JP-R.png",
@@ -4465,9 +4304,7 @@
   ],
   "Animagica Gardna": [
     "AnimagicaGardna-RDKP20-JP-R.png",
-    "AnimagicaGardna-RDKP20-JP-ScR.png",
-    "AnimagicaGardna-RDB254-JP-C.png",
-    "AnimagicaGardna-RDB254-JP-SR.png"
+    "AnimagicaGardna-RDKP20-JP-ScR.png"
   ],
   "Animagica Knight": [
     "AnimagicaKnight-RDKP20-JP-R.png",
@@ -4489,8 +4326,8 @@
   ],
   "Animagica Whip": [
     "AnimagicaWhip-RDKP20-JP-SR.png",
-    "AnimagicaWhip-RDAD02-KR-OP.png",
-    "AnimagicaWhip-RDKP20-JP-ScR.png"
+    "AnimagicaWhip-RDKP20-JP-ScR.png",
+    "AnimagicaWhip-RDAD02-KR-OP.png"
   ],
   "Archfiend Shaman": [
     "ArchfiendShaman-RDORP4-JP-C.png",
@@ -4502,9 +4339,9 @@
   ],
   "Balloon Butier": [
     "BalloonButier-RDKP20-JP-UR.png",
-    "BalloonButier-RDS253-JP-UPR.png",
     "BalloonButier-RDKP20-JP-ORR.png",
-    "BalloonButier-RDKP20-JP-ScR.png"
+    "BalloonButier-RDKP20-JP-ScR.png",
+    "BalloonButier-RDS253-JP-UPR.png"
   ],
   "Bone Spine Whip": [
     "BoneSpineWhip-RDAP02-JP-C.png",
@@ -4556,8 +4393,8 @@
   ],
   "Galactica Oblivion Ark": [
     "GalacticaOblivionArk-RDKP20-JP-R.png",
-    "GalacticaOblivionArk-RDBDGY-JP-UPR.png",
-    "GalacticaOblivionArk-RDKP20-JP-ScR.png"
+    "GalacticaOblivionArk-RDKP20-JP-ScR.png",
+    "GalacticaOblivionArk-RDBDGY-JP-UPR.png"
   ],
   "Giftarist - Speedy MIX": [
     "GiftaristSpeedyMIX-RDKP20-JP-R.png",
@@ -4602,7 +4439,6 @@
   ],
   "Doma the Talismanic Master": [
     "DomatheTalismanicMaster-RDB224-JP-C.png",
-    "DomatheTalismanicMaster-RDB224-JP-SR.png",
     "DomatheTalismanicMaster-RDSJMP-JP-NPR.png"
   ],
   "Fairy Dragon": [
@@ -4612,14 +4448,11 @@
   "Karatake the Talismanic Warrior": [
     "KarataketheTalismanicWarrior-RDSD0B-JP-C.png",
     "KarataketheTalismanicWarrior-RDB224-JP-C.png",
-    "KarataketheTalismanicWarrior-RDB224-JP-SR.png",
-    "KarataketheTalismanicWarrior-RDGRP1-JP-C.png",
-    "KarataketheTalismanicWarrior-RDTH01-JP-C.png"
+    "KarataketheTalismanicWarrior-RDGRP1-JP-C.png"
   ],
   "Widespread Ruin": [
     "WidespreadRuin-RD23PR-JP-NPR.png",
     "WidespreadRuin-RDB224-JP-C.png",
-    "WidespreadRuin-RDB224-JP-SR.png",
     "WidespreadRuin-RDB224-JP-URRed.png"
   ],
   "An Epic Tale of Recollected Memories": [
@@ -4638,8 +4471,8 @@
   ],
   "Celeb Rose Incognito Magician": [
     "CelebRoseIncognitoMagician-RDAP01-JP-C.png",
-    "CelebRoseIncognitoMagician-RDKP19-JP-ScR-AA.png",
     "CelebRoseIncognitoMagician-RDAP01-JP-SPR.png",
+    "CelebRoseIncognitoMagician-RDKP19-JP-ScR-AA.png",
     "CelebRoseIncognitoMagician-RDKP19-JP-SR.png",
     "CelebRoseIncognitoMagician-RDKP19-JP-ScR.png"
   ],
@@ -4647,8 +4480,7 @@
     "CurseoftheRisingLight-RDKP19-JP-UR.png",
     "CurseoftheRisingLight-RDKP19-JP-ORR-AA.png",
     "CurseoftheRisingLight-RDKP19-JP-ORR.png",
-    "CurseoftheRisingLight-RDKP19-JP-ScR.png",
-    "CurseoftheRisingLight-RD26PR-JP-NPR.png"
+    "CurseoftheRisingLight-RDKP19-JP-ScR.png"
   ],
   "Dancing Lightning Bringer Spirit": [
     "DancingLightningBringerSpirit-RDKP19-JP-UR.png",
@@ -4694,9 +4526,9 @@
   ],
   "Justiciar of the Dragon Stream": [
     "JusticiaroftheDragonStream-RDKP19-JP-UR.png",
-    "JusticiaroftheDragonStream-RDS252-JP-UPR.png",
     "JusticiaroftheDragonStream-RDKP19-JP-ORR.png",
-    "JusticiaroftheDragonStream-RDKP19-JP-ScR.png"
+    "JusticiaroftheDragonStream-RDKP19-JP-ScR.png",
+    "JusticiaroftheDragonStream-RDS252-JP-UPR.png"
   ],
   "Lovely Ange": [
     "LovelyAnge-RDKP19-JP-SR.png",
@@ -4708,8 +4540,7 @@
   ],
   "Penumbral Soldier Lady": [
     "PenumbralSoldierLady-RDKP19-JP-SR.png",
-    "PenumbralSoldierLady-RDKP19-JP-ScR.png",
-    "PenumbralSoldierLady-RDTH01-JP-C.png"
+    "PenumbralSoldierLady-RDKP19-JP-ScR.png"
   ],
   "Red Gadget": [
     "RedGadget-RDKP19-JP-R.png",
@@ -4755,16 +4586,13 @@
   ],
   "Cyber Soldier of Darkworld": [
     "CyberSoldierofDarkworld-RDB003-JP-C.png",
-    "CyberSoldierofDarkworld-RDB003-JP-SR.png",
     "CyberSoldierofDarkworld-RDGRD2-JP-C.png"
   ],
   "Flame Manipulator": [
     "FlameManipulator-RDB003-JP-C.png"
   ],
   "Flame Swordsman": [
-    "FlameSwordsman-RDB003-JP-C.png",
-    "FlameSwordsman-RDB003-JP-SR.png",
-    "FlameSwordsman-RDB003-JP-URRed.png"
+    "FlameSwordsman-RDB003-JP-C.png"
   ],
   "Haniwaffle": [
     "Haniwaffle-RDB003-JP-C.png"
@@ -4772,7 +4600,6 @@
   "Heavy Roller": [
     "HeavyRoller-RDSD04-JP-C.png",
     "HeavyRoller-RDB003-JP-C.png",
-    "HeavyRoller-RDB003-JP-SR.png",
     "HeavyRoller-RDGRP1-JP-C.png"
   ],
   "Spike Seadra": [
@@ -4786,7 +4613,6 @@
   "Umi": [
     "Umi-RDVSP1-JP-C.png",
     "Umi-RDB003-JP-C.png",
-    "Umi-RDB003-JP-SR.png",
     "Umi-RDKP03-JP-R.png"
   ],
   "Blades of Divine Wind": [
@@ -4917,9 +4743,7 @@
   ],
   "Meteor Drake": [
     "MeteorDrake-RDTB02-JP-C.png",
-    "MeteorDrake-RDKP15-JP-R.png",
-    "MeteorDrake-RDB242-JP-C.png",
-    "MeteorDrake-RDB242-JP-SR.png"
+    "MeteorDrake-RDKP15-JP-R.png"
   ],
   "Meteor Flare Fusion": [
     "MeteorFlareFusion-RDTB02-JP-C.png",
@@ -5000,8 +4824,8 @@
   ],
   "Apocalypse - Beast Gear World": [
     "ApocalypseBeastGearWorld-RDB222-JP-C.png",
-    "ApocalypseBeastGearWorld-RDGRP1-JP-C.png",
     "ApocalypseBeastGearWorld-RDB222-JP-SR.png",
+    "ApocalypseBeastGearWorld-RDGRP1-JP-C.png",
     "ApocalypseBeastGearWorld-RDKP02-JP-R.png"
   ],
   "Attrashoot Hydron": [
@@ -5051,8 +4875,8 @@
   ],
   "Red-Eyes Black Dragon": [
     "RedEyesBlackDragon-RDTB02-JP-C.png",
-    "RedEyesBlackDragon-RDG002-JP-ORR.png",
     "RedEyesBlackDragon-RDTB02-JP-ORR.png",
+    "RedEyesBlackDragon-RDG002-JP-ORR.png",
     "RedEyesBlackDragon-RDGRP1-JP-ScR.png",
     "RedEyesBlackDragon-RDVJMP-JP-RR.png",
     "RedEyesBlackDragon-RDP004-JP-ScRBlue.png",
@@ -5105,12 +4929,11 @@
   ],
   "Graceful Charity": [
     "GracefulCharity-RDLGP2-JP-SR.png",
-    "GracefulCharity-RDLGP1-KR-SR.png",
-    "GracefulCharity-RDSD01-JP-ScR.png",
-    "GracefulCharity-RDSD01-KR-OP.png",
     "GracefulCharity-RDLGP2-JP-ORR.png",
+    "GracefulCharity-RDLGP1-KR-SR.png",
     "GracefulCharity-RDLGP1-JP-SR.png",
     "GracefulCharity-RDLGP1-JP-ScR.png",
+    "GracefulCharity-RDSD01-JP-ScR.png",
     "GracefulCharity-RDEXT1-JP-ScR.png"
   ],
   "Great-Tusked Mammoth": [
@@ -5138,20 +4961,17 @@
   ],
   "Meteor Dragon": [
     "MeteorDragon-RDTB02-JP-C.png",
-    "MeteorDragon-RDLGP1-JP-C.png",
-    "MeteorDragon-RDB242-JP-C.png",
-    "MeteorDragon-RDB242-JP-SR.png",
-    "MeteorDragon-RDB242-JP-URRed.png"
+    "MeteorDragon-RDLGP1-JP-C.png"
   ],
   "Night Before the Big March": [
     "NightBeforetheBigMarch-RDORP3-JP-C.png",
-    "NightBeforetheBigMarch-RDLGP1-JP-R.png",
-    "NightBeforetheBigMarch-RDORP3-JP-ScR.png"
+    "NightBeforetheBigMarch-RDORP3-JP-ScR.png",
+    "NightBeforetheBigMarch-RDLGP1-JP-R.png"
   ],
   "Pot of Pride": [
     "PotofPride-RDLGP2-JP-SR.png",
-    "PotofPride-RDS23P-JP-UPR.png",
     "PotofPride-RDLGP2-JP-ScR.png",
+    "PotofPride-RDS23P-JP-UPR.png",
     "PotofPride-RDLGP1-JP-ScR.png",
     "PotofPride-RDLGP1-JP-UR.png"
   ],
@@ -5176,7 +4996,6 @@
   ],
   "Alligator's Sword Dragon": [
     "AlligatorsSwordDragon-RDB004-JP-C.png",
-    "AlligatorsSwordDragon-RDB004-JP-SR.png",
     "AlligatorsSwordDragon-RDB004-JP-URRed.png"
   ],
   "Blue-Eyed Silver Zombie": [
@@ -5190,7 +5009,6 @@
   "Outer Space": [
     "OuterSpace-RDSD04-JP-C.png",
     "OuterSpace-RDB004-JP-C.png",
-    "OuterSpace-RDB004-JP-SR.png",
     "OuterSpace-RDSD01-JP-C.png",
     "OuterSpace-RDMAX1-JP-R.png"
   ],
@@ -5224,10 +5042,9 @@
   ],
   "Cyber Dragon": [
     "CyberDragon-RDSD0C-JP-C.png",
-    "CyberDragon-RDORP1-JP-ScR.png",
-    "CyberDragon-RDORP1-JP-UR.png",
     "CyberDragon-RDSD0C-JP-NPR.png",
-    "CyberDragon-RDP008-JP-ScRRed.png"
+    "CyberDragon-RDORP1-JP-ScR.png",
+    "CyberDragon-RDORP1-JP-UR.png"
   ],
   "Cyber End Dragon": [
     "CyberEndDragon-RDSD0C-JP-UR.png",
@@ -5275,8 +5092,7 @@
   ],
   "Doomblaze Despair": [
     "DoomblazeDespair-RDORP1-JP-UR.png",
-    "DoomblazeDespair-RDORP1-JP-ScR.png",
-    "DoomblazeDespair-RDB252-JP-C.png"
+    "DoomblazeDespair-RDORP1-JP-ScR.png"
   ],
   "Doomblaze Fiend Overlord Despairacion": [
     "DoomblazeFiendOverlordDespairacion-RDAP01-JP-C.png",
@@ -5332,8 +5148,7 @@
   ],
   "Excutie RAM": [
     "ExcutieRAM-RDB232-JP-C.png",
-    "ExcutieRAM-RDORP1-JP-C.png",
-    "ExcutieRAM-RDB232-JP-SR.png"
+    "ExcutieRAM-RDORP1-JP-C.png"
   ],
   "Excutie Scout!": [
     "ExcutieScout-RDORP1-JP-C.png",
@@ -5671,9 +5486,7 @@
   ],
   "Dream Drummer": [
     "DreamDrummer-RDMRP1-JP-C.png",
-    "DreamDrummer-RDSBD4-JP-C.png",
-    "DreamDrummer-RDB234-JP-C.png",
-    "DreamDrummer-RDB234-JP-SR.png"
+    "DreamDrummer-RDSBD4-JP-C.png"
   ],
   "Folder Blitz the Infinite Dream": [
     "FolderBlitztheInfiniteDream-RDMRP1-JP-C.png",
@@ -5682,9 +5495,7 @@
   ],
   "Giftarist": [
     "Giftarist-RDMRP1-JP-C.png",
-    "Giftarist-RDSBD4-JP-C.png",
-    "Giftarist-RDB233-JP-C.png",
-    "Giftarist-RDB233-JP-SR.png"
+    "Giftarist-RDSBD4-JP-C.png"
   ],
   "Jewelry Trap Hole": [
     "JewelryTrapHole-RDMRP1-JP-C.png",
@@ -5730,8 +5541,7 @@
   "Seahorse Carrier": [
     "SeahorseCarrier-RDB253-JP-SR.png",
     "SeahorseCarrier-RDMRP1-JP-C.png",
-    "SeahorseCarrier-RDKP03-JP-C.png",
-    "SeahorseCarrier-RDB253-JP-C.png"
+    "SeahorseCarrier-RDKP03-JP-C.png"
   ],
   "Solid Strike Dragon Metagiastar F": [
     "SolidStrikeDragonMetagiastarF-RDMRP1-JP-UR.png",
@@ -5750,51 +5560,33 @@
     "StarRestart-RDEXT1-JP-SR.png"
   ],
   "Ama Lilith": [
-    "AmaLilith-RDMRP1-JP-C.png",
-    "AmaLilith-RDB241-JP-C.png",
-    "AmaLilith-RDB241-JP-SR.png"
+    "AmaLilith-RDMRP1-JP-C.png"
   ],
   "Attron": [
-    "Attron-RDB241-JP-C.png",
-    "Attron-RDB241-JP-SR.png",
     "Attron-RDMAX1-JP-R.png",
     "Attron-RDSBD6-JP-C.png"
   ],
   "Automatic Accident Prevention": [
-    "AutomaticAccidentPrevention-RDKP14-JP-R.png",
-    "AutomaticAccidentPrevention-RDB241-JP-C.png",
-    "AutomaticAccidentPrevention-RDB241-JP-SR.png"
+    "AutomaticAccidentPrevention-RDKP14-JP-R.png"
   ],
   "Booster Wyvern": [
-    "BoosterWyvern-RDKP13-JP-R.png",
-    "BoosterWyvern-RDB241-JP-C.png",
-    "BoosterWyvern-RDB241-JP-SR.png"
+    "BoosterWyvern-RDKP13-JP-R.png"
   ],
   "Jointech Burst Dragon": [
-    "JointechBurstDragon-RDKP14-JP-R.png",
-    "JointechBurstDragon-RDB241-JP-C.png",
-    "JointechBurstDragon-RDB241-JP-SR.png"
+    "JointechBurstDragon-RDKP14-JP-R.png"
   ],
   "Keytar Kid": [
-    "KeytarKid-RDB241-JP-C.png",
-    "KeytarKid-RDB241-JP-SR.png",
     "KeytarKid-RDCP01-JP-C.png",
     "KeytarKid-RDSBD4-JP-C.png"
   ],
   "Mirroring Wyvern": [
-    "MirroringWyvern-RDKP12-JP-C.png",
-    "MirroringWyvern-RDB241-JP-C.png",
-    "MirroringWyvern-RDB241-JP-SR.png"
+    "MirroringWyvern-RDKP12-JP-C.png"
   ],
   "Scarechair Scale": [
-    "ScarechairScale-RDMAX2-JP-C.png",
-    "ScarechairScale-RDB241-JP-C.png",
-    "ScarechairScale-RDB241-JP-SR.png"
+    "ScarechairScale-RDMAX2-JP-C.png"
   ],
   "Striping Wyvern": [
-    "StripingWyvern-RDKP15-JP-R.png",
-    "StripingWyvern-RDB241-JP-C.png",
-    "StripingWyvern-RDB241-JP-SR.png"
+    "StripingWyvern-RDKP15-JP-R.png"
   ],
   "Kanan the Beautiful Swordmistress": [
     "KanantheBeautifulSwordmistress-RDB222-JP-C.png",
@@ -5806,8 +5598,7 @@
   ],
   "Crescent Moon Swordmaster": [
     "CrescentMoonSwordmaster-RDB221-JP-C.png",
-    "CrescentMoonSwordmaster-RDEXT1-JP-R.png",
-    "CrescentMoonSwordmaster-RDB221-JP-SR.png"
+    "CrescentMoonSwordmaster-RDEXT1-JP-R.png"
   ],
   "Ether Seeker": [
     "EtherSeeker-RDTB01-JP-C.png",
@@ -5826,10 +5617,10 @@
   ],
   "Hyperstrike Dragon Dragiastar F": [
     "HyperstrikeDragonDragiastarF-RD5THS-JP-SPR.png",
+    "HyperstrikeDragonDragiastarF-RD5THS-JP-ORR.png",
     "HyperstrikeDragonDragiastarF-RDEXT1-JP-RR.png",
     "HyperstrikeDragonDragiastarF-RDEXT1-JP-UR.png",
     "HyperstrikeDragonDragiastarF-RDSA03-JP-ScR.png",
-    "HyperstrikeDragonDragiastarF-RD5THS-JP-ORR.png",
     "HyperstrikeDragonDragiastarF-RDD001-JP-RRRed.png"
   ],
   "Magic Juggler": [
@@ -5942,8 +5733,7 @@
   ],
   "Masaki the Legendary Samurai": [
     "MasakitheLegendarySamurai-RDSBD3-JP-C.png",
-    "MasakitheLegendarySamurai-RDCP01-JP-R.png",
-    "MasakitheLegendarySamurai-RDTH01-JP-C.png"
+    "MasakitheLegendarySamurai-RDCP01-JP-R.png"
   ],
   "Palace Gargoyle": [
     "PalaceGargoyle-RDCP01-JP-R.png",
@@ -5975,8 +5765,7 @@
   ],
   "Royal Rebel's Invasion": [
     "RoyalRebelsInvasion-RDCP01-JP-UR.png",
-    "RoyalRebelsInvasion-RDCP01-JP-ScR.png",
-    "RoyalRebelsInvasion-RDB234-JP-C.png"
+    "RoyalRebelsInvasion-RDCP01-JP-ScR.png"
   ],
   "Royal Rebel's Shout": [
     "RoyalRebelsShout-RDCP01-JP-C.png",
@@ -6004,8 +5793,7 @@
   ],
   "Psychic Burial": [
     "PsychicBurial-RDSBD4-JP-C.png",
-    "PsychicBurial-RDB001-JP-C.png",
-    "PsychicBurial-RDB001-JP-SR.png"
+    "PsychicBurial-RDB001-JP-C.png"
   ],
   "Romic n' Roller": [
     "RomicnRoller-RDSBD4-JP-C.png",
@@ -6074,13 +5862,13 @@
   ],
   "Forest": [
     "Forest-RDB221-JP-C.png",
-    "Forest-RDKP03-JP-R.png",
-    "Forest-RDB221-JP-SR.png"
+    "Forest-RDB221-JP-SR.png",
+    "Forest-RDKP03-JP-R.png"
   ],
   "Gazelle the King of Mythical Beasts": [
     "GazelletheKingofMythicalBeasts-RDB221-JP-C.png",
-    "GazelletheKingofMythicalBeasts-RDKP03-JP-R.png",
-    "GazelletheKingofMythicalBeasts-RDB221-JP-SR.png"
+    "GazelletheKingofMythicalBeasts-RDB221-JP-SR.png",
+    "GazelletheKingofMythicalBeasts-RDKP03-JP-R.png"
   ],
   "Giant Tortoise of Greed": [
     "GiantTortoiseofGreed-RDKP03-JP-R.png",
@@ -6093,10 +5881,10 @@
   ],
   "Illusion Strike Dragon Miragias": [
     "IllusionStrikeDragonMiragias-RD5THS-JP-SPR.png",
+    "IllusionStrikeDragonMiragias-RD5THS-JP-ORR.png",
     "IllusionStrikeDragonMiragias-RDAKG4-JP-UR.png",
     "IllusionStrikeDragonMiragias-RDKP03-JP-RR.png",
     "IllusionStrikeDragonMiragias-RDSBD2-JP-C.png",
-    "IllusionStrikeDragonMiragias-RD5THS-JP-ORR.png",
     "IllusionStrikeDragonMiragias-RDS221-JP-ScR.png",
     "IllusionStrikeDragonMiragias-RDGRC1-JP-GRR.png"
   ],
@@ -6106,9 +5894,7 @@
   ],
   "Printing Presser": [
     "PrintingPresser-RDSD02-JP-C.png",
-    "PrintingPresser-RDKP03-JP-SR.png",
-    "PrintingPresser-RDB261-JP-NPR.png",
-    "PrintingPresser-RDB261-JP-SPR.png"
+    "PrintingPresser-RDKP03-JP-SR.png"
   ],
   "Savage Claw Tiger": [
     "SavageClawTiger-RDSST1-JP-C.png",
@@ -6178,19 +5964,17 @@
   ],
   "Meet and Greed": [
     "MeetandGreed-RDORP3-JP-C.png",
-    "MeetandGreed-RDKP09-JP-SR.png",
-    "MeetandGreed-RDORP3-JP-ScR.png"
+    "MeetandGreed-RDORP3-JP-ScR.png",
+    "MeetandGreed-RDKP09-JP-SR.png"
   ],
   "Meteor Charge": [
     "MeteorCharge-RDSD05-JP-C.png",
     "MeteorCharge-RDKP09-JP-C.png",
-    "MeteorCharge-RDSD01-JP-C.png",
-    "MeteorCharge-RDTH03-JP-C.png"
+    "MeteorCharge-RDSD01-JP-C.png"
   ],
   "Milky Wave Neo": [
     "MilkyWaveNeo-RDSD01-JP-C.png",
-    "MilkyWaveNeo-RDKP09-JP-C.png",
-    "MilkyWaveNeo-RDTH03-JP-C.png"
+    "MilkyWaveNeo-RDKP09-JP-C.png"
   ],
   "Ozone Slayer": [
     "OzoneSlayer-RDSD01-JP-C.png",
@@ -6202,10 +5986,10 @@
   ],
   "Princess of the Flock - Miss Mutton": [
     "PrincessoftheFlockMissMutton-RDORP3-JP-C.png",
+    "PrincessoftheFlockMissMutton-RDORP3-JP-ScR.png",
     "PrincessoftheFlockMissMutton-RD711B-JP-NPR.png",
     "PrincessoftheFlockMissMutton-RDBDG1-JP-UPR.png",
-    "PrincessoftheFlockMissMutton-RDKP09-JP-SR.png",
-    "PrincessoftheFlockMissMutton-RDORP3-JP-ScR.png"
+    "PrincessoftheFlockMissMutton-RDKP09-JP-SR.png"
   ],
   "Rapid Carriearth": [
     "RapidCarriearth-RDSD02-JP-C.png",
@@ -6378,56 +6162,38 @@
     "WyrmExcavatortheHeavyCavalryDracoR-RDSBD7-JP-C.png"
   ],
   "Ancient Gear Gadjiltron Manticore": [
-    "AncientGearGadjiltronManticore-RDKP19-JP-C.png",
-    "AncientGearGadjiltronManticore-RDB244-JP-SR.png"
+    "AncientGearGadjiltronManticore-RDKP19-JP-C.png"
   ],
   "Angel Judge": [
     "AngelJudge-RDMAX2-JP-R.png",
-    "AngelJudge-RDMAX2-KR-R.png",
-    "AngelJudge-RDB244-JP-C.png",
-    "AngelJudge-RDB244-JP-SR.png"
+    "AngelJudge-RDMAX2-KR-R.png"
   ],
   "Chemipet Chirp": [
-    "ChemipetChirp-RDKP17-JP-R.png",
-    "ChemipetChirp-RDB244-JP-C.png",
-    "ChemipetChirp-RDB244-JP-SR.png"
+    "ChemipetChirp-RDKP17-JP-R.png"
   ],
   "Dice Key Mix": [
-    "DiceKeyMix-RDKP19-JP-R.png",
-    "DiceKeyMix-RDB244-JP-SR.png"
+    "DiceKeyMix-RDKP19-JP-R.png"
   ],
   "Dynas Dorcus the Beetle King": [
-    "DynasDorcustheBeetleKing-RDKP09-JP-R.png",
-    "DynasDorcustheBeetleKing-RDB244-JP-C.png",
-    "DynasDorcustheBeetleKing-RDB244-JP-SR.png"
+    "DynasDorcustheBeetleKing-RDKP09-JP-R.png"
   ],
   "Fairy's Injection": [
-    "FairysInjection-RDKP19-JP-C.png",
-    "FairysInjection-RDB244-JP-SR.png"
+    "FairysInjection-RDKP19-JP-C.png"
   ],
   "Fake Neos": [
-    "FakeNeos-RDKP18-JP-C.png",
-    "FakeNeos-RDB244-JP-SR.png"
+    "FakeNeos-RDKP18-JP-C.png"
   ],
   "Galactiara FUSE Eve": [
-    "GalactiaraFUSEEve-RDKP13-JP-C.png",
-    "GalactiaraFUSEEve-RDB244-JP-C.png",
-    "GalactiaraFUSEEve-RDB244-JP-SR.png"
+    "GalactiaraFUSEEve-RDKP13-JP-C.png"
   ],
   "Ruler's Current": [
-    "RulersCurrent-RDKP06-JP-R.png",
-    "RulersCurrent-RDB244-JP-C.png",
-    "RulersCurrent-RDB244-JP-SR.png"
+    "RulersCurrent-RDKP06-JP-R.png"
   ],
   "Supressaurus Sternptera": [
-    "SupressaurusSternptera-RDMAX2-JP-C.png",
-    "SupressaurusSternptera-RDB244-JP-C.png",
-    "SupressaurusSternptera-RDB244-JP-SR.png"
+    "SupressaurusSternptera-RDMAX2-JP-C.png"
   ],
   "Voidvelg Hecatoncheir": [
-    "VoidvelgHecatoncheir-RDSD05-JP-C.png",
-    "VoidvelgHecatoncheir-RDB244-JP-C.png",
-    "VoidvelgHecatoncheir-RDB244-JP-SR.png"
+    "VoidvelgHecatoncheir-RDSD05-JP-C.png"
   ],
   "Anglercoilfish": [
     "Anglercoilfish-RDKP08-JP-R.png"
@@ -6485,9 +6251,9 @@
   ],
   "Master of the Sevens Road": [
     "MasteroftheSevensRoad-RD5THS-JP-SPR.png",
+    "MasteroftheSevensRoad-RD5THS-JP-ORR.png",
     "MasteroftheSevensRoad-RDKP08-JP-RR.png",
-    "MasteroftheSevensRoad-RDKP08-JP-UR.png",
-    "MasteroftheSevensRoad-RD5THS-JP-ORR.png"
+    "MasteroftheSevensRoad-RDKP08-JP-UR.png"
   ],
   "Metal Megaleon": [
     "MetalMegaleon-RDKP08-JP-C.png"
@@ -6503,8 +6269,7 @@
     "PrimeRoastBeefHorseman-RDKP08-JP-C.png"
   ],
   "Release Wrath": [
-    "ReleaseWrath-RDKP08-JP-SR.png",
-    "ReleaseWrath-RDB234-JP-C.png"
+    "ReleaseWrath-RDKP08-JP-SR.png"
   ],
   "Rocketortoise Modularchelon": [
     "RocketortoiseModularchelon-RDKP08-JP-C.png"
@@ -6526,8 +6291,7 @@
     "ShadowFlowerWish-RDKP08-JP-SR.png"
   ],
   "Shearkyrie the Celestial Seamstress": [
-    "ShearkyrietheCelestialSeamstress-RDKP08-JP-SR.png",
-    "ShearkyrietheCelestialSeamstress-RDB234-JP-C.png"
+    "ShearkyrietheCelestialSeamstress-RDKP08-JP-SR.png"
   ],
   "Snake Clown": [
     "SnakeClown-RDLGP2-JP-C.png",
@@ -6554,8 +6318,7 @@
     "AncientTelescope-RDSBD7-JP-C.png"
   ],
   "Cure Shot": [
-    "CureShot-RDB001-JP-C.png",
-    "CureShot-RDB001-JP-SR.png"
+    "CureShot-RDB001-JP-C.png"
   ],
   "Shovel Crusher": [
     "ShovelCrusher-RDSBD7-JP-C.png",
@@ -6579,8 +6342,7 @@
   ],
   "Constructor Sword Foreman": [
     "ConstructorSwordForeman-RDSBD7-JP-C.png",
-    "ConstructorSwordForeman-RDB002-JP-C.png",
-    "ConstructorSwordForeman-RDB002-JP-SR.png"
+    "ConstructorSwordForeman-RDB002-JP-C.png"
   ],
   "Tyhone": [
     "Tyhone-RDSD0D-JP-C.png",
@@ -6588,35 +6350,25 @@
     "Tyhone-RDB002-JP-C.png"
   ],
   "Animagica Double Saber": [
-    "AnimagicaDoubleSaber-RDKP20-JP-C.png",
-    "AnimagicaDoubleSaber-RDB251-JP-SR.png"
+    "AnimagicaDoubleSaber-RDKP20-JP-C.png"
   ],
   "Ice Pop Bear": [
-    "IcePopBear-RDMRP1-JP-R.png",
-    "IcePopBear-RDB251-JP-C.png",
-    "IcePopBear-RDB251-JP-SR.png"
+    "IcePopBear-RDMRP1-JP-R.png"
   ],
   "Sowing Alpiris": [
-    "SowingAlpiris-RDKP11-JP-R.png",
-    "SowingAlpiris-RDB251-JP-C.png",
-    "SowingAlpiris-RDB251-JP-SR.png"
+    "SowingAlpiris-RDKP11-JP-R.png"
   ],
   "Delirium Embrace": [
     "DeliriumEmbrace-RDTB02-JP-SR.png",
-    "DeliriumEmbrace-RDB254-JP-C.png",
-    "DeliriumEmbrace-RDB254-JP-SR.png",
     "DeliriumEmbrace-RDTB02-JP-ORR.png"
   ],
   "Elemental Circulation": [
     "ElementalCirculation-RDSD0B-JP-C.png",
-    "ElementalCirculation-RDS244-JP-UPR.png",
-    "ElementalCirculation-RDB254-JP-C.png",
-    "ElementalCirculation-RDB254-JP-SR.png"
+    "ElementalCirculation-RDS244-JP-UPR.png"
   ],
   "Ever-Grace Princess Kana": [
     "EverGracePrincessKana-RDKP22-JP-SR.png",
     "EverGracePrincessKana-RDKP22-JP-ScR.png",
-    "EverGracePrincessKana-RDSS01-JP-OP.png",
     "EverGracePrincessKana-RDSS01-JP-OP-AA.png",
     "EverGracePrincessKana-RDSS01-JP-OP-AA2.png",
     "EverGracePrincessKana-RDSS01-JP-OP-AA3.png",
@@ -6628,93 +6380,56 @@
     "EverGracePrincessKana-RDSS01-JP-OP-AA9.png",
     "EverGracePrincessKana-RDSS01-JP-OP-AA10.png",
     "EverGracePrincessKana-RDSS01-JP-OP-AA11.png",
-    "EverGracePrincessKana-RDB254-JP-SR.png",
-    "EverGracePrincessKana-RDB254-JP-C.png",
-    "EverGracePrincessKana-RDB254-JP-URRed.png",
-    "EverGracePrincessKana-RDSS01-JP-NPR-AA.png",
-    "EverGracePrincessKana-RDSS01-JP-NPR-AA10.png",
-    "EverGracePrincessKana-RDSS01-JP-NPR-AA11.png",
-    "EverGracePrincessKana-RDSS01-JP-NPR-AA2.png",
-    "EverGracePrincessKana-RDSS01-JP-NPR-AA3.png",
-    "EverGracePrincessKana-RDSS01-JP-NPR-AA4.png",
-    "EverGracePrincessKana-RDSS01-JP-NPR-AA5.png",
-    "EverGracePrincessKana-RDSS01-JP-NPR-AA6.png",
-    "EverGracePrincessKana-RDSS01-JP-NPR-AA7.png",
-    "EverGracePrincessKana-RDSS01-JP-NPR-AA8.png",
-    "EverGracePrincessKana-RDSS01-JP-NPR-AA9.png",
-    "EverGracePrincessKana-RDSS01-JP-NPR.png"
+    "EverGracePrincessKana-RDSS01-JP-OP.png",
+    "EverGracePrincessKana-RDB254-JP-SR.png"
   ],
   "Ghost Vicious": [
-    "GhostVicious-RDKP11-JP-C.png",
-    "GhostVicious-RDB254-JP-C.png",
-    "GhostVicious-RDB254-JP-SR.png"
+    "GhostVicious-RDKP11-JP-C.png"
   ],
   "Mage Power": [
-    "MagePower-RDSJMP-JP-NPR.png",
-    "MagePower-RDB254-JP-C.png",
-    "MagePower-RDB254-JP-SR.png"
+    "MagePower-RDSJMP-JP-NPR.png"
   ],
   "Rocket Salvation": [
-    "RocketSalvation-RDKP22-JP-C.png",
-    "RocketSalvation-RDB254-JP-SR.png"
+    "RocketSalvation-RDKP22-JP-C.png"
   ],
   "Tune Ophiclaymore the Music Princess": [
-    "TuneOphiclaymoretheMusicPrincess-RDKP22-JP-R.png",
-    "TuneOphiclaymoretheMusicPrincess-RDB254-JP-SR.png"
+    "TuneOphiclaymoretheMusicPrincess-RDKP22-JP-R.png"
   ],
   "Voidvelg Gehennamagia": [
-    "VoidvelgGehennamagia-RDSJMP-JP-NPR.png",
-    "VoidvelgGehennamagia-RDB254-JP-C.png",
-    "VoidvelgGehennamagia-RDB254-JP-SR.png"
+    "VoidvelgGehennamagia-RDSJMP-JP-NPR.png"
   ],
   "Animagica Majesty": [
-    "AnimagicaMajesty-RDKP20-JP-C.png",
-    "AnimagicaMajesty-RDB252-JP-C.png",
-    "AnimagicaMajesty-RDB252-JP-SR.png"
+    "AnimagicaMajesty-RDKP20-JP-C.png"
   ],
   "Change Slime - Skull Dragon Mode": [
-    "ChangeSlimeSkullDragonMode-RDTB02-JP-C.png",
-    "ChangeSlimeSkullDragonMode-RDB252-JP-SR.png"
+    "ChangeSlimeSkullDragonMode-RDTB02-JP-C.png"
   ],
   "Cobalt Cobolt": [
-    "CobaltCobolt-RDORP1-JP-C.png",
-    "CobaltCobolt-RDB252-JP-C.png",
-    "CobaltCobolt-RDB252-JP-SR.png"
+    "CobaltCobolt-RDORP1-JP-C.png"
   ],
   "Cyber Variation": [
-    "CyberVariation-RDSD0C-JP-C.png",
-    "CyberVariation-RDB252-JP-SR.png"
+    "CyberVariation-RDSD0C-JP-C.png"
   ],
   "Genie's Fire Breath": [
-    "GeniesFireBreath-RDCP01-JP-R.png",
-    "GeniesFireBreath-RDB252-JP-C.png",
-    "GeniesFireBreath-RDB252-JP-SR.png"
+    "GeniesFireBreath-RDCP01-JP-R.png"
   ],
   "Harpie Lady 3 & 1": [
-    "HarpieLady31-RDKP21-JP-R.png",
-    "HarpieLady31-RDB252-JP-C.png",
-    "HarpieLady31-RDB252-JP-SR.png"
+    "HarpieLady31-RDKP21-JP-R.png"
   ],
   "Himawari the Shadow Flower Eraser": [
-    "HimawaritheShadowFlowerEraser-RDKP21-JP-C.png",
-    "HimawaritheShadowFlowerEraser-RDB252-JP-SR.png"
+    "HimawaritheShadowFlowerEraser-RDKP21-JP-C.png"
   ],
   "Intercepting Gaia": [
-    "InterceptingGaia-RDKP14-JP-R.png",
-    "InterceptingGaia-RDB252-JP-C.png",
-    "InterceptingGaia-RDB252-JP-SR.png"
+    "InterceptingGaia-RDKP14-JP-R.png"
   ],
   "Miracle Fusion": [
     "MiracleFusion-RDB252-JP-SR.png",
-    "MiracleFusion-RDB252-JP-C.png",
     "MiracleFusion-RDB252-JP-URRed.png",
     "MiracleFusion-RDSD0B-JP-C.png",
     "MiracleFusion-RDSD0B-JP-UPR.png"
   ],
   "Trailblitzing Thunderblast": [
-    "TrailblitzingThunderblast-RDKP08-JP-C.png",
-    "TrailblitzingThunderblast-RDB252-JP-C.png",
-    "TrailblitzingThunderblast-RDB252-JP-SR.png"
+    "TrailblitzingThunderblast-RDKP08-JP-C.png"
   ],
   "Calling Dark Meteor": [
     "CallingDarkMeteor-RDORP3-JP-UR.png",
@@ -6874,8 +6589,7 @@
     "HeatDartfish-RDKP02-JP-C.png"
   ],
   "Hydro Cannon Big Bluefin": [
-    "HydroCannonBigBluefin-RDKP02-JP-R.png",
-    "HydroCannonBigBluefin-RDB233-JP-C.png"
+    "HydroCannonBigBluefin-RDKP02-JP-R.png"
   ],
   "Jet Barracuda": [
     "JetBarracuda-RDKP02-JP-C.png"
@@ -6934,8 +6648,7 @@
   "Jointech Ace": [
     "JointechAce-RDB232-JP-C.png",
     "JointechAce-RDGRD2-JP-C.png",
-    "JointechAce-RDSD02-JP-C.png",
-    "JointechAce-RDB232-JP-SR.png"
+    "JointechAce-RDSD02-JP-C.png"
   ],
   "Tamabot": [
     "Tamabot-RD5TH1-JP-SR.png",
@@ -6956,8 +6669,7 @@
   ],
   "Delight of the Mighty": [
     "DelightoftheMighty-RDLGP1-JP-C.png",
-    "DelightoftheMighty-RDB221-JP-C.png",
-    "DelightoftheMighty-RDB221-JP-SR.png"
+    "DelightoftheMighty-RDB221-JP-C.png"
   ],
   "Archfiend Soldier": [
     "ArchfiendSoldier-RDSD01-JP-SPR.png",
@@ -6993,13 +6705,11 @@
   ],
   "Bright Sentinel": [
     "BrightSentinel-RDSD01-JP-C.png",
-    "BrightSentinel-RDGRD1-JP-C.png",
-    "BrightSentinel-RDTH03-JP-C.png"
+    "BrightSentinel-RDGRD1-JP-C.png"
   ],
   "Celestial Ganzel": [
     "CelestialGanzel-RDSD01-JP-C.png",
-    "CelestialGanzel-RDGRD1-JP-C.png",
-    "CelestialGanzel-RDTH03-JP-C.png"
+    "CelestialGanzel-RDGRD1-JP-C.png"
   ],
   "Cosmo Titan": [
     "CosmoTitan-RDSD01-JP-C.png",
@@ -7015,8 +6725,7 @@
   ],
   "Interstellime": [
     "Interstellime-RDSD01-JP-C.png",
-    "Interstellime-RDGRD1-JP-C.png",
-    "Interstellime-RDTH03-JP-C.png"
+    "Interstellime-RDGRD1-JP-C.png"
   ],
   "Orbit Skater": [
     "OrbitSkater-RDSD01-JP-C.png",
@@ -7024,8 +6733,7 @@
   ],
   "Shadow Sentinel": [
     "ShadowSentinel-RDSD01-JP-C.png",
-    "ShadowSentinel-RDGRD1-JP-C.png",
-    "ShadowSentinel-RDTH03-JP-C.png"
+    "ShadowSentinel-RDGRD1-JP-C.png"
   ],
   "Silver Seyfert": [
     "SilverSeyfert-RDSD01-JP-C.png",
@@ -7033,11 +6741,10 @@
   ],
   "Universal Storm": [
     "UniversalStorm-RDORP3-JP-C.png",
+    "UniversalStorm-RDORP3-JP-ScR.png",
     "UniversalStorm-RDGRD1-JP-C.png",
     "UniversalStorm-RDSD01-JP-C.png",
-    "UniversalStorm-RDORP3-JP-ScR.png",
-    "UniversalStorm-RDSD05-JP-C.png",
-    "UniversalStorm-RDTH03-JP-C.png"
+    "UniversalStorm-RDSD05-JP-C.png"
   ],
   "Vortex Shooter": [
     "VortexShooter-RDSD01-JP-C.png",
@@ -7045,26 +6752,22 @@
   ],
   "Attribute Shift Bomb": [
     "AttributeShiftBomb-RDKP02-JP-C.png",
-    "AttributeShiftBomb-RDS261-JP-OP.png",
-    "AttributeShiftBomb-RDS261-JP-UPR.png"
+    "AttributeShiftBomb-RDS261-JP-OP.png"
   ],
   "Evil Dragon of Darkness": [
     "EvilDragonofDarkness-RD5TH1-JP-UR.png",
-    "EvilDragonofDarkness-RDS261-JP-OP.png",
-    "EvilDragonofDarkness-RDS261-JP-UPR.png"
+    "EvilDragonofDarkness-RDS261-JP-OP.png"
   ],
   "Gunde of the Monumenthes": [
     "GundeoftheMonumenthes-RDDK01-JP-SR.png",
+    "GundeoftheMonumenthes-RDDK01-JP-ScR.png",
     "GundeoftheMonumenthes-RD5TH1-JP-UPR.png",
     "GundeoftheMonumenthes-RDS261-JP-OP.png",
-    "GundeoftheMonumenthes-RDS261-JP-UPR.png",
-    "GundeoftheMonumenthes-RDDK01-JP-ScR.png",
     "GundeoftheMonumenthes-RD25PR-JP-NPR.png"
   ],
   "Reporter Raccoon": [
     "ReporterRaccoon-RDKP07-JP-C.png",
-    "ReporterRaccoon-RDS261-JP-OP.png",
-    "ReporterRaccoon-RDS261-JP-UPR.png"
+    "ReporterRaccoon-RDS261-JP-OP.png"
   ],
   "Chashooting Star": [
     "ChashootingStar-RDSD04-JP-C.png",
@@ -7118,30 +6821,24 @@
     "SigurstateSol-RDSBD6-JP-C.png"
   ],
   "Aura Buster": [
-    "AuraBuster-RDKP14-JP-C.png",
-    "AuraBuster-RDTH01-JP-C.png"
+    "AuraBuster-RDKP14-JP-C.png"
   ],
   "Cyber Tutu": [
-    "CyberTutu-RDECG1-JP-NPR.png",
-    "CyberTutu-RDTH01-JP-C.png"
+    "CyberTutu-RDECG1-JP-NPR.png"
   ],
   "Elemental HERO Clayman": [
     "ElementalHEROClayman-RDP005-JP-ScRRed.png",
-    "ElementalHEROClayman-RDTH01-JP-C.png",
     "ElementalHEROClayman-RDSD0B-JP-C.png",
     "ElementalHEROClayman-RDSD0B-JP-SR.png"
   ],
   "Gilford the Legend": [
-    "GilfordtheLegend-RDKP12-JP-SR.png",
-    "GilfordtheLegend-RDTH01-JP-C.png"
+    "GilfordtheLegend-RDKP12-JP-SR.png"
   ],
   "Hero of the Yeast": [
-    "HerooftheYeast-RDSBD3-JP-C.png",
-    "HerooftheYeast-RDTH01-JP-C.png"
+    "HerooftheYeast-RDSBD3-JP-C.png"
   ],
   "Legendary Sword": [
-    "LegendarySword-RDB231-JP-C.png",
-    "LegendarySword-RDTH01-JP-C.png"
+    "LegendarySword-RDB231-JP-C.png"
   ],
   "Axtion Melody the Music Princess": [
     "AxtionMelodytheMusicPrincess-RDAP01-JP-C.png",
@@ -7151,8 +6848,8 @@
   ],
   "Boton the Music Princess": [
     "BotontheMusicPrincess-RDAP01-JP-C.png",
-    "BotontheMusicPrincess-RDS242-JP-UPR.png",
     "BotontheMusicPrincess-RDAP01-JP-SPR.png",
+    "BotontheMusicPrincess-RDS242-JP-UPR.png",
     "BotontheMusicPrincess-RDTB01-JP-NPR.png"
   ],
   "Constructor Sentry Dragline": [
@@ -7195,11 +6892,11 @@
   "Harpie Lady": [
     "HarpieLady-RDP008-JP-ScRRed.png",
     "HarpieLady-RDSD0D-KR-C.png",
+    "HarpieLady-RDSD0D-JP-C.png",
+    "HarpieLady-RDSD0D-JP-UR.png",
     "HarpieLady-RDKP25-JP-FORR.png",
     "HarpieLady-RDTB01-JP-NPR.png",
     "HarpieLady-RDTB01-JP-ScR.png",
-    "HarpieLady-RDSD0D-JP-C.png",
-    "HarpieLady-RDSD0D-JP-UR.png",
     "HarpieLady-RDGRC1-JP-SR.png"
   ],
   "Harpie Lady 1": [
@@ -7219,21 +6916,21 @@
   ],
   "Harpie Lady Sisters": [
     "HarpieLadySisters-RDSD0D-JP-C.png",
+    "HarpieLadySisters-RDSD0D-JP-NPR.png",
     "HarpieLadySisters-RDTB01-JP-ORR.png",
-    "HarpieLadySisters-RDTB01-JP-SR.png",
-    "HarpieLadySisters-RDSD0D-JP-NPR.png"
+    "HarpieLadySisters-RDTB01-JP-SR.png"
   ],
   "Harpie Lady Sisters (L)": [
     "HarpieLadySistersL-RDSD0D-JP-C.png",
+    "HarpieLadySistersL-RDSD0D-JP-NPR.png",
     "HarpieLadySistersL-RDTB01-JP-ORR.png",
-    "HarpieLadySistersL-RDTB01-JP-SR.png",
-    "HarpieLadySistersL-RDSD0D-JP-NPR.png"
+    "HarpieLadySistersL-RDTB01-JP-SR.png"
   ],
   "Harpie Lady Sisters (R)": [
     "HarpieLadySistersR-RDSD0D-JP-C.png",
+    "HarpieLadySistersR-RDSD0D-JP-NPR.png",
     "HarpieLadySistersR-RDTB01-JP-ORR.png",
-    "HarpieLadySistersR-RDTB01-JP-SR.png",
-    "HarpieLadySistersR-RDSD0D-JP-NPR.png"
+    "HarpieLadySistersR-RDTB01-JP-SR.png"
   ],
   "Harpie Regina": [
     "HarpieRegina-RDSD0D-JP-C.png",
@@ -7321,13 +7018,11 @@
   ],
   "Ceremonial Gate": [
     "CeremonialGate-RDSD0E-JP-C.png",
-    "CeremonialGate-RDS253-JP-OP.png",
-    "CeremonialGate-RDS253-JP-UPR.png"
+    "CeremonialGate-RDS253-JP-OP.png"
   ],
   "Ordoll the Adorable Star": [
     "OrdolltheAdorableStar-RDMRP2-JP-SR.png",
-    "OrdolltheAdorableStar-RDS253-JP-OP.png",
-    "OrdolltheAdorableStar-RDS253-JP-UPR.png"
+    "OrdolltheAdorableStar-RDS253-JP-OP.png"
   ],
   "Chimeratech Overdragon": [
     "ChimeratechOverdragon-RDSD0C-JP-UR.png",
@@ -7552,26 +7247,22 @@
   "Dian Keto the Cure Master": [
     "DianKetotheCureMaster-RDMRP1-JP-C.png",
     "DianKetotheCureMaster-RDB002-JP-C.png",
-    "DianKetotheCureMaster-RDB002-JP-SR.png",
     "DianKetotheCureMaster-RDB002-JP-URRed.png"
   ],
   "Stardom Light": [
     "StardomLight-RDGRP1-JP-C.png",
-    "StardomLight-RDB002-JP-C.png",
-    "StardomLight-RDB002-JP-SR.png"
+    "StardomLight-RDB002-JP-C.png"
   ],
   "Tristegatops": [
     "Tristegatops-RDB002-JP-C.png"
   ],
   "Trumpet Charge": [
     "TrumpetCharge-RDGRP1-JP-C.png",
-    "TrumpetCharge-RDB002-JP-C.png",
-    "TrumpetCharge-RDB002-JP-SR.png"
+    "TrumpetCharge-RDB002-JP-C.png"
   ],
   "Yuri the Shadow Flower Fiend": [
     "YuritheShadowFlowerFiend-RDGRP1-JP-C.png",
-    "YuritheShadowFlowerFiend-RDB002-JP-C.png",
-    "YuritheShadowFlowerFiend-RDB002-JP-SR.png"
+    "YuritheShadowFlowerFiend-RDB002-JP-C.png"
   ],
   "Beast Blader": [
     "BeastBlader-RDKP24-JP-R.png",
@@ -7832,41 +7523,32 @@
   ],
   "Gavin Sogetsu (Skill Card)": [
     "GavinSogetsu-RDSC01-JP-OP.png",
-    "GavinSogetsu-RDDD01-JP-C.png",
-    "GavinSogetsu-RDSC01-JP-C.png"
+    "GavinSogetsu-RDDD01-JP-C.png"
   ],
   "Romin Kassidy (Skill Card)": [
     "RominKassidy-RDSC01-JP-OP.png",
-    "RominKassidy-RDDD01-JP-C.png",
-    "RominKassidy-RDSC01-JP-C.png"
+    "RominKassidy-RDDD01-JP-C.png"
   ],
   "Galactica Force": [
-    "GalacticaForce-RDGRD1-JP-C.png",
-    "GalacticaForce-RDTH03-JP-C.png"
+    "GalacticaForce-RDGRD1-JP-C.png"
   ],
   "Lifeline Linac": [
-    "LifelineLinac-RDKP13-JP-C.png",
-    "LifelineLinac-RDTH03-JP-C.png"
+    "LifelineLinac-RDKP13-JP-C.png"
   ],
   "Outer Chaostellime": [
-    "OuterChaostellime-RDSJMP-JP-NPR.png",
-    "OuterChaostellime-RDTH03-JP-C.png"
+    "OuterChaostellime-RDSJMP-JP-NPR.png"
   ],
   "Silver Red Pulsar": [
-    "SilverRedPulsar-RDKP20-JP-C.png",
-    "SilverRedPulsar-RDTH03-JP-C.png"
+    "SilverRedPulsar-RDKP20-JP-C.png"
   ],
   "Strange Traveler": [
-    "StrangeTraveler-RDGRD1-JP-C.png",
-    "StrangeTraveler-RDTH03-JP-C.png"
+    "StrangeTraveler-RDGRD1-JP-C.png"
   ],
   "Transam Kleine": [
-    "TransamKleine-RDGRD1-JP-C.png",
-    "TransamKleine-RDTH03-JP-C.png"
+    "TransamKleine-RDGRD1-JP-C.png"
   ],
   "Voidvelg Hetairoi": [
-    "VoidvelgHetairoi-RDKP20-JP-C.png",
-    "VoidvelgHetairoi-RDTH03-JP-C.png"
+    "VoidvelgHetairoi-RDKP20-JP-C.png"
   ],
   "Burst Bunny": [
     "BurstBunny-RDKP18-JP-SR.png",
@@ -7898,9 +7580,9 @@
   "Dentacle the Parasitic Extraterrestrial": [
     "DentacletheParasiticExtraterrestrial-RDKP18-JP-UR.png",
     "DentacletheParasiticExtraterrestrial-RDKP18-KR-UR.png",
-    "DentacletheParasiticExtraterrestrial-RDS254-JP-UPR.png",
     "DentacletheParasiticExtraterrestrial-RDKP18-JP-ORR.png",
-    "DentacletheParasiticExtraterrestrial-RDKP18-JP-ScR.png"
+    "DentacletheParasiticExtraterrestrial-RDKP18-JP-ScR.png",
+    "DentacletheParasiticExtraterrestrial-RDS254-JP-UPR.png"
   ],
   "Elemental HERO Heat Neos": [
     "ElementalHEROHeatNeos-RDKP18-JP-R.png",
@@ -7912,8 +7594,8 @@
   ],
   "Elemental HERO Shining Flare Wingman": [
     "ElementalHEROShiningFlareWingman-RDKP18-JP-SR.png",
-    "ElementalHEROShiningFlareWingman-RDJF25-JP-UPR.png",
-    "ElementalHEROShiningFlareWingman-RDKP18-JP-ORR.png"
+    "ElementalHEROShiningFlareWingman-RDKP18-JP-ORR.png",
+    "ElementalHEROShiningFlareWingman-RDJF25-JP-UPR.png"
   ],
   "Enigmatic Princess of Eternal Heaven": [
     "EnigmaticPrincessofEternalHeaven-RDAP02-JP-C.png",
@@ -8010,58 +7692,40 @@
     "TheCalculator-RDSJMP-JP-NPR.png"
   ],
   "Duel Marker (Soleil the Skysavior Angel)": [
-    "DuelMarker-RDB261-JP-OP-SoleiltheSkysaviorAngel.png",
-    "DuelMarker-RDB261-JP-SPR.png"
+    "DuelMarker-RDB261-JP-OP-SoleiltheSkysaviorAngel.png"
   ],
   "Meinir the Defiant Soulclad Spirit": [
-    "MeinirtheDefiantSoulcladSpirit-RDAP02-JP-C.png",
-    "MeinirtheDefiantSoulcladSpirit-RDB261-JP-SPR.png"
+    "MeinirtheDefiantSoulcladSpirit-RDAP02-JP-C.png"
   ],
   "Nelkrita the Skysavior Hadal": [
-    "NelkritatheSkysaviorHadal-RDKP16-JP-C.png",
-    "NelkritatheSkysaviorHadal-RDB261-JP-NPR.png",
-    "NelkritatheSkysaviorHadal-RDB261-JP-SPR.png"
+    "NelkritatheSkysaviorHadal-RDKP16-JP-C.png"
   ],
   "Rising HERO Manaccaniter": [
-    "RisingHEROManaccaniter-RDKP18-JP-C.png",
-    "RisingHEROManaccaniter-RDB261-JP-NPR.png",
-    "RisingHEROManaccaniter-RDB261-JP-SPR.png"
+    "RisingHEROManaccaniter-RDKP18-JP-C.png"
   ],
   "Scoop Scooter": [
-    "ScoopScooter-RDKP03-JP-C.png",
-    "ScoopScooter-RDB261-JP-NPR.png",
-    "ScoopScooter-RDB261-JP-SPR.png"
+    "ScoopScooter-RDKP03-JP-C.png"
   ],
   "Skysavior Prayer": [
-    "SkysaviorPrayer-RDKP12-JP-C.png",
-    "SkysaviorPrayer-RDB261-JP-NPR.png",
-    "SkysaviorPrayer-RDB261-JP-SPR.png"
+    "SkysaviorPrayer-RDKP12-JP-C.png"
   ],
   "Soul of a Reporter": [
-    "SoulofaReporter-RDKP03-JP-SR.png",
-    "SoulofaReporter-RDB261-JP-NPR.png",
-    "SoulofaReporter-RDB261-JP-SPR.png"
+    "SoulofaReporter-RDKP03-JP-SR.png"
   ],
   "Sparkhearts Familiar": [
-    "SparkheartsFamiliar-RDAP02-JP-C.png",
-    "SparkheartsFamiliar-RDB261-JP-SPR.png"
+    "SparkheartsFamiliar-RDAP02-JP-C.png"
   ],
   "Spirit of Isyria": [
-    "SpiritofIsyria-RDKP24-JP-R.png",
-    "SpiritofIsyria-RDB261-JP-SPR.png"
+    "SpiritofIsyria-RDKP24-JP-R.png"
   ],
   "The Eternal Land -Spectrika-": [
-    "TheEternalLandSpectrika-RDKP24-JP-C.png",
-    "TheEternalLandSpectrika-RDB261-JP-SPR.png"
+    "TheEternalLandSpectrika-RDKP24-JP-C.png"
   ],
   "Vanishing Heliacal Riser": [
-    "VanishingHeliacalRiser-RDSD01-JP-C.png",
-    "VanishingHeliacalRiser-RDB261-JP-NPR.png",
-    "VanishingHeliacalRiser-RDB261-JP-SPR.png"
+    "VanishingHeliacalRiser-RDSD01-JP-C.png"
   ],
   "Vic Viper Spread Bomb": [
-    "VicViperSpreadBomb-RDKP23-JP-C.png",
-    "VicViperSpreadBomb-RDB261-JP-SPR.png"
+    "VicViperSpreadBomb-RDKP23-JP-C.png"
   ],
   "Destroyer Golem": [
     "DestroyerGolem-RDSD0F-JP-C.png",
@@ -8086,73 +7750,47 @@
     "Seiyaryu-RDDK01-JP-ScR.png"
   ],
   "Card Destruction": [
-    "CardDestruction-RDMAX1-JP-ScR.png",
-    "CardDestruction-RDB234-JP-C.png"
+    "CardDestruction-RDMAX1-JP-ScR.png"
   ],
   "Meika Etraynzeyes the Shadow Flower Lunatic": [
-    "MeikaEtraynzeyestheShadowFlowerLunatic-RDKP09-JP-C.png",
-    "MeikaEtraynzeyestheShadowFlowerLunatic-RDB234-JP-C.png",
-    "MeikaEtraynzeyestheShadowFlowerLunatic-RDB234-JP-SR.png"
+    "MeikaEtraynzeyestheShadowFlowerLunatic-RDKP09-JP-C.png"
   ],
   "Monster Calling": [
-    "MonsterCalling-RDKP14-JP-R.png",
-    "MonsterCalling-RDB234-JP-C.png",
-    "MonsterCalling-RDB234-JP-SR.png"
+    "MonsterCalling-RDKP14-JP-R.png"
   ],
   "Hungreed Burger": [
     "HungreedBurger-RDKP22-JP-R.png",
-    "HungreedBurger-RDS254-JP-OP.png",
-    "HungreedBurger-RDS254-JP-UPR.png"
+    "HungreedBurger-RDS254-JP-OP.png"
   ],
   "Change of Dessert": [
-    "ChangeofDessert-RDMRP1-JP-C.png",
-    "ChangeofDessert-RDB242-JP-C.png",
-    "ChangeofDessert-RDB242-JP-SR.png"
+    "ChangeofDessert-RDMRP1-JP-C.png"
   ],
   "Dark-Eyes Breakstar Cat": [
-    "DarkEyesBreakstarCat-RDKP12-JP-R.png",
-    "DarkEyesBreakstarCat-RDB242-JP-C.png",
-    "DarkEyesBreakstarCat-RDB242-JP-SR.png"
+    "DarkEyesBreakstarCat-RDKP12-JP-R.png"
   ],
   "Demolition Soldier Hell Met": [
-    "DemolitionSoldierHellMet-RDTB01-JP-C.png",
-    "DemolitionSoldierHellMet-RDB242-JP-C.png",
-    "DemolitionSoldierHellMet-RDB242-JP-SR.png"
+    "DemolitionSoldierHellMet-RDTB01-JP-C.png"
   ],
   "Fiddlebadour": [
-    "Fiddlebadour-RDKP15-JP-C.png",
-    "Fiddlebadour-RDB242-JP-C.png",
-    "Fiddlebadour-RDB242-JP-SR.png"
+    "Fiddlebadour-RDKP15-JP-C.png"
   ],
   "Freshberry Happiness": [
-    "FreshberryHappiness-RDKP10-JP-C.png",
-    "FreshberryHappiness-RDB242-JP-C.png",
-    "FreshberryHappiness-RDB242-JP-SR.png"
+    "FreshberryHappiness-RDKP10-JP-C.png"
   ],
   "Heel Healer": [
-    "HeelHealer-RDKP11-JP-C.png",
-    "HeelHealer-RDB242-JP-C.png",
-    "HeelHealer-RDB242-JP-SR.png"
+    "HeelHealer-RDKP11-JP-C.png"
   ],
   "Hunting Strawberries": [
-    "HuntingStrawberries-RDKP09-JP-C.png",
-    "HuntingStrawberries-RDB242-JP-C.png",
-    "HuntingStrawberries-RDB242-JP-SR.png"
+    "HuntingStrawberries-RDKP09-JP-C.png"
   ],
   "Kuzuha the Talismanic Master": [
-    "KuzuhatheTalismanicMaster-RDKP11-JP-R.png",
-    "KuzuhatheTalismanicMaster-RDB242-JP-C.png",
-    "KuzuhatheTalismanicMaster-RDB242-JP-SR.png"
+    "KuzuhatheTalismanicMaster-RDKP11-JP-R.png"
   ],
   "Void Corridor": [
-    "VoidCorridor-RDSD05-JP-C.png",
-    "VoidCorridor-RDB242-JP-C.png",
-    "VoidCorridor-RDB242-JP-SR.png"
+    "VoidCorridor-RDSD05-JP-C.png"
   ],
   "Voidvelg Globule": [
-    "VoidvelgGlobule-RDSD05-JP-C.png",
-    "VoidvelgGlobule-RDB242-JP-C.png",
-    "VoidvelgGlobule-RDB242-JP-SR.png"
+    "VoidvelgGlobule-RDSD05-JP-C.png"
   ],
   "Cheater's Hidden Ball Trick": [
     "CheatersHiddenBallTrick-RDTDPR-JP-SR.png",
@@ -8183,107 +7821,73 @@
     "ElttaestheMasterofDuels-RDWC24-JP-ORR-RP.png"
   ],
   "Contact Dark Matter Wyvern": [
-    "ContactDarkMatterWyvern-RDKP18-JP-R.png",
-    "ContactDarkMatterWyvern-RDB243-JP-SR.png"
+    "ContactDarkMatterWyvern-RDKP18-JP-R.png"
   ],
   "Dark Hole Device": [
-    "DarkHoleDevice-RDKP14-JP-R.png",
-    "DarkHoleDevice-RDB243-JP-C.png",
-    "DarkHoleDevice-RDB243-JP-SR.png"
+    "DarkHoleDevice-RDKP14-JP-R.png"
   ],
   "Freshberry Swimming": [
-    "FreshberrySwimming-RDKP18-JP-R.png",
-    "FreshberrySwimming-RDB243-JP-SR.png"
+    "FreshberrySwimming-RDKP18-JP-R.png"
   ],
   "Lightning Bringer Spirit": [
-    "LightningBringerSpirit-RDKP08-JP-UR.png",
-    "LightningBringerSpirit-RDB243-JP-C.png",
-    "LightningBringerSpirit-RDB243-JP-SR.png"
+    "LightningBringerSpirit-RDKP08-JP-UR.png"
   ],
   "Maid's Baneful Gift": [
-    "MaidsBanefulGift-RDKP08-JP-C.png",
-    "MaidsBanefulGift-RDB243-JP-C.png",
-    "MaidsBanefulGift-RDB243-JP-SR.png"
+    "MaidsBanefulGift-RDKP08-JP-C.png"
   ],
   "Praime Call": [
-    "PraimeCall-RDKP16-JP-C.png",
-    "PraimeCall-RDB243-JP-SR.png"
+    "PraimeCall-RDKP16-JP-C.png"
   ],
   "Rising HERO Tantalum": [
-    "RisingHEROTantalum-RDKP18-JP-R.png",
-    "RisingHEROTantalum-RDB243-JP-SR.png"
+    "RisingHEROTantalum-RDKP18-JP-R.png"
   ],
   "Straynge Magician": [
-    "StrayngeMagician-RDSJMP-JP-NPR.png",
-    "StrayngeMagician-RDB243-JP-C.png",
-    "StrayngeMagician-RDB243-JP-SR.png"
+    "StrayngeMagician-RDSJMP-JP-NPR.png"
   ],
   "Crossroads of Zera": [
-    "CrossroadsofZera-RDKP22-JP-C.png",
-    "CrossroadsofZera-RDB253-JP-SR.png"
+    "CrossroadsofZera-RDKP22-JP-C.png"
   ],
   "Draco the Hand-Sewn": [
-    "DracotheHandSewn-RDMRP2-JP-R.png",
-    "DracotheHandSewn-RDB253-JP-C.png",
-    "DracotheHandSewn-RDB253-JP-SR.png"
+    "DracotheHandSewn-RDMRP2-JP-R.png"
   ],
   "Hacking Dragon": [
-    "HackingDragon-RDSJMP-JP-NPR.png",
-    "HackingDragon-RDB253-JP-C.png",
-    "HackingDragon-RDB253-JP-SR.png"
+    "HackingDragon-RDSJMP-JP-NPR.png"
   ],
   "Lightning Bringer Scarecrow": [
-    "LightningBringerScarecrow-RDKP19-JP-C.png",
-    "LightningBringerScarecrow-RDB253-JP-SR.png"
+    "LightningBringerScarecrow-RDKP19-JP-C.png"
   ],
   "Luster Dragon": [
-    "LusterDragon-RDVC22-JP-UR.png",
-    "LusterDragon-RDB253-JP-C.png",
-    "LusterDragon-RDB253-JP-SR.png",
-    "LusterDragon-RDB253-JP-URRed.png"
+    "LusterDragon-RDVC22-JP-UR.png"
   ],
   "OuTerverSe Flare Flux": [
-    "OuTerverSeFlareFlux-RDKP22-JP-C.png",
-    "OuTerverSeFlareFlux-RDB253-JP-SR.png"
+    "OuTerverSeFlareFlux-RDKP22-JP-C.png"
   ],
   "Tune Cornetlass the Music Princess": [
-    "TuneCornetlasstheMusicPrincess-RDKP22-JP-R.png",
-    "TuneCornetlasstheMusicPrincess-RDB253-JP-SR.png"
+    "TuneCornetlasstheMusicPrincess-RDKP22-JP-R.png"
   ],
   "Ultimate Flag Beast Avant Wolf": [
     "UltimateFlagBeastAvantWolf-RDGRD2-JP-C.png",
-    "UltimateFlagBeastAvantWolf-RDB253-JP-C.png",
-    "UltimateFlagBeastAvantWolf-RDB253-JP-SR.png",
     "UltimateFlagBeastAvantWolf-RDSBP1-JP-NPR.png"
   ],
   "Ultimate Flag Beast Cannon Rhino": [
     "UltimateFlagBeastCannonRhino-RDGRD2-JP-C.png",
-    "UltimateFlagBeastCannonRhino-RDB253-JP-C.png",
-    "UltimateFlagBeastCannonRhino-RDB253-JP-SR.png",
     "UltimateFlagBeastCannonRhino-RDSJMP-JP-NPR.png"
   ],
   "Vengeful Dragon's Counterattack": [
     "VengefulDragonsCounterattack-RDSD03-JP-C.png",
-    "VengefulDragonsCounterattack-RDB253-JP-C.png",
-    "VengefulDragonsCounterattack-RDB253-JP-SR.png",
     "VengefulDragonsCounterattack-RDST02-JP-C.png"
   ],
   "Dice Key Lilith": [
     "DiceKeyLilith-RDKP19-JP-C.png",
-    "DiceKeyLilith-RD26PR-JP-OP.png",
-    "DiceKeyLilith-RD26PR-JP-NPR.png"
+    "DiceKeyLilith-RD26PR-JP-OP.png"
   ],
   "Udzue the Frost-Purifying Purebreed": [
-    "UdzuetheFrostPurifyingPurebreed-RD26PR-JP-OP.png",
-    "UdzuetheFrostPurifyingPurebreed-RD26PR-JP-NPR.png"
+    "UdzuetheFrostPurifyingPurebreed-RD26PR-JP-OP.png"
   ],
   "Excutie Lucy": [
-    "ExcutieLucy-RDORP1-JP-C.png",
-    "ExcutieLucy-RDB233-JP-C.png",
-    "ExcutieLucy-RDB233-JP-SR.png"
+    "ExcutieLucy-RDORP1-JP-C.png"
   ],
   "The Star Dragon": [
-    "TheStarDragon-RDB233-JP-C.png",
     "TheStarDragon-RDSJMP-JP-NPR.png"
   ],
   "Cyber Search Dragon": [
@@ -8336,9 +7940,9 @@
   "Elemental HERO Burstinatrix": [
     "ElementalHEROBurstinatrix-RDP005-JP-ScRRed.png",
     "ElementalHEROBurstinatrix-RDSD0B-KR-C.png",
-    "ElementalHEROBurstinatrix-RD711D-JP-NPR.png",
     "ElementalHEROBurstinatrix-RDSD0B-JP-C.png",
-    "ElementalHEROBurstinatrix-RDSD0B-JP-SR.png"
+    "ElementalHEROBurstinatrix-RDSD0B-JP-SR.png",
+    "ElementalHEROBurstinatrix-RD711D-JP-NPR.png"
   ],
   "Elemental HERO Flame Wingman": [
     "ElementalHEROFlameWingman-RDAP01-JP-ScR.png",
@@ -8357,8 +7961,7 @@
   ],
   "Elemental HERO Thunder Giant": [
     "ElementalHEROThunderGiant-RDSD0B-JP-C.png",
-    "ElementalHEROThunderGiant-RDSD0B-JP-SR.png",
-    "ElementalHEROThunderGiant-RDVC25-JP-UR.png"
+    "ElementalHEROThunderGiant-RDSD0B-JP-SR.png"
   ],
   "Hero Boy": [
     "HeroBoy-RDAP01-JP-ScR.png",
@@ -8399,8 +8002,7 @@
     "Tamainabot-RD23PR-JP-NPR.png"
   ],
   "Gradius": [
-    "Gradius-RDKP23-JP-R.png",
-    "Gradius-RDP009-JP-ScRRed.png"
+    "Gradius-RDKP23-JP-R.png"
   ],
   "Handsray Destleo": [
     "HandsrayDestleo-RDSJMP-JP-NPR.png"
@@ -8414,16 +8016,13 @@
     "JointechPraimeRex-RDSJMP-JP-NPR.png"
   ],
   "Magma Dragon": [
-    "MagmaDragon-RDSJMP-JP-OP.png",
-    "MagmaDragon-RDSJMP-JP-NPR.png"
+    "MagmaDragon-RDSJMP-JP-OP.png"
   ],
   "Majestic Masterburst": [
-    "MajesticMasterburst-RDGC23-JP-NPR.png",
-    "MajesticMasterburst-RDGC23-JP-ORR.png"
+    "MajesticMasterburst-RDGC23-JP-NPR.png"
   ],
   "Manifestation of Takamikami": [
-    "ManifestationofTakamikami-RDGC25-JP-NPR.png",
-    "ManifestationofTakamikami-RDGC25-JP-ORR.png"
+    "ManifestationofTakamikami-RDGC25-JP-NPR.png"
   ],
   "Millennium Shield": [
     "MillenniumShield-RDSBD0-JP-SPR.png",
@@ -8458,8 +8057,7 @@
     "ThestalostheFirestormMonarch-RDVC23-JP-UR.png"
   ],
   "The Twin Dragons of the Heavens": [
-    "TheTwinDragonsoftheHeavens-RDGC24-JP-NPR.png",
-    "TheTwinDragonsoftheHeavens-RDGC24-JP-ORR.png"
+    "TheTwinDragonsoftheHeavens-RDGC24-JP-NPR.png"
   ],
   "Ultimate Flag Beast Surge Bicorn": [
     "UltimateFlagBeastSurgeBicorn-RDG001-JP-NPR.png"
@@ -8473,7 +8071,6 @@
     "VoidvelgGodRequiem-RDSJMP-JP-NPR.png"
   ],
   "Gladiness, the Flagbearer of Victory": [
-    "GladinesstheFlagbearerofVictory-RDGC26-JP-OP.png",
-    "GladinesstheFlagbearerofVictory-RDGC26-JP-NPR.png"
+    "GladinesstheFlagbearerofVictory-RDGC26-JP-OP.png"
   ]
 }
