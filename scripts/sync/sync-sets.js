@@ -9,25 +9,11 @@ const path = require('path');
 const { fetchJson, sleep } = require('../lib/http');
 const { writeJsonAtomic }  = require('../lib/fs-atomic');
 const { DATA_DIR, YUGIPEDIA_API: API } = require('../lib/paths');
+const { getCategoryMembers, resolveImageUrls } = require('../lib/yugipedia');
 
 const OUT      = path.join(DATA_DIR, 'sets-data.json');
 const IMG_URLS = path.join(DATA_DIR, 'image-urls.json');
 const RATE_MS = 1200;
-
-async function getCategoryMembers(category) {
-  const titles = [];
-  let cmcontinue = '';
-  do {
-    const cont = cmcontinue ? `&cmcontinue=${encodeURIComponent(cmcontinue)}` : '';
-    const url = `${API}?action=query&list=categorymembers&cmtitle=${encodeURIComponent(category)}&cmlimit=500&cmtype=page&format=json${cont}`;
-    const data = await fetchJson(url);
-    const members = data?.query?.categorymembers ?? [];
-    for (const m of members) titles.push(m.title);
-    cmcontinue = data?.continue?.cmcontinue ?? '';
-    if (cmcontinue) await sleep(RATE_MS);
-  } while (cmcontinue);
-  return titles;
-}
 
 async function getSetWikitext(title) {
   const url = `${API}?action=parse&page=${encodeURIComponent(title)}&prop=wikitext&format=json`;
@@ -290,25 +276,7 @@ async function syncCoverImageUrls() {
   }
 
   console.log(`[sync-sets] Fetching URLs for ${missing.length} cover images…`);
-  const BATCH = 50; // Yugipedia allows up to 50 titles per imageinfo request
-
-  for (let i = 0; i < missing.length; i += BATCH) {
-    const batch = missing.slice(i, i + BATCH);
-    const titles = batch.map(f => 'File:' + f).join('|');
-    const url = `${API}?action=query&titles=${encodeURIComponent(titles)}&prop=imageinfo&iiprop=url&format=json`;
-    try {
-      const data = await fetchJson(url);
-      const pages = data?.query?.pages ?? {};
-      for (const page of Object.values(pages)) {
-        const filename = page.title?.replace(/^File:/, '');
-        const imgUrl = page.imageinfo?.[0]?.url;
-        if (filename && imgUrl) existing[filename] = imgUrl;
-      }
-    } catch (e) {
-      console.warn(`[sync-sets] imageinfo batch failed:`, e.message);
-    }
-    if (i + BATCH < missing.length) await sleep(RATE_MS);
-  }
+  await resolveImageUrls(missing, existing);
 
   writeJsonAtomic(IMG_URLS, existing);
   console.log(`[sync-sets] Cover image URLs saved to image-urls.json.`);

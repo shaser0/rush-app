@@ -9,32 +9,12 @@ const path  = require('path');
 const { fetchJson, sleep } = require('../lib/http');
 const { writeJsonAtomic }  = require('../lib/fs-atomic');
 const { DATA_DIR, YUGIPEDIA_API: API } = require('../lib/paths');
+const { resolveImageUrls } = require('../lib/yugipedia');
 
 const CARDS_FILE  = path.join(DATA_DIR, 'cards.json');
 const OUT_FILE    = path.join(DATA_DIR, 'gallery-images.json');
 const URLS_FILE   = path.join(DATA_DIR, 'image-urls.json');
 const RATE_MS     = 1200;
-
-// Batch-resolve filenames → direct CDN URLs via MediaWiki imageinfo API (up to 50 per call)
-async function resolveImageUrls(filenames, urlCache){
-  const todo = filenames.filter(f => !urlCache[f]);
-  for(let i = 0; i < todo.length; i += 50){
-    const batch = todo.slice(i, i + 50);
-    const titles = batch.map(f => `File:${f}`).join('|');
-    const url = `${API}?action=query&titles=${encodeURIComponent(titles)}&prop=imageinfo&iiprop=url&format=json`;
-    try {
-      await sleep(RATE_MS);
-      const data = await fetchJson(url);
-      for(const page of Object.values(data?.query?.pages || {})){
-        const fname = (page.title || '').replace(/^File:/, '');
-        const direct = page?.imageinfo?.[0]?.url;
-        if(fname && direct) urlCache[fname] = direct;
-      }
-    } catch(e) {
-      console.error(`[sync-gallery] imageinfo batch failed: ${e.message}`);
-    }
-  }
-}
 
 // Fetch all image filenames referenced in a gallery page (paginated)
 async function getGalleryImages(setName){

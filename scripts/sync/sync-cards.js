@@ -6,6 +6,7 @@ const fs           = require('fs');
 const { fetchJson, sleep } = require('../lib/http');
 const { writeJsonAtomic }  = require('../lib/fs-atomic');
 const { DATA_DIR }         = require('../lib/paths');
+const { getCategoryMembers, getTimestampsBatch } = require('../lib/yugipedia');
 const { cleanCards } = require('../pipeline/clean-cards');
 
 // ── Config ───────────────────────────────────────────────────────────────────
@@ -69,53 +70,10 @@ function parseCardTable(wikitext) {
 // ── API calls ─────────────────────────────────────────────────────────────────
 
 async function fetchAllTitles() {
-  const titles = [];
-  let cmcontinue = null;
   process.stdout.write('Récupération des titres...\r');
-
-  do {
-    const url = 'https://yugipedia.com/api.php?action=query'
-      + '&list=categorymembers&cmtitle=Category:Rush_Duel_cards'
-      + '&cmtype=page&cmlimit=500&format=json'
-      + (cmcontinue ? '&cmcontinue=' + encodeURIComponent(cmcontinue) : '');
-
-    const result = await fetchJson(url);
-    for (const m of result.query.categorymembers) {
-      if (!m.title.startsWith('List of')) titles.push(m.title);
-    }
-    cmcontinue = result.continue?.cmcontinue ?? null;
-    process.stdout.write(`Récupération des titres... ${titles.length}\r`);
-    await sleep(RATE_MS);
-  } while (cmcontinue);
-
+  const titles = await getCategoryMembers('Category:Rush Duel cards', t => !t.startsWith('List of'));
   console.log(`Récupération des titres... ${titles.length} cartes trouvées.`);
   return titles;
-}
-
-async function fetchTimestampsBatch(titles, attempt = 0) {
-  // Returns { title → wiki_timestamp }
-  // Titles joined with literal | (each title encoded individually)
-  const url = 'https://yugipedia.com/api.php?action=query'
-    + '&titles=' + titles.map(encodeURIComponent).join('|')
-    + '&prop=revisions&rvprop=timestamp&format=json';
-
-  const result = await fetchJson(url);
-
-  if (!result.query) {
-    if (attempt < 2) {
-      await sleep(3000);
-      return fetchTimestampsBatch(titles, attempt + 1);
-    }
-    throw new Error('API sans query après 3 tentatives : ' + JSON.stringify(result).slice(0, 200));
-  }
-
-  const out = {};
-  for (const page of Object.values(result.query.pages)) {
-    if (page.missing !== undefined) continue;
-    const ts = page.revisions?.[0]?.timestamp;
-    if (ts) out[page.title] = ts;
-  }
-  return out;
 }
 
 async function fetchCardData(title) {
@@ -222,9 +180,9 @@ async function main() {
 
     for (let i = 0; i < toCheck.length; i += BATCH_SIZE) {
       const batch      = toCheck.slice(i, i + BATCH_SIZE);
-      const timestamps = await fetchTimestampsBatch(batch);
+      const timestamps = await getTimestampsBatch(batch);
 
-      for (const [title, ts] of Object.entries(timestamps)) {
+      for (const [title, ts] of timestamps) {
         const idx    = byTitle.get(title);
         const stored = cards[idx]?._wiki_ts;
 
