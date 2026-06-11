@@ -9,42 +9,28 @@
 //         node --use-system-ca scripts/sync-banlist.js   (Windows TLS fix)
 
 // On Windows, re-spawn with --use-system-ca if needed so HTTPS works.
-if (!process.execArgv.some(a => a === '--use-system-ca')) {
-  const { spawnSync } = require('child_process');
-  const r = spawnSync(process.execPath, ['--use-system-ca', __filename, ...process.argv.slice(2)], { stdio: 'inherit' });
-  process.exit(r.status ?? 0);
-}
+require('./lib/http').ensureSystemCa(__filename);
 
-const https = require('https');
-const fs    = require('fs');
 const path  = require('path');
+const { fetchJson, sleep }  = require('./lib/http');
+const { writeJsonAtomic }   = require('./lib/fs-atomic');
+const { DATA_DIR, YUGIPEDIA_API: API } = require('./lib/paths');
 
-const DATA_DIR = process.env.RUSH_DATA_DIR || path.join(__dirname, '../data');
-const OUT   = path.join(DATA_DIR, 'banlist.json');
-const API   = 'https://yugipedia.com/api.php';
+const OUT = path.join(DATA_DIR, 'banlist.json');
 
 // Known anchor — update if this page ever disappears.
 const ANCHOR_PAGE = 'April 2026 Lists (Rush Duel)';
 
-function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
-
-function fetchWikitext(page) {
-  return new Promise((resolve) => {
-    const url = `${API}?action=parse&page=${encodeURIComponent(page)}&prop=wikitext&format=json`;
-    const req = https.get(url, { headers: { 'User-Agent': 'rush-app-banlist-sync/2.0' } }, res => {
-      let data = '';
-      res.on('data', c => data += c);
-      res.on('end', () => {
-        try {
-          const j = JSON.parse(data);
-          if (j.error) { resolve(null); return; }
-          resolve(j?.parse?.wikitext?.['*'] || null);
-        } catch { resolve(null); }
-      });
-    });
-    req.on('error', () => resolve(null));
-    req.setTimeout(20000, () => { req.destroy(); resolve(null); });
-  });
+// Resolves null (never rejects) so findLatestPage can probe pages that may
+// not exist yet. A missing page returns 200 with an `error` field, so it
+// does not burn fetchJson retries.
+async function fetchWikitext(page) {
+  const url = `${API}?action=parse&page=${encodeURIComponent(page)}&prop=wikitext&format=json`;
+  try {
+    const j = await fetchJson(url);
+    if (j.error) return null;
+    return j?.parse?.wikitext?.['*'] || null;
+  } catch { return null; }
 }
 
 // Extract value of a named template parameter, returns '' if not found.
@@ -121,14 +107,7 @@ async function syncBanlist() {
     console.warn('Wikitext sample:\n' + wikitext.substring(0, 500));
     process.exit(1);
   }
-  const tmp = OUT + '.tmp';
-  fs.writeFileSync(tmp, JSON.stringify(banlist, null, 2), 'utf8');
-  try {
-    fs.renameSync(tmp, OUT);
-  } catch (e) {
-    try { fs.unlinkSync(tmp); } catch {}
-    throw e;
-  }
+  writeJsonAtomic(OUT, banlist);
   console.log(`[sync-banlist] Saved ${count} entries from "${page}" → data/banlist.json`);
 }
 

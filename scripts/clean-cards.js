@@ -2,8 +2,8 @@
 
 const fs = require('fs');
 const path = require('path');
-
-const DATA_DIR = process.env.RUSH_DATA_DIR || path.join(__dirname, '../data');
+const { writeJsonAtomic } = require('./lib/fs-atomic');
+const { DATA_DIR }        = require('./lib/paths');
 
 // ── Wiki markup ──────────────────────────────────────────────────────────────
 
@@ -127,10 +127,7 @@ if (fs.existsSync(overridesPath)) {
   if (overrideCount) console.log(`${overrideCount} carte(s) avec sets_jp corrigés via sets-overrides.json`);
 }
 
-const outPath = path.join(DATA_DIR, 'cards.json');
-const tmpPath = outPath + '.tmp';
-fs.writeFileSync(tmpPath, JSON.stringify(cleaned, null, 2), 'utf8');
-fs.renameSync(tmpPath, outPath);
+writeJsonAtomic(path.join(DATA_DIR, 'cards.json'), cleaned);
 console.log(`${cleaned.length} cartes traitées → cards.json`);
 return cleaned;
 }

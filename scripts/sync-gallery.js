@@ -1,46 +1,19 @@
 'use strict';
 
-if (!process.execArgv.some(a => a === '--use-system-ca')) {
-  const { spawnSync } = require('child_process');
-  const r = spawnSync(process.execPath, ['--use-system-ca', __filename, ...process.argv.slice(2)], { stdio: 'inherit' });
-  process.exit(r.status ?? 0);
-}
+// On Windows, Node.js does not trust the Windows certificate store by default.
+// Re-spawn with --use-system-ca so HTTPS fetches work without CA errors.
+require('./lib/http').ensureSystemCa(__filename);
 
-const https = require('https');
 const fs    = require('fs');
 const path  = require('path');
+const { fetchJson, sleep } = require('./lib/http');
+const { writeJsonAtomic }  = require('./lib/fs-atomic');
+const { DATA_DIR, YUGIPEDIA_API: API } = require('./lib/paths');
 
-const DATA_DIR    = process.env.RUSH_DATA_DIR || path.join(__dirname, '../data');
 const CARDS_FILE  = path.join(DATA_DIR, 'cards.json');
 const OUT_FILE    = path.join(DATA_DIR, 'gallery-images.json');
 const URLS_FILE   = path.join(DATA_DIR, 'image-urls.json');
-const API         = 'https://yugipedia.com/api.php';
 const RATE_MS     = 1200;
-
-function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
-
-function fetchJson(url, retries = 2){
-  return new Promise((resolve, reject) => {
-    const attempt = n => {
-      const req = https.get(url, {
-        headers: { 'User-Agent': 'YgoRushDB/1.0 (https://github.com/user/ygo-rush-db)' },
-      }, res => {
-        let d = '';
-        res.on('data', c => (d += c));
-        res.on('end', () => {
-          if(res.statusCode < 200 || res.statusCode >= 300){
-            if(n > 0) setTimeout(() => attempt(n-1), 3000); else reject(new Error(`HTTP ${res.statusCode}`));
-            return;
-          }
-          try { resolve(JSON.parse(d)); } catch(e){ reject(e); }
-        });
-      });
-      req.on('error', err => { if(n > 0) setTimeout(() => attempt(n-1), 2000); else reject(err); });
-      req.setTimeout(30000, () => { req.destroy(); if(n > 0) setTimeout(() => attempt(n-1), 2000); else reject(new Error('timeout')); });
-    };
-    attempt(retries);
-  });
-}
 
 // Batch-resolve filenames → direct CDN URLs via MediaWiki imageinfo API (up to 50 per call)
 async function resolveImageUrls(filenames, urlCache){
@@ -168,9 +141,9 @@ async function syncGallery(){
     if(newForSet.length) await resolveImageUrls(newForSet, urlCache);
 
     if(setsWithImages % 20 === 0){
-      fs.writeFileSync(OUT_FILE, JSON.stringify(galleryData, null, 2));
-      fs.writeFileSync(URLS_FILE, JSON.stringify(urlCache, null, 2));
-      fs.writeFileSync(path.join(DATA_DIR, 'sync-progress-gallery.json'), JSON.stringify({ current: setsQueried, total: setNames.length }));
+      writeJsonAtomic(OUT_FILE, galleryData);
+      writeJsonAtomic(URLS_FILE, urlCache);
+      writeJsonAtomic(path.join(DATA_DIR, 'sync-progress-gallery.json'), { current: setsQueried, total: setNames.length });
       console.log(`[sync-gallery] ${setsQueried}/${setNames.length} queried, ${setsWithImages} with galleries, ${newImages} new images`);
     }
   }
@@ -191,8 +164,8 @@ async function syncGallery(){
     await resolveImageUrls(unresolvedBase, urlCache);
   }
 
-  fs.writeFileSync(OUT_FILE, JSON.stringify(galleryData, null, 2));
-  fs.writeFileSync(URLS_FILE, JSON.stringify(urlCache, null, 2));
+  writeJsonAtomic(OUT_FILE, galleryData);
+  writeJsonAtomic(URLS_FILE, urlCache);
   console.log(`[sync-gallery] Done. Queried ${setsQueried} sets, ${setsWithImages} had galleries, ${newImages} new images for ${Object.keys(galleryData).length} cards. ${Object.keys(urlCache).length} URLs cached.`);
 }
 

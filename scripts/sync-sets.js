@@ -2,57 +2,17 @@
 
 // On Windows, Node.js does not trust the Windows certificate store by default.
 // Re-spawn with --use-system-ca so HTTPS fetches work without CA errors.
-if (!process.execArgv.some(a => a === '--use-system-ca')) {
-  const { spawnSync } = require('child_process');
-  const r = spawnSync(process.execPath, ['--use-system-ca', __filename, ...process.argv.slice(2)], { stdio: 'inherit' });
-  process.exit(r.status ?? 0);
-}
+require('./lib/http').ensureSystemCa(__filename);
 
-const https = require('https');
 const fs = require('fs');
 const path = require('path');
+const { fetchJson, sleep } = require('./lib/http');
+const { writeJsonAtomic }  = require('./lib/fs-atomic');
+const { DATA_DIR, YUGIPEDIA_API: API } = require('./lib/paths');
 
-const API = 'https://yugipedia.com/api.php';
-const DATA_DIR = process.env.RUSH_DATA_DIR || path.join(__dirname, '../data');
 const OUT      = path.join(DATA_DIR, 'sets-data.json');
 const IMG_URLS = path.join(DATA_DIR, 'image-urls.json');
 const RATE_MS = 1200;
-
-function sleep(ms) {
-  return new Promise(r => setTimeout(r, ms));
-}
-
-function fetchJson(url, retries = 2) {
-  return new Promise((resolve, reject) => {
-    const attempt = (n) => {
-      const req = https.get(url, {
-        headers: { 'User-Agent': 'YgoRushDB/1.0 (https://github.com/user/ygo-rush-db)' },
-      }, res => {
-        let data = '';
-        res.on('data', c => (data += c));
-        res.on('end', () => {
-          if (res.statusCode < 200 || res.statusCode >= 300) {
-            if (n > 0) { setTimeout(() => attempt(n - 1), 3000); }
-            else { reject(new Error(`HTTP ${res.statusCode}`)); }
-            return;
-          }
-          try { resolve(JSON.parse(data)); }
-          catch (e) { reject(e); }
-        });
-      });
-      req.on('error', err => {
-        if (n > 0) { setTimeout(() => attempt(n - 1), 2000); }
-        else { reject(err); }
-      });
-      req.setTimeout(30000, () => {
-        req.destroy();
-        if (n > 0) { setTimeout(() => attempt(n - 1), 2000); }
-        else { reject(new Error('timeout')); }
-      });
-    };
-    attempt(retries);
-  });
-}
 
 async function getCategoryMembers(category) {
   const titles = [];
@@ -303,13 +263,13 @@ async function syncSets() {
     }
 
     if (fetched % 10 === 0) {
-      fs.writeFileSync(OUT, JSON.stringify(result, null, 2));
-      fs.writeFileSync(path.join(DATA_DIR, 'sync-progress-sets.json'), JSON.stringify({ current: fetched, total: setTitles.size }));
+      writeJsonAtomic(OUT, result);
+      writeJsonAtomic(path.join(DATA_DIR, 'sync-progress-sets.json'), { current: fetched, total: setTitles.size });
       console.log(`[sync-sets] Saved ${fetched} sets so far...`);
     }
   }
 
-  fs.writeFileSync(OUT, JSON.stringify(result, null, 2));
+  writeJsonAtomic(OUT, result);
   console.log(`[sync-sets] Done. ${fetched} sets updated, ${Object.keys(result).length} total.`);
 }
 
@@ -350,7 +310,7 @@ async function syncCoverImageUrls() {
     if (i + BATCH < missing.length) await sleep(RATE_MS);
   }
 
-  fs.writeFileSync(IMG_URLS, JSON.stringify(existing, null, 2));
+  writeJsonAtomic(IMG_URLS, existing);
   console.log(`[sync-sets] Cover image URLs saved to image-urls.json.`);
 }
 

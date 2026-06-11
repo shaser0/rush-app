@@ -1,43 +1,21 @@
 'use strict';
 
-if (!process.execArgv.some(a => a === '--use-system-ca')) {
-  const { spawnSync } = require('child_process');
-  const r = spawnSync(process.execPath, ['--use-system-ca', __filename, ...process.argv.slice(2)], { stdio: 'inherit' });
-  process.exit(r.status ?? 0);
-}
+require('./lib/http').ensureSystemCa(__filename);
 
-const https        = require('https');
 const fs           = require('fs');
+const { fetchJson, sleep } = require('./lib/http');
+const { writeJsonAtomic }  = require('./lib/fs-atomic');
+const { DATA_DIR }         = require('./lib/paths');
 const { cleanCards } = require('./clean-cards');
 
 // ── Config ───────────────────────────────────────────────────────────────────
 
 const _path         = require('path');
-const DATA_DIR      = process.env.RUSH_DATA_DIR || _path.join(__dirname, '../data');
 const CARDS_FILE    = _path.join(DATA_DIR, 'raw-cards.json');
 const STATE_FILE    = _path.join(DATA_DIR, 'sync-state.json');
 const PROGRESS_FILE = _path.join(DATA_DIR, 'sync-progress.json');
 const RATE_MS       = 1100;
 const BATCH_SIZE    = 50; // titles per timestamp API call
-
-// ── HTTP ─────────────────────────────────────────────────────────────────────
-
-function get(url) {
-  return new Promise((resolve, reject) => {
-    https.get(url, {
-      headers: { 'User-Agent': 'RushDuelDB/1.0 (personal project)' },
-    }, res => {
-      let data = '';
-      res.on('data', chunk => data += chunk);
-      res.on('end', () => {
-        try { resolve(JSON.parse(data)); }
-        catch (e) { reject(new Error('JSON parse: ' + e.message)); }
-      });
-    }).on('error', reject);
-  });
-}
-
-const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 // ── Wiki parsing ─────────────────────────────────────────────────────────────
 
@@ -101,7 +79,7 @@ async function fetchAllTitles() {
       + '&cmtype=page&cmlimit=500&format=json'
       + (cmcontinue ? '&cmcontinue=' + encodeURIComponent(cmcontinue) : '');
 
-    const result = await get(url);
+    const result = await fetchJson(url);
     for (const m of result.query.categorymembers) {
       if (!m.title.startsWith('List of')) titles.push(m.title);
     }
@@ -121,7 +99,7 @@ async function fetchTimestampsBatch(titles, attempt = 0) {
     + '&titles=' + titles.map(encodeURIComponent).join('|')
     + '&prop=revisions&rvprop=timestamp&format=json';
 
-  const result = await get(url);
+  const result = await fetchJson(url);
 
   if (!result.query) {
     if (attempt < 2) {
@@ -145,7 +123,7 @@ async function fetchCardData(title) {
     + '&titles=' + encodeURIComponent(title)
     + '&prop=revisions&rvprop=content|timestamp&rvslots=main&format=json';
 
-  const result = await get(url);
+  const result = await fetchJson(url);
   const page   = Object.values(result.query.pages)[0];
   if (page.missing !== undefined || !page.revisions) return null;
 
@@ -165,7 +143,7 @@ async function fetchJaName(rushDuelTitle) {
     + '&titles=' + encodeURIComponent(tcgTitle)
     + '&prop=revisions&rvprop=content&rvslots=main&format=json';
 
-  const result = await get(url);
+  const result = await fetchJson(url);
   const page   = Object.values(result.query.pages)[0];
   if (page.missing !== undefined || !page.revisions) return null;
 
@@ -267,7 +245,7 @@ async function main() {
 
     if (isFirstSync) {
       // Save the stamped cards.json now so future runs have _wiki_ts
-      fs.writeFileSync(CARDS_FILE, JSON.stringify(cards, null, 2), 'utf8');
+      writeJsonAtomic(CARDS_FILE, cards);
       console.log(`  Timestamps enregistrés dans cards.json.`);
     } else {
       console.log(`  Modifiées : ${modifiedTitles.length}`);
@@ -342,9 +320,9 @@ async function main() {
 
       // Incremental save every 50 cards
       if ((i + 1) % 50 === 0) {
-        fs.writeFileSync(CARDS_FILE,    JSON.stringify(cards, null, 2),               'utf8');
-        fs.writeFileSync(PROGRESS_FILE, JSON.stringify({ lastIndex: i, toFetch }), 'utf8');
-        fs.writeFileSync(_path.join(DATA_DIR, 'sync-progress-cards.json'), JSON.stringify({ current: i + 1, total: toFetch.length }), 'utf8');
+        writeJsonAtomic(CARDS_FILE,    cards);
+        writeJsonAtomic(PROGRESS_FILE, { lastIndex: i, toFetch });
+        writeJsonAtomic(_path.join(DATA_DIR, 'sync-progress-cards.json'), { current: i + 1, total: toFetch.length });
       }
 
       await sleep(RATE_MS);
@@ -352,15 +330,15 @@ async function main() {
   }
 
   // ── 5. Final saves ─────────────────────────────────────────────────────────
-  fs.writeFileSync(CARDS_FILE, JSON.stringify(cards, null, 2), 'utf8');
+  writeJsonAtomic(CARDS_FILE, cards);
   if (fs.existsSync(PROGRESS_FILE))        fs.unlinkSync(PROGRESS_FILE);
   const _spc = _path.join(DATA_DIR, 'sync-progress-cards.json');
   if (fs.existsSync(_spc)) fs.unlinkSync(_spc);
 
-  fs.writeFileSync(STATE_FILE, JSON.stringify({
+  writeJsonAtomic(STATE_FILE, {
     last_synced: new Date().toISOString(),
     total_cards: cards.length,
-  }, null, 2), 'utf8');
+  });
 
   // ── 6. Summary ─────────────────────────────────────────────────────────────
   console.log('\n── Résumé ──────────────────────────────────────');
