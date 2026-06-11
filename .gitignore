@@ -27,3 +27,10 @@ data/schema.json
 data/*.log
 data/sync-progress*.json
 data/sync-state.json
+
+# Regenerable sync intermediate (4 MB, rewritten on every sync, excluded
+# from releases). The other data/*.json files MUST stay tracked: binary
+# users download them from raw.githubusercontent.com at release tags
+# (see scripts/release/data-update.js and RELEASING.md).
+data/raw-cards.json
+data/*.json.tmp
